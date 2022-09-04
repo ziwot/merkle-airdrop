@@ -1,0 +1,7 @@
+compiled/
+.ligo/
+_esy/
+.env
+scripts/drops.json
+.DS_Store
+node_modules
