@@ -79,3 +79,5 @@ read_globals = {
   "EXIT_INVALID_SOURCES_FILE",
   "EXIT_UNKNOWN_ERROR"
 }
+
+cache = true
