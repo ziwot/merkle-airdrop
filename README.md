@@ -39,6 +39,22 @@ const packed = packDataBytes(
   typeJSON as MichelsonType
 );
 
+// or
+// const data = (addr: string, amt: number): MichelsonData => ({
+//   prim: "Pair",
+//   args: [{ string: addr }, { int: `${amt}` }],
+// });
+
+// const type = {
+//   prim: "pair",
+//   args: [{ prim: "address" }, { prim: "nat" }],
+// } as MichelsonType;
+
+// const packed = packDataBytes(
+//   data("tz1bxhumMQDUi9hGd7FHGHBCjbY3qgfCr7Vn", 42),
+//   type
+// );
+
 console.log(await sha256(packed.bytes));
 ```
 
