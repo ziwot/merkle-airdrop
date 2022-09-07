@@ -92,6 +92,9 @@ saveJson("./scripts/drops", JSON.stringify(drops));
 <h5 a><strong><code>merkle_tree.ts</code></strong></h5>
 
 ```typescript
+import { MerkleTree } from "merkletreejs";
+import SHA256 from "crypto-js/sha256";
+
 const leaves = dropsJson.map((drop: any) =>
   SHA256(packDataBytes(data(drop.pkh, drop.amount), type).bytes)
 );

@@ -26,6 +26,7 @@ import {
   MichelsonData,
   MichelsonType,
 } from "@taquito/michel-codec";
+import SHA256 from "crypto-js/sha256";
 
 const data = '(Pair "tz1bxhumMQDUi9hGd7FHGHBCjbY3qgfCr7Vn" 42)';
 const type = "(pair address nat)";
@@ -55,7 +56,7 @@ const packed = packDataBytes(
 //   type
 // );
 
-console.log(await sha256(packed.bytes));
+console.log(SHA256(packed.bytes));
 ```
 
 ## Resources
