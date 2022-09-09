@@ -98,23 +98,35 @@ import SHA256 from "crypto-js/sha256";
 const leaves = dropsJson.map((drop: any) =>
   SHA256(packDataBytes(data(drop.pkh, drop.amount), type).bytes)
 );
-
 console.log(leaves.map((leaf) => leaf.toString()));
-const tree = new MerkleTree(leaves, SHA256);
-const root = tree.getHexRoot()
-console.log(root);
-
 // [
 //   '73e6a3e9e5a2b3d909f55b698cea5a668307a34b4fd5029d9a010f7183429806',
 //   'c86dcb2a50e7f15d779be9c5b2b69b8899c9b1e67618467917d4a043884ce6c2',
 //   '0ffa00dc1b8a89b698e140416c8d162bd9c599e6f5a7e3ef9ffb30a4c6f1d4b1',
 //   'a9dbc6ac0e3461ea9690cdacffa63c78eeeb718b2f975f8ce65d24adebd5c236'
 // ]
-// 0x33560c62de2b695029e54fe4b395441ef53c7b4d08c7542502dbb346a9fac6a6
 
-const proof = tree.getProof(
+const tree = new MerkleTree(leaves, SHA256);
+const root = tree.getHexRoot()
+console.log(root);
+// 0x4ea4cd9389fa1c4cfd8051d32bd3ee7c898690139a94c32d566f6d55b0ad4447
+console.log(tree.getLeaves().map((leaf) => leaf.toString('hex')));
+[
+  '0ffa00dc1b8a89b698e140416c8d162bd9c599e6f5a7e3ef9ffb30a4c6f1d4b1',
+  '73e6a3e9e5a2b3d909f55b698cea5a668307a34b4fd5029d9a010f7183429806',
+  'a9dbc6ac0e3461ea9690cdacffa63c78eeeb718b2f975f8ce65d24adebd5c236',
+  'c86dcb2a50e7f15d779be9c5b2b69b8899c9b1e67618467917d4a043884ce6c2'
+]
+
+const proof = tree.getHexProof(
   "73e6a3e9e5a2b3d909f55b698cea5a668307a34b4fd5029d9a010f7183429806"
 );
+console.log(proof);
+// [
+//   '0x0ffa00dc1b8a89b698e140416c8d162bd9c599e6f5a7e3ef9ffb30a4c6f1d4b1',
+//   '0x61c41e2300aedaec6ef4e4b50462e2da1fa2177f22530df79068d29b44a79b89'
+// ]
+
 console.log(
   tree.verify(
     proof,
@@ -123,4 +135,11 @@ console.log(
   )
 );
 // true
+```
+
+Verify in ligo
+
+```LigoLANG
+Crypto.sha256 (Bytes.concat 0x61c41e2300aedaec6ef4e4b50462e2da1fa2177f22530df79068d29b44a79b89 (Crypto.sha256 (Bytes.concat 0x0ffa00dc1b8a89b698e140416c8d162bd9c599e6f5a7e3ef9ffb30a4c6f1d4b1 0x73e6a3e9e5a2b3d909f55b698cea5a668307a34b4fd5029d9a010f7183429806)))'
+// 0x4ea4cd9389fa1c4cfd8051d32bd3ee7c898690139a94c32d566f6d55b0ad4447
 ```

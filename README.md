@@ -4,7 +4,8 @@ This project is using [TEA](https://github.com/alis-is/tea) as dev stack.
 
 ## How it works?
 
-The merkle tree stores hashes of packed pairs of address, amount.
+The merkle tree stores hashes of packed pairs of (address, amount),
+which is of type (address * nat).
 
 We can get sha256 hashs of `(address, amount)` tuples as follows:
 
