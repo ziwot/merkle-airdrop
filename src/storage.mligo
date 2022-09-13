@@ -1,7 +1,7 @@
 #import "./metadata.mligo" "Metadata"
 
 type t =
-  [@layout:comb]
   {metadata : Metadata.t;
    admin : address;
-   merkle_root : bytes}
+   merkle_root : bytes;
+   claimed : address set}
