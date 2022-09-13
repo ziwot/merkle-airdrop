@@ -3,12 +3,12 @@
 
 type originated = Breath.Contract.originated
 
-let originate_airdrop (level: Breath.Logger.level) (admin: address) (about: bytes) () =
+let originate_airdrop (level: Breath.Logger.level) (admin: address) (about: bytes) (merkle_root: bytes) (claimed: address set) () =
   Breath.Contract.originate
     level
     "airdrop_sc"
     Airdrop.main
-    (Airdrop.generate_initial_storage(admin, about))
+    (Airdrop.generate_initial_storage(admin, about, merkle_root, claimed))
     0tez
 
 let request_claim (contract: (Airdrop.parameter, Airdrop.storage) originated) (p: Airdrop.claim_params) () =

@@ -16,10 +16,7 @@ type storage = Storage.t
 type result = operation list * storage
 
 let claim (s : storage) (p : claim_params) =
-  let {addr = addr;
-       amnt = amnt;
-       merkle_proof = merkle_proof} =
-    p in
+  let {addr; amnt; merkle_proof} = p in
   let () =
     assert_with_error
       (not (Set.mem addr s.claimed))
@@ -38,7 +35,7 @@ let main (action, store : parameter * storage) =
   Claim p -> claim store p
 
 let generate_initial_storage
-  (admin, about : address * bytes) : storage =
+  (admin, about, merkle_root, claimed : address * bytes * bytes * address set) : storage =
   let metadata = (Big_map.empty : Storage.Metadata.t) in
   let metadata : Storage.Metadata.t =
     Big_map.update
@@ -49,5 +46,5 @@ let generate_initial_storage
     Big_map.update ("content") (Some (about)) metadata in
   {metadata = metadata;
    admin = admin;
-   merkle_root = 0x01;
-   claimed = (Set.empty : address set)}
+   merkle_root = merkle_root;
+   claimed = claimed}
