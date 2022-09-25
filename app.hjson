@@ -5,14 +5,15 @@ configuration: {
 		sandbox: {
 			// alice key from sandbox
 			admin-addr: '"tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb"'
+      merkle-root: '"4ea4cd9389fa1c4cfd8051d32bd3ee7c898690139a94c32d566f6d55b0ad4447"'
 			kind: sandbox-tezos-client
+			// kind: tezos-client
 			// path: tezos-client
 			source: alice
 			burn-cap: 5
 
 			// requires installed tezos-client
-			// 	kind: tezos-client
-			// 	// path: tezos-client
+			//  path: tezos-client
 			// 	source: alice
 			// burn-cap: 5
 
@@ -30,10 +31,10 @@ configuration: {
 		// or container
 		// image: ligolang/ligo:0.49.0
 		protocol: kathmandu
-		// initial-storage-args: (${admin-addr}: address), ${metadata}
+		initial-storage-args: (${admin-addr}: address), ${metadata}, (${merkle-root}: bytes), (Set.empty : address set)
 	}
 	sandbox: {
-		// name: tezos-sandbox
+		name: flextesa
 		// defaults to `sandbox-${id}`
 		image: docker.io/oxheadalpha/flextesa:20220715
 		script: kathmandubox
@@ -55,6 +56,6 @@ configuration: {
 	}
 	// usually autodetected
 	// containers: {
-	// 	engine: docker
+	//      engine: docker
 	// }
 }
