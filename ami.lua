@@ -90,6 +90,12 @@ return {
 					action = "__tea/tools/sandbox/stop.lua",
 					contextFailExitCode = EXIT_APP_INTERNAL_ERROR,
 				},
+				remove = {
+					description = "TEA 'sandbox remove' sub command",
+					summary = "Removes tezos sandbox container",
+					action = "__tea/tools/sandbox/remove.lua",
+					contextFailExitCode = EXIT_APP_INTERNAL_ERROR,
+				},
 			},
 			action = function(_, _command, _args, _cli)
 				if not _command then

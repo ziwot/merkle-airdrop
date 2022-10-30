@@ -1,12 +1,16 @@
 {
   "checksum": "f15ef6bce0020ffa2fd452aa9f8b3a73",
-  "root": "merkle-airdrop@link-dev:./esy.json",
+  "root": "merkle-airdrop@link-dev:./package.json",
   "node": {
-    "merkle-airdrop@link-dev:./esy.json": {
-      "id": "merkle-airdrop@link-dev:./esy.json",
+    "merkle-airdrop@link-dev:./package.json": {
+      "id": "merkle-airdrop@link-dev:./package.json",
       "name": "merkle-airdrop",
-      "version": "link-dev:./esy.json",
-      "source": { "type": "link-dev", "path": ".", "manifest": "esy.json" },
+      "version": "link-dev:./package.json",
+      "source": {
+        "type": "link-dev",
+        "path": ".",
+        "manifest": "package.json"
+      },
       "overrides": [],
       "dependencies": [ "ligo-breathalyzer@1.0.0@d41d8cd9" ],
       "devDependencies": []
@@ -18,7 +22,7 @@
       "source": {
         "type": "install",
         "source": [
-          "archive:https://beta.packages.ligolang.org/-/api/ligo-breathalyzer/-/ligo-breathalyzer-1.0.0.tgz#sha1:1ddd37f47ff15b11b453dc753f349eba0a5a410e"
+          "archive:https://packages.ligolang.org/-/api/ligo-breathalyzer/-/ligo-breathalyzer-1.0.0.tgz#sha1:f2492e52d25f7921b51f6768df49782b5ff2533d"
         ]
       },
       "overrides": [],
