@@ -17,7 +17,7 @@ let case_happy_path =
           alice.address
           0x01
           0x4ea4cd9389fa1c4cfd8051d32bd3ee7c898690139a94c32d566f6d55b0ad4447
-          (Set.empty: address set)
+          (Big_map.empty: Contract.Storage.claimed)
         )
       in
 
@@ -36,7 +36,7 @@ let case_happy_path =
         alice_action_1
         ; Util.expected_airdrop_state
           airdrop
-          (Set.literal[("tz1bD7TRTApzXqvCmY7w6xhM1uRGMGrTxQod" : address)])
+          (Big_map.literal[("tz1bD7TRTApzXqvCmY7w6xhM1uRGMGrTxQod" : address), unit])
           0tez
       ]
     )
@@ -56,7 +56,7 @@ let case_nohappy_path =
           alice.address
           0x01
           0x4ea4cd9389fa1c4cfd8051d32bd3ee7c898690139a94c32d566f6d55b0ad4447
-          (Set.literal[("tz1bD7TRTApzXqvCmY7w6xhM1uRGMGrTxQod" : address)])
+          (Big_map.literal[("tz1bD7TRTApzXqvCmY7w6xhM1uRGMGrTxQod" : address), unit])
         )
       in
 
@@ -75,7 +75,7 @@ let case_nohappy_path =
         Breath.Expect.fail_with_message "ALREADY_CLAIMED" alice_action_1
         ; Util.expected_airdrop_state
           airdrop
-          (Set.literal[("tz1bD7TRTApzXqvCmY7w6xhM1uRGMGrTxQod" : address)])
+          (Big_map.literal[("tz1bD7TRTApzXqvCmY7w6xhM1uRGMGrTxQod" : address), unit])
           0tez
       ]
     )

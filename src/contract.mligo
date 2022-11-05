@@ -17,25 +17,22 @@ type result = operation list * storage
 
 let claim (s : storage) (p : claim_params) =
   let {addr; amnt; merkle_proof} = p in
-  let () =
-    assert_with_error
-      (not (Set.mem addr s.claimed))
-      Errors.already_claimed in
-  let leaf = Crypto.sha256 (Bytes.pack (addr, amnt)) in
+  let () = Storage.assert_not_claimed s addr in
+  let leaf = MerkleProof.get_leaf (Bytes.pack (addr, amnt)) in
   let () =
     assert_with_error
       (not (MerkleProof.verify merkle_proof s.merkle_root leaf))
       Errors.invalid_proof in
+  let claimed = Big_map.add addr unit s.claimed in
   Constants.no_operation,
-  {s with
-    claimed = Set.add addr s.claimed}
+  {s with claimed}
 
 let main (action, store : parameter * storage) =
   match action with
   Claim p -> claim store p
 
 let generate_initial_storage
-  (admin, about, merkle_root, claimed : address * bytes * bytes * address set) : storage =
+  (admin, about, merkle_root, claimed : address * bytes * bytes * Storage.claimed) : storage =
   let metadata = (Big_map.empty : Storage.Metadata.t) in
   let metadata : Storage.Metadata.t =
     Big_map.update

@@ -1,3 +1,5 @@
+#import "./errors.mligo" "Errors"
+
 let verify
   (proof : bytes list)
   (root : bytes)
@@ -7,3 +9,6 @@ let verify
      proof
      leaf)
   = root
+
+let get_leaf (message : bytes) : bytes =
+  Crypto.sha256 message
