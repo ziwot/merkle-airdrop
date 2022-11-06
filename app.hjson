@@ -31,7 +31,7 @@ configuration: {
 		// or container
 		// image: ligolang/ligo:0.49.0
 		protocol: kathmandu
-		initial-storage-args: (${admin-addr}: address), ${metadata}, (${merkle-root}: bytes), (Set.empty : address set)
+		initial-storage-args: (${admin-addr}: address), ${metadata}, (${merkle-root}: bytes), (Big_map.empty : (address, unit) big_map)
 	}
 	sandbox: {
 		name: flextesa
