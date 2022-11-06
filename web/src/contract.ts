@@ -1,67 +1,99 @@
-import { TezosToolkit, Signer, Wallet, ContractAbstraction } from "@taquito/taquito";
-//import { Tzip12Module, tzip12, Tzip12ContractAbstraction } from "@taquito/tzip12";
-import { Tzip16Module, tzip16, Tzip16ContractAbstraction } from "@taquito/tzip16";
+import {
+  TezosToolkit,
+  Signer,
+  Wallet,
+  ContractAbstraction,
+} from "@taquito/taquito";
+// import { Tzip12Module, tzip12, Tzip12ContractAbstraction } from "@taquito/tzip12";
+import {
+  Tzip16Module,
+  tzip16,
+  Tzip16ContractAbstraction,
+} from "@taquito/tzip16";
 import { RpcClientInterface } from "@taquito/rpc";
 
 export interface IOperatorOpParams {
-	owner: string,
-	operator: string,
-	token_id: number
+  owner: string;
+  operator: string;
+  token_id: number;
 }
 
 export class Contract {
-	private toolkit: TezosToolkit
-	private contractAddr: string
+  private toolkit: TezosToolkit;
 
-	constructor(RPC_URL_or_TEZ_TOOLKIT: string, contractAddr: string, options: { signer: Signer })
-	constructor(RPC_URL_or_TEZ_TOOLKIT: TezosToolkit, contractAddr: string, options?: {})
-	constructor(RPC_URL_or_TEZ_TOOLKIT: string | TezosToolkit, contractAddr: string, options: { signer?: Signer } = {}) {
-		if (typeof RPC_URL_or_TEZ_TOOLKIT === "string") {
-			const toolkit = new TezosToolkit(RPC_URL_or_TEZ_TOOLKIT)
-			//toolkit.addExtension(new Tzip12Module());
-			toolkit.addExtension(new Tzip16Module());
-			toolkit.setProvider({ signer: options.signer });
-			if (typeof options !== "object") options = {};
-			this.toolkit = toolkit
-			this.contractAddr = contractAddr
-			return
-		}
+  private contractAddr: string;
 
-		this.toolkit = RPC_URL_or_TEZ_TOOLKIT
-		this.contractAddr = contractAddr
-	}
+  constructor(
+    RPC_URL_or_TEZ_TOOLKIT: string,
+    contractAddr: string,
+    options: { signer: Signer }
+  );
 
-	async get_contract(): Promise<ContractAbstraction<Wallet> & { /*tzip12: () => Tzip12ContractAbstraction,*/ tzip16: () => Tzip16ContractAbstraction }> {
-		return await this.toolkit.wallet.at(this.contractAddr, tzip16 /* compose(tzip12, tzip16) */)
-	}
+  constructor(
+    RPC_URL_or_TEZ_TOOLKIT: TezosToolkit,
+    contractAddr: string,
+    options?: {}
+  );
 
-	async get_rpc(): Promise<RpcClientInterface> {
-		return this.toolkit.rpc
-	}
+  constructor(
+    RPC_URL_or_TEZ_TOOLKIT: string | TezosToolkit,
+    contractAddr: string,
+    options: { signer?: Signer } = {}
+  ) {
+    if (typeof RPC_URL_or_TEZ_TOOLKIT === "string") {
+      const toolkit = new TezosToolkit(RPC_URL_or_TEZ_TOOLKIT);
+      // toolkit.addExtension(new Tzip12Module());
+      toolkit.addExtension(new Tzip16Module());
+      toolkit.setProvider({ signer: options.signer });
+      if (typeof options !== "object") options = {};
+      this.toolkit = toolkit;
+      this.contractAddr = contractAddr;
+      return;
+    }
 
-	get ContractAddress() {
-		return this.contractAddr
-	}
+    this.toolkit = RPC_URL_or_TEZ_TOOLKIT;
+    this.contractAddr = contractAddr;
+  }
 
-	async get_contract_storage() {
-		return (await this.get_contract()).storage()
-	}
+  async get_contract(): Promise<
+    ContractAbstraction<Wallet> & {
+      /* tzip12: () => Tzip12ContractAbstraction, */ tzip16: () => Tzip16ContractAbstraction;
+    }
+  > {
+    return await this.toolkit.wallet.at(
+      this.contractAddr,
+      tzip16 /* compose(tzip12, tzip16) */
+    );
+  }
 
-	async get_addr() {
-		try {
-			return await this.toolkit.wallet.pkh()
-		} catch {
-			return await this.toolkit.signer.publicKeyHash()
-		}
-	}
+  async get_rpc(): Promise<RpcClientInterface> {
+    return this.toolkit.rpc;
+  }
 
-	async increment(n: number) {
-		const contract = await this.get_contract();
-		return await contract.methodsObject.increment(n).send()
-	}
+  get ContractAddress() {
+    return this.contractAddr;
+  }
 
-	async decrement(n: number) {
-		const contract = await this.get_contract();
-		return await contract.methodsObject.decrement(n).send()
-	}
+  async get_contract_storage() {
+    return (await this.get_contract()).storage();
+  }
+
+  async get_addr() {
+    try {
+      return await this.toolkit.wallet.pkh();
+    } catch {
+      return await this.toolkit.signer.publicKeyHash();
+    }
+  }
+
+  async claim(addr: string, amnt: number, merkle_proof: string[]) {
+    const contract = await this.get_contract();
+    return await contract.methodsObject
+      .claim({
+        addr,
+        amnt,
+        merkle_proof,
+      })
+      .send();
+  }
 }

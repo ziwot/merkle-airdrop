@@ -1,4 +1,4 @@
-import { AdminContract } from "./admin.js"
-import { Contract } from "./contract"
+import { AdminContract } from "./admin.js";
+import { Contract } from "./contract";
 
-export { AdminContract, Contract }
+export { AdminContract, Contract };
