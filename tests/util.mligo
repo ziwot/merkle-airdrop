@@ -43,5 +43,3 @@ let expected_airdrop_state
   let claimed_expectation = Breath.Assert.is_equal "claimed" storage.claimed claimed in
   let ba_expectation = Breath.Assert.is_equal "balance" balance current_balance in
   Breath.Result.reduce [claimed_expectation; ba_expectation]
-
-

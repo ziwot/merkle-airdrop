@@ -35,7 +35,7 @@ let claim (s : storage) (p : claim_params) =
 let main (action, store : parameter * storage) =
   match action with
   Claim p -> claim store p
-  | Set_token token -> Constants.no_operation, { store with token }
+  | Set_token token -> Constants.no_operation, Storage.set_token store token
 
 let generate_initial_storage
   (admin, token, about, merkle_root, claimed :
