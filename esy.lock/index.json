@@ -1,5 +1,5 @@
 {
-  "checksum": "f15ef6bce0020ffa2fd452aa9f8b3a73",
+  "checksum": "bc0cf78d5caad098e8c81a5aa053d95a",
   "root": "merkle-airdrop@link-dev:./package.json",
   "node": {
     "merkle-airdrop@link-dev:./package.json": {
@@ -12,7 +12,9 @@
         "manifest": "package.json"
       },
       "overrides": [],
-      "dependencies": [ "ligo-breathalyzer@1.0.0@d41d8cd9" ],
+      "dependencies": [
+        "ligo-breathalyzer@1.0.0@d41d8cd9", "@ligo/fa@1.0.4@d41d8cd9"
+      ],
       "devDependencies": []
     },
     "ligo-breathalyzer@1.0.0@d41d8cd9": {
@@ -23,6 +25,20 @@
         "type": "install",
         "source": [
           "archive:https://packages.ligolang.org/-/api/ligo-breathalyzer/-/ligo-breathalyzer-1.0.0.tgz#sha1:f2492e52d25f7921b51f6768df49782b5ff2533d"
+        ]
+      },
+      "overrides": [],
+      "dependencies": [],
+      "devDependencies": []
+    },
+    "@ligo/fa@1.0.4@d41d8cd9": {
+      "id": "@ligo/fa@1.0.4@d41d8cd9",
+      "name": "@ligo/fa",
+      "version": "1.0.4",
+      "source": {
+        "type": "install",
+        "source": [
+          "archive:https://packages.ligolang.org/-/api/@ligo/fa/-/@ligo/fa-1.0.4.tgz#sha1:7f7f5513c434a9da78b53f11dd7a36fa7f3dd8dd"
         ]
       },
       "overrides": [],

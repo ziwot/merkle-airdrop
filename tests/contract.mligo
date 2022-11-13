@@ -7,22 +7,32 @@ let case_happy_path =
     "claim"
     "An happy path when someone claim"
     (fun (level: Breath.Logger.level) ->
-      let (operator, (alice, _, _)) = Breath.Context.init_default () in
+      let (baker, (alice, _, _)) = Breath.Context.init_default () in
 
       let () = Breath.Logger.log level "Initialize Airdrop" in
 
-      let airdrop = Breath.Context.act_as operator
+      let airdrop = Breath.Context.act_as baker
         (Util.originate_airdrop
           level
           alice.address
+          (("KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton": address), 1n)
+          (* ^ placeholder values *)
           0x01
           0x4ea4cd9389fa1c4cfd8051d32bd3ee7c898690139a94c32d566f6d55b0ad4447
           (Big_map.empty: Contract.Storage.claimed)
         )
       in
 
-      let () = Breath.Logger.log level "Claim Airdrop" in
+      let token = Breath.Context.act_as baker
+        (Util.originate_token level airdrop.originated_address 0n 100_000n) in
+
+      let () = Breath.Logger.log level "Set Token" in
       let alice_action_1 = Breath.Context.act_as alice
+        (Util.request_set_token airdrop (token.originated_address, 0n))
+      in
+
+      let () = Breath.Logger.log level "Claim Airdrop" in
+      let alice_action_2 = Breath.Context.act_as alice
         (Util.request_claim airdrop ({
           addr = ("tz1bD7TRTApzXqvCmY7w6xhM1uRGMGrTxQod" : address);
           amnt = 32n;
@@ -33,7 +43,7 @@ let case_happy_path =
       in
 
       Breath.Result.reduce [
-        alice_action_1
+        alice_action_1; alice_action_2
         ; Util.expected_airdrop_state
           airdrop
           (Big_map.literal[("tz1bD7TRTApzXqvCmY7w6xhM1uRGMGrTxQod" : address), unit])
@@ -54,6 +64,7 @@ let case_nohappy_path =
         (Util.originate_airdrop
           level
           alice.address
+          (("KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton": address), 1n)
           0x01
           0x4ea4cd9389fa1c4cfd8051d32bd3ee7c898690139a94c32d566f6d55b0ad4447
           (Big_map.literal[("tz1bD7TRTApzXqvCmY7w6xhM1uRGMGrTxQod" : address), unit])

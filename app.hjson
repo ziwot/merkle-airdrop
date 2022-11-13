@@ -6,6 +6,9 @@ configuration: {
 			// alice key from sandbox
 			admin-addr: '"tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb"'
       merkle-root: '"4ea4cd9389fa1c4cfd8051d32bd3ee7c898690139a94c32d566f6d55b0ad4447"'
+      // FIXME: for sandbox we need some existing FA2
+      token-addr: '"KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton"'
+      token-id: 0n
 			kind: sandbox-tezos-client
 			// kind: tezos-client
 			// path: tezos-client
@@ -31,7 +34,7 @@ configuration: {
 		// or container
 		// image: ligolang/ligo:0.49.0
 		protocol: kathmandu
-		initial-storage-args: (${admin-addr}: address), ${metadata}, (${merkle-root}: bytes), (Big_map.empty : (address, unit) big_map)
+		initial-storage-args: (${admin-addr}: address), ((${token-addr}: address), ${token-id}), ${metadata}, (${merkle-root}: bytes), (Big_map.empty : (address, unit) big_map)
 	}
 	sandbox: {
 		name: flextesa
