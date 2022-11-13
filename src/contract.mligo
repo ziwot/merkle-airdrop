@@ -29,23 +29,9 @@ let claim (s : storage) (p : claim_params) =
     assert_with_error
       (not (MerkleProof.verify(merkle_proof, s.merkle_root, leaf)))
       Errors.invalid_proof in
-  let claimed = Big_map.add addr unit s.claimed in
-  [Token.transfer(s.token, addr, amnt)], {s with claimed}
+  [Token.transfer(s.token, addr, amnt)], Storage.register_claim s addr
 
 let main (action, store : parameter * storage) =
   match action with
   Claim p -> claim store p
   | Set_token token -> Constants.no_operation, Storage.set_token store token
-
-let generate_initial_storage
-  (admin, token, about, merkle_root, claimed :
-   address * Token.t * bytes * bytes * Storage.claimed) : storage =
-  let metadata = (Big_map.empty : Storage.Metadata.t) in
-  let metadata : Storage.Metadata.t =
-    Big_map.update
-      ("")
-      (Some (Bytes.pack ("tezos-storage:content")))
-      metadata in
-  let metadata =
-    Big_map.update ("content") (Some (about)) metadata in
-  {admin; token; metadata; merkle_root; claimed}

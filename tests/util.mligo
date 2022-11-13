@@ -25,7 +25,7 @@ let originate_airdrop (level: Breath.Logger.level) (admin: address) (token: Aird
     level
     "airdrop_sc"
     Airdrop.main
-    (Airdrop.generate_initial_storage(admin, token, about, merkle_root, claimed))
+    (Airdrop.Storage.generate(admin, token, about, merkle_root, claimed))
     0tez
 
 let request_claim (contract: (Airdrop.parameter, Airdrop.storage) originated) (p: Airdrop.claim_params) () =
