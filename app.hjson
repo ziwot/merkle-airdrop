@@ -39,7 +39,7 @@ configuration: {
 	sandbox: {
 		name: flextesa
 		// defaults to `sandbox-${id}`
-		image: docker.io/oxheadalpha/flextesa:20220715
+		image: docker.io/oxheadalpha/flextesa:20221026
 		script: kathmandubox
 		// rpc_port: 20000
 	}
