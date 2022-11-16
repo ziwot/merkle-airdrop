@@ -32,6 +32,8 @@ globals = {
 	"zip",
 	"am",
 	"hjson",
+	"table",
+	"string",
 	"log_success",
 	"log_trace",
 	"log_debug",

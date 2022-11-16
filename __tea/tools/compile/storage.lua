@@ -1,7 +1,7 @@
 local _computed = require("__tea.common.computed")
 
 local _cmd = _computed.LIGO_VARS.LIGO
-	.. " compile storage ${FILE} 'generate_initial_storage(${INITIAL_STORAGE_ARGS})'"
+	.. " compile storage ${FILE} 'Storage.generate(${INITIAL_STORAGE_ARGS})'"
 	.. " --michelson-format \\${FORMAT} --output-file ${BUILD_DIR}/${DEPLOY}-storage-${CONTRACT_ID}\\${SUFFIX} ${PROTOCOL_ARG} ${SYNTAX_ARG}"
 
 function string.tohex(str)

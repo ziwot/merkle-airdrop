@@ -28,7 +28,7 @@ configuration: {
 		}
 	}
 	ligo: {
-		version: latest
+		version: 0.55.0
 		// or exact
 		// version: 0.50.0
 		// or container

@@ -18,9 +18,9 @@ return {
 				metadata = { description = "Generates contract metadata" },
 				jsmodule = { description = "Compiles js module" },
 			},
-			action = function(_options, _, _, _)
-				local _noOptions = #table.keys(_options) == 0
-				if _noOptions or _options.clean then
+			action = function(options, _, _, _)
+				local _noOptions = #table.keys(options) == 0
+				if _noOptions or options.clean then
 					local _entries = fs.read_dir("build", { returnFullPaths = true }) --[=[@as string[]]=]
 					_entries = util.merge_arrays(
 						_entries,
@@ -29,35 +29,35 @@ return {
 					for _, _entry in ipairs(_entries) do
 						if not _entry:match(".gitkeep$") then
 							fs.remove(
-								_entry --[[@as string]],
+								_entry, --[[@as string]]
 								{ recurse = true }
 							)
 						end
 					end
 				end
 
-				if _noOptions or _options.contract then
+				if _noOptions or options.contract then
 					am.execute_extension(
 						"__tea/tools/compile/contract.lua",
 						{ contextFailExitCode = EXIT_APP_INTERNAL_ERROR }
 					)
 				end
 
-				if _noOptions or _options.metadata then
+				if _noOptions or options.metadata then
 					am.execute_extension(
 						"__tea/tools/compile/metadata.lua",
 						{ contextFailExitCode = EXIT_APP_INTERNAL_ERROR }
 					)
 				end
 
-				if _noOptions or _options.storage then
+				if _noOptions or options.storage then
 					am.execute_extension(
 						"__tea/tools/compile/storage.lua",
 						{ contextFailExitCode = EXIT_APP_INTERNAL_ERROR }
 					)
 				end
 
-				if _noOptions or _options.jsmodule then
+				if _noOptions or options.jsmodule then
 					os.chdir("web")
 					am.execute_external("npm", { "run", "build" })
 					os.chdir("..")
@@ -97,12 +97,12 @@ return {
 					contextFailExitCode = EXIT_APP_INTERNAL_ERROR,
 				},
 			},
-			action = function(_, _command, _args, _cli)
-				if not _command then
-					am.print_help(_cli, {})
+			action = function(_, command, args, cli)
+				if not command then
+					am.print_help(cli, {})
 					return
 				end
-				am.execute(_command, _args)
+				am.execute(command, args)
 			end,
 		},
 		test = {
