@@ -32,7 +32,7 @@ export class Contract {
   constructor(
     RPC_URL_or_TEZ_TOOLKIT: TezosToolkit,
     contractAddr: string,
-    options?: {}
+    options?: Record<string, unknown>
   );
 
   constructor(
