@@ -25,3 +25,16 @@ let claim (s : storage) ({addr; amnt; merkle_proof} : parameter) =
   Storage.register_claim s addr
 
 let main (p, store : parameter * storage) = claim store p
+
+let generate_initial_storage (about, token, merkle_root, claimed :
+   bytes * Token.t * bytes * Storage.claimed) =
+  let metadata = (Big_map.empty : Storage.Metadata.t) in
+  let metadata : Storage.Metadata.t =
+    Big_map.update
+      ("")
+      (Some (Bytes.pack ("tezos-storage:content")))
+      metadata in
+  let metadata =
+    Big_map.update ("content") (Some (about)) metadata in
+  let config = { token; merkle_root } in
+  {metadata; config; claimed}

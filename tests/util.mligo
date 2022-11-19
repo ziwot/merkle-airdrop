@@ -24,7 +24,7 @@ let originate_airdrop (level: Breath.Logger.level) (about: bytes) (token: Airdro
     level
     "airdrop_sc"
     Airdrop.main
-    (Airdrop.Storage.generate(about, token, merkle_root, claimed))
+    (Airdrop.generate_initial_storage(about, token, merkle_root, claimed))
     0tez
 
 let request_token_transfer (contract: (Airdrop.Token.FA.parameter, Airdrop.Token.FA.storage) originated) (p: Airdrop.Token.FA.transfer) () =

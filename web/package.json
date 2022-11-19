@@ -1,7 +1,7 @@
 {
-  "name": "tea-contract-template-js",
+  "name": "merkle-airdrop-js",
   "version": "1.0.0",
-  "description": "Taquito wrapper for tea contract template",
+  "description": "Taquito wrapper for merkle airdrop contract",
   "main": "index.mjs",
   "directories": {
     "test": "tests"

@@ -3,27 +3,22 @@ type: standalone
 configuration: {
 	deploys: {
 		sandbox: {
-			// alice key from sandbox
       merkle-root: '"4ea4cd9389fa1c4cfd8051d32bd3ee7c898690139a94c32d566f6d55b0ad4447"'
       // FIXME: for sandbox we need some existing FA2
       token-addr: '"KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton"'
       token-id: 0n
-			kind: sandbox-tezos-client
-			// kind: tezos-client
-			// path: tezos-client
-			source: alice
-			burn-cap: 5
+			// kind: sandbox-tezos-client
 
 			// requires installed tezos-client
-			//  path: tezos-client
-			// 	source: alice
+			// kind: tezos-client
+			// path: octez-client
+			// source: alice
 			// burn-cap: 5
 
 			// requires installed js modules
-			// 	kind: taquito
-			//  rpc: <url>
-			// 	// path: tezos-client
-			// 	source: edsk3RFfvaFaxbHx8BMtEW1rKQcPtDML3LXjNqMNLCzC3wLC1bWbAt
+      kind: taquito
+      rpc: http://localhost:20000
+      source: edsk3QoqBuvdamxouPhin7swCvkQNgq4jP5KZPbwWNnwdZpSpJiEbq
 		}
 	}
 	ligo: {
