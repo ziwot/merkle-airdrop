@@ -18,3 +18,7 @@ build/*
 # deploy
 deploy/*
 !deploy/.gitkeep
+
+# esy (ligo packages)
+esy.lock
+_esy
