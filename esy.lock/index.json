@@ -13,7 +13,7 @@
       },
       "overrides": [],
       "dependencies": [
-        "ligo-breathalyzer@1.0.0@d41d8cd9", "@ligo/fa@1.0.4@d41d8cd9"
+        "ligo-breathalyzer@1.0.0@d41d8cd9", "@ligo/fa@1.0.7@d41d8cd9"
       ],
       "devDependencies": []
     },
@@ -31,14 +31,14 @@
       "dependencies": [],
       "devDependencies": []
     },
-    "@ligo/fa@1.0.4@d41d8cd9": {
-      "id": "@ligo/fa@1.0.4@d41d8cd9",
+    "@ligo/fa@1.0.7@d41d8cd9": {
+      "id": "@ligo/fa@1.0.7@d41d8cd9",
       "name": "@ligo/fa",
-      "version": "1.0.4",
+      "version": "1.0.7",
       "source": {
         "type": "install",
         "source": [
-          "archive:https://packages.ligolang.org/-/api/@ligo/fa/-/@ligo/fa-1.0.4.tgz#sha1:7f7f5513c434a9da78b53f11dd7a36fa7f3dd8dd"
+          "archive:https://packages.ligolang.org/-/api/@ligo/fa/-/@ligo/fa-1.0.7.tgz#sha1:10c0692cf8480f20931ce7fff9870c303be13463"
         ]
       },
       "overrides": [],

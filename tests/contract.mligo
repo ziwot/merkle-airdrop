@@ -39,7 +39,7 @@ let case_happy_path =
            (Util.request_token_transfer
               token
               ([({from_ = alice.address;
-                  tx =
+                  txs =
                     ([{to_ = airdrop.originated_address;
                        amount = 200n;
                        token_id = 0n}]

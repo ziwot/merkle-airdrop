@@ -18,7 +18,7 @@ let transfer
   let dest = get_transfer_entrypoint (token_addr) in
   let transfer_requests =
     ([({from_ = Tezos.get_self_address ();
-        tx =
+        txs =
           ([{to_; token_id; amount}]
            : FA.atomic_trans list)})]
      : FA.transfer) in
