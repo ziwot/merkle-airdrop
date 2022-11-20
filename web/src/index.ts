@@ -1,4 +1,4 @@
-import { AdminContract } from "./admin.js";
-import { Contract } from "./contract";
+import { AirdropContract } from "./airdrop.js";
+import { TokenContract } from "./token.js";
 
-export { AdminContract, Contract };
+export { AirdropContract, TokenContract };

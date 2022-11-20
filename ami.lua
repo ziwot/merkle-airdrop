@@ -113,7 +113,7 @@ return {
 		},
 		["test-js"] = {
 			description = "TEA 'test-js' sub command",
-			summary = "Runs ligo tests",
+			summary = "Runs js tests",
 			action = "__tea/tools/tests/js.lua",
 			type = "raw",
 			contextFailExitCode = EXIT_APP_INTERNAL_ERROR,

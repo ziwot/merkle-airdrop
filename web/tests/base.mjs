@@ -3,35 +3,33 @@ import fs from "fs/promises";
 import { InMemorySigner } from "@taquito/signer";
 import { parse } from "hjson";
 import { get } from "lodash-es";
-import { AdminContract, Contract } from "../dist/cjs/index.js";
+import { TokenContract, AirdropContract } from "../dist/cjs/index.js";
 
 const appHjson = parse((await fs.readFile("../app.hjson")).toString());
 
-const ADMIN_KEY = "edsk3QoqBuvdamxouPhin7swCvkQNgq4jP5KZPbwWNnwdZpSpJiEbq";
-const BOB_KEY = "edsk3RFfvaFaxbHx8BMtEW1rKQcPtDML3LXjNqMNLCzC3wLC1bWbAt";
+const SIGNER_KEY = "edsk3QoqBuvdamxouPhin7swCvkQNgq4jP5KZPbwWNnwdZpSpJiEbq";
 const RPC_URL = `http://localhost:${get(appHjson, "sandbox.rpc_port", 20000)}`;
 
 export const setup = async () => {
     const { id } = appHjson;
-    const { contractAddress } = JSON.parse(
+    const { contractAddress: airdropAddress } = JSON.parse(
         (await fs.readFile(`../deploy/sandbox-${id}.json`)).toString()
     );
-    const admin = new AdminContract(RPC_URL, contractAddress, {
+    const { contractAddress: tokenAddress } = JSON.parse(
+        (await fs.readFile(`../deploy/sandbox-token.json`)).toString()
+    );
+    const airdrop = new TokenContract(RPC_URL, airdropAddress, {
         test: true,
-        signer: await InMemorySigner.fromSecretKey(ADMIN_KEY),
+        signer: await InMemorySigner.fromSecretKey(SIGNER_KEY),
     });
-    const bob = new Contract(RPC_URL, contractAddress, {
+    const token = new TokenContract(RPC_URL, tokenAddress, {
         test: true,
-        signer: await InMemorySigner.fromSecretKey(BOB_KEY),
-    });
-    const bobAsAdmin = new AdminContract(RPC_URL, contractAddress, {
-        test: true,
-        signer: await InMemorySigner.fromSecretKey(BOB_KEY),
+        signer: await InMemorySigner.fromSecretKey(SIGNER_KEY),
     });
     return {
-        bob,
-        admin,
-        bobAsAdmin,
-        contractAddress,
+        airdrop,
+        token,
+        airdropAddress,
+        tokenAddress,
     };
 };
