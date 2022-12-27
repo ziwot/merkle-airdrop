@@ -14,5 +14,5 @@ test.serial("claim airdrop", async (t) => {
     let storage = await token.get_contract_storage();
     let actualAmount = await storage.ledger.get(pkh);
 
-    t.assert(amount == actualAmount)
+    t.assert(amount == actualAmount);
 });

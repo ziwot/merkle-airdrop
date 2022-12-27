@@ -4,12 +4,11 @@ import { MerkleTree } from "merkletreejs";
 import SHA256 from "crypto-js/sha256.js";
 import { InMemorySigner } from "@taquito/signer";
 import { TokenContract, AirdropContract } from "../dist/cjs/index.js";
-import { buf2hex, generateKeys, generateMnemonic } from "sotez";
 
 import dropsJson from "./testdata/drops.json" assert { type: "json" };
 import airdropCode from "../../compiled/airdrop.json" assert { type: "json" };
 import { packDataBytes } from "@taquito/michel-codec";
-import { MichelsonMap, TezosToolkit } from "@taquito/taquito";
+import { TezosToolkit } from "@taquito/taquito";
 import { confirmOperation } from "./scripts/utils.mjs";
 
 dotenv.config();
@@ -61,9 +60,9 @@ export const setup = async () => {
             0
         );
 
-        console.log(`total airdrop: ${totalAirdrop}`)
-        
-        console.log('Transferring amount to airdrop contract...')
+        console.log(`total airdrop: ${totalAirdrop}`);
+
+        console.log("Transferring amount to airdrop contract...");
         // otherwise, add contract as operator?
 
         await (
