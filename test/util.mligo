@@ -1,5 +1,5 @@
 #import "ligo-breathalyzer/lib/lib.mligo" "Breath"
-#import "../src/contract.mligo" "Airdrop"
+#import "../src/main.mligo" "Airdrop"
 
 type originated = Breath.Contract.originated
 
@@ -20,7 +20,9 @@ let get_token_initial_storage
            token_info = (Map.empty : (string, bytes) map)}
           : Airdrop.Token.FA.TokenMetadata.data))]
      : Airdrop.Token.FA.TokenMetadata.t) in
-  {metadata; ledger; token_metadata; operators}
+  let owner_token_ids = Set.literal [(owner, token_id)] in
+  let token_ids = Set.literal [token_id] in
+  {metadata; ledger; token_metadata; operators; owner_token_ids; token_ids}
 
 let originate_token
   (level : Breath.Logger.level)

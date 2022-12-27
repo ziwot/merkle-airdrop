@@ -1,6 +1,6 @@
 #import "ligo-breathalyzer/lib/lib.mligo" "Breath"
 #import "./util.mligo" "Util"
-#import "../src/contract.mligo" "Contract"
+#import "../src/main.mligo" "Airdrop"
 
 let dummy_metadata = 0x01
 
@@ -28,7 +28,7 @@ let case_happy_path =
               dummy_metadata
               (token.originated_address, 0n)
               0x4ea4cd9389fa1c4cfd8051d32bd3ee7c898690139a94c32d566f6d55b0ad4447
-              (Big_map.empty : Contract.Storage.claimed)) in
+              (Big_map.empty : Airdrop.Storage.claimed)) in
        let () =
          Breath.Logger.log
            level
@@ -43,8 +43,8 @@ let case_happy_path =
                     ([{to_ = airdrop.originated_address;
                        amount = 200n;
                        token_id = 0n}]
-                     : Contract.Token.FA.atomic_trans list)})]
-               : Contract.Token.FA.transfer)) in
+                     : Airdrop.Token.FA.atomic_trans list)})]
+               : Airdrop.Token.FA.transfer)) in
        let () = Breath.Logger.log level "Claim Airdrop" in
        let alice_action_2 =
          Breath.Context.act_as

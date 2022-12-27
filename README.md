@@ -1,6 +1,8 @@
 # Merkle Airdrop
 
-This project is using [TEA](https://github.com/alis-is/tea) as dev stack.
+## Usage
+
+Just run `make` to see a list of available commands.
 
 ## How it works?
 

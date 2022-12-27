@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# run a local tezos sandbox
+# https://tezos.gitlab.io/flextesa/
+
+image=oxheadalpha/flextesa:20221123
+script=limabox
+docker run --rm --name sandbox --detach -p 20000:20000 \
+       -e block_time=3 \
+       -e flextesa_node_cors_origin='*' \
+       "$image" "$script" start
+
+sleep 10 ;
+
+# originate a token contract
+# should be KT1D9jd8koksj6vVLEbezR33yGu2y5wA7hFG
+docker exec -it sandbox octez-client originate contract token \
+  transferring 0 from alice running "$(cat tests/testdata/token.tz)" \
+  --init "$(cat tests/testdata/token_storage.tz)" --burn-cap 0.62175

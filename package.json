@@ -1,1 +1,1 @@
-{ "dependencies": { "@ligo/fa": "^1.0.4", "ligo-breathalyzer": "^1.0.0" } }
+{ "dependencies": { "@ligo/fa": "^1.0.0", "ligo-breathalyzer": "^1.2.1" } }
