@@ -13,7 +13,12 @@ docker run --rm --name sandbox --detach -p 20000:20000 \
 sleep 10 ;
 
 # originate a token contract
-# should be KT1D9jd8koksj6vVLEbezR33yGu2y5wA7hFG
 docker exec -it sandbox octez-client originate contract token \
   transferring 0 from alice running "$(cat tests/testdata/token.tz)" \
   --init "$(cat tests/testdata/token_storage.tz)" --burn-cap 0.62175
+
+# extract token address
+token=$(docker exec -it sandbox octez-client list known contracts | head -n 1 | awk -F':' '{print $2}' | tr -d '\r' | xargs)
+
+# update .env with token address
+sed "s/TOKEN_CONTRACT=.*/TOKEN_CONTRACT=$token/g" -i ../web/.env

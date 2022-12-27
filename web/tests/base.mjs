@@ -61,6 +61,11 @@ export const setup = async () => {
             0
         );
 
+        console.log(`total airdrop: ${totalAirdrop}`)
+        
+        console.log('Transferring amount to airdrop contract...')
+        // otherwise, add contract as operator?
+
         await (
             await token.transfer(
                 await airdrop.get_addr(),
@@ -88,7 +93,7 @@ const originate = async (code, init) => {
     console.log(`Originating contract...`);
     await confirmOperation(toolkit, originationOp.hash);
     const { contractAddress } = originationOp;
-    console.log(contractAddress);
+    console.log(`[OK] ${contractAddress}`);
 
     return contractAddress;
 };

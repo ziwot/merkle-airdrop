@@ -55,3 +55,9 @@ sandbox-start: ## start sandbox
 
 sandbox-stop: ## stop sandbox
 	@$(npm) run sandbox:stop
+
+drops: ## make sample drops
+	@$(npm) run generate:drops
+
+build: ## build js lib
+	@$(npm) run build

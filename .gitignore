@@ -4,6 +4,7 @@
 _esy/
 /compiled
 **/compiled
-testdata/
-!testdata/token.tz
-!testdata/token_storage.tz
+web/tests/testdata/*
+!web/tests/testdata/token.tz
+!web/tests/testdata/token_storage.tz
+web/.env

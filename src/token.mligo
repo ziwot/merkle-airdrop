@@ -1,4 +1,4 @@
-#import "@ligo/fa/lib/fa2/asset/multi_asset.mligo" "FA"
+#import "@ligo/fa/lib/fa2/asset/single_asset.mligo" "FA"
 #import "./errors.mligo" "Errors"
 type token_id = nat
 

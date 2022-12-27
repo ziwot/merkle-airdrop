@@ -10,7 +10,7 @@ let get_token_initial_storage
       [("", Bytes.pack ("tezos-storage:contents"));
        ("contents", ("" : bytes))] in
   let ledger =
-    Big_map.literal ([((owner, token_id), amount_)]) in
+    Big_map.literal ([(owner, amount_)]) in
   let operators =
     (Big_map.empty : Airdrop.Token.FA.Operators.t) in
   let token_metadata =
@@ -20,9 +20,8 @@ let get_token_initial_storage
            token_info = (Map.empty : (string, bytes) map)}
           : Airdrop.Token.FA.TokenMetadata.data))]
      : Airdrop.Token.FA.TokenMetadata.t) in
-  let owner_token_ids = Set.literal [(owner, token_id)] in
-  let token_ids = Set.literal [token_id] in
-  {metadata; ledger; token_metadata; operators; owner_token_ids; token_ids}
+  let owners = Set.literal [owner] in
+  {metadata; ledger; token_metadata; operators; owners}
 
 let originate_token
   (level : Breath.Logger.level)
