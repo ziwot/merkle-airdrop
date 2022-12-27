@@ -2,8 +2,7 @@ import fs from "fs";
 import { generateKeys, generateMnemonic } from "sotez";
 import { between } from "./utils.mjs";
 
-// get or create drops JSON file
-// containing a bunch of keys
+// create drops JSON file containing a bunch of keys
 
 const NB_KEYS = 200;
 const MIX_AMOUNT = 1;

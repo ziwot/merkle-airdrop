@@ -4,6 +4,7 @@ export const between = (min, max) =>
 const SYNC_INTERVAL = 0;
 const CONFIRM_TIMEOUT = 30000;
 
+// stolen from madfish
 export const confirmOperation = async (
     tezos,
     opHash,

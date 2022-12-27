@@ -3,7 +3,7 @@ import { setup, getLeaf } from "./base.mjs";
 import dropsJson from "./testdata/drops.json" assert { type: "json" };
 import { between, confirmOperation } from "./scripts/utils.mjs";
 
-test.serial("claim airdrop", async (t) => {
+test.serial("claim airdrop success", async (t) => {
     const { toolkit, airdrop, token, tree } = await setup();
     const { pkh, amount } = dropsJson[between(0, dropsJson.length - 1)];
     const merkle_proof = tree.getHexProof(getLeaf(pkh, amount));
