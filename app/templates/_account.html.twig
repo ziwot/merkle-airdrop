@@ -1,0 +1,21 @@
+<div>
+    {% if is_granted('ROLE_USER') %}
+        Welcome {{ app.user.username }},
+        <a href="{{ path('app_logout') }}" class="btn-primary">Disconnect</a>
+    {% else %}
+        <div {{ stimulus_controller('wallet') }}>
+            <a href="#" data-action="wallet#login" class="btn-primary">Connect Wallet</a>
+
+            <form action="{{ path('app_login') }}"
+                method="post"
+                {{ stimulus_target('wallet', 'loginForm') }}>
+                <input type="hidden" id="msg" name="msg" />
+                <input type="hidden" id="sig" name="sig" />
+                <input type="hidden" id="pubKey" name="pubKey" />
+                <input type="hidden"
+                    name="_csrf_token"
+                    value="{{ csrf_token('authenticate') }}" />
+            </form>
+        </div>
+    {% endif %}
+</div>

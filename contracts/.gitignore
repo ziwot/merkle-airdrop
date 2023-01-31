@@ -1,0 +1,9 @@
+**/node_modules
+.DS_Store
+.ligo/
+_esy/
+/compiled
+**/compiled
+testdata/
+!testdata/token.tz
+!testdata/token_storage.tz
