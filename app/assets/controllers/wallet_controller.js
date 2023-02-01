@@ -6,9 +6,11 @@ import $ from 'jquery';
 
 export default class extends Controller {
     static targets = ['loginForm'];
+    static values = {
+        logoutUrl: String,
+    };
 
     wallet = null;
-    activeAccount = null;
 
     async initialize() {
         const options = {
@@ -24,18 +26,20 @@ export default class extends Controller {
             },
         };
         this.wallet = new BeaconWallet(options);
-        this.activeAccount = await this.wallet.client.getActiveAccount();
     }
 
     async login() {
-        const [signature, payload] = await this.signLoginRequest();
+        const [pubKey, signature, payload] = await this.signLoginRequest();
 
-        $(this.loginFormTarget).find('#msg').val(payload);
+        $(this.loginFormTarget).find('#pubKey').val(pubKey);
         $(this.loginFormTarget).find('#sig').val(signature);
-        $(this.loginFormTarget)
-            .find('#pubKey')
-            .val(this.activeAccount.publicKey);
-        $(this.loginFormTarget).submit();
+        $(this.loginFormTarget).find('#msg').val(payload);
+        $(this.loginFormTarget).trigger('submit');
+    }
+
+    async logout() {
+        this.wallet.clearActiveAccount();
+        window.location = this.logoutUrlValue;
     }
 
     async signLoginRequest() {
@@ -58,18 +62,18 @@ export default class extends Controller {
             input,
         ].join(' ');
 
-        console.log(formattedInput);
-
         // The bytes to sign
         const bytes = char2Bytes(formattedInput);
         const payloadBytes =
             '05' + '0100' + char2Bytes(bytes.length.toString()) + bytes;
 
+        const { address, publicKey } = await this.wallet.client.getActiveAccount();
+
         // The payload to send to the wallet
         const payload = {
             signingType: SigningType.MICHELINE,
             payload: payloadBytes,
-            sourceAddress: this.activeAccount.address,
+            sourceAddress: address,
         };
 
         // The signing
@@ -79,6 +83,6 @@ export default class extends Controller {
 
         // The signature
         const { signature } = signedPayload;
-        return [signature, payload.payload];
+        return [publicKey, signature, payload.payload];
     }
 }

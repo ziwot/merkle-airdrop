@@ -1,11 +1,18 @@
-<div>
+<div {{ stimulus_controller('wallet', {logout_url: path('app_logout')}) }}>
     {% if is_granted('ROLE_USER') %}
         Welcome {{ app.user.username }},
-        <a href="{{ path('app_logout') }}" class="btn-primary">Disconnect</a>
+        <a href="{{ path('app_logout') }}"
+            {{ stimulus_action('wallet', 'logout') }}
+            class="btn-primary">
+            Disconnect
+        </a>
     {% else %}
-        <div {{ stimulus_controller('wallet') }}>
-            <a href="#" data-action="wallet#login" class="btn-primary">Connect Wallet</a>
-
+        <div>
+            <a href="#"
+                {{ stimulus_action('wallet', 'login') }}
+                class="btn-primary">
+                Connect Wallet
+            </a>
             <form action="{{ path('app_login') }}"
                 method="post"
                 {{ stimulus_target('wallet', 'loginForm') }}>
