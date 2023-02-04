@@ -61,13 +61,3 @@ const packed = packDataBytes(
 
 console.log(SHA256(packed.bytes));
 ```
-
-## Resources
-
-- [Evolution of Airdrop: from Common Spam to the Merkle Tree](https://hackernoon.com/evolution-of-airdrop-from-common-spam-to-the-merkle-tree-30caa2344170)
-- [Merkle Airdrop: One of the best Airdrop Solution for Token Issues](https://medium.com/mochilab/merkle-airdrop-one-of-the-best-airdrop-solution-for-token-issues-e2279df1c5c1)
-- [Merkle tree](https://en.wikipedia.org/wiki/Merkle_tree)
-- [Merkle proofs Explained](https://medium.com/crypto-0-nite/merkle-proofs-explained-6dd429623dc5)
-- [The Ultimate Merkle Tree Guide in Solidity](https://soliditydeveloper.com/merkle-tree)
-- <https://github.com/steve-ng/merkle-airdrop>
-- <https://tezostaquito.io/docs/signing#signing-michelson-data>
