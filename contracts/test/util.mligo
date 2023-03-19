@@ -58,7 +58,7 @@ let request_token_transfer
      originated)
   (p : Airdrop.Token.FA.transfer)
   () =
-  Breath.Contract.transfert_to
+  Breath.Contract.transfer_to
     contract
     (Transfer (p))
     0mutez
@@ -68,7 +68,7 @@ let request_claim
    (Airdrop.parameter, Airdrop.storage) originated)
   (p : Airdrop.parameter)
   () =
-  Breath.Contract.transfert_to contract p 0mutez
+  Breath.Contract.transfer_to contract p 0mutez
 
 let expected_token_state
   (contract :

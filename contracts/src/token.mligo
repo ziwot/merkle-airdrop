@@ -1,5 +1,6 @@
 #import "@ligo/fa/lib/fa2/asset/multi_asset.mligo" "FA"
 #import "./errors.mligo" "Errors"
+
 type token_id = nat
 
 type t = address * token_id
