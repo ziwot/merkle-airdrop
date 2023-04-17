@@ -4,7 +4,7 @@
 
 Complete airdrop solution for [Tezos](https://tezos.com/) tokens.
 
-The chosen solution uses merkle trees. 
+The chosen solution uses merkle trees.
 The advantages are of 2 kinds:
 
 - It is cheap because fees will be paid by the claimers.
@@ -13,10 +13,14 @@ The advantages are of 2 kinds:
 ## How it works?
 
 An airdrop project consists in off-chain and on-chain data:
-- [on-chain](./contracts), there is a smart-contract that holds projects information, e.g: the token contract address, 
+- [on-chain](./contracts), there is a smart-contract that holds projects information, e.g: the token contract address,
 the hex of a merkle root of beneficiaries (address, amount), and the registry of already claimed beneficiaries entries.
 - [off-chain](./app), the merkle tree must be stored to be able to generate the merkle proofs required to claim.
 An off-chain app also is helping on the merkle tree generation and validation before deploying the airdrop contract.
+
+## Dev
+
+
 
 ## Resources
 

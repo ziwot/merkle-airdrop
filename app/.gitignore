@@ -23,3 +23,6 @@ yarn-error.log
 
 # nix
 .direnv
+
+# generated fixtures
+fixtures/drops.json
