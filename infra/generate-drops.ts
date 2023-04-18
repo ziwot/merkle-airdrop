@@ -9,7 +9,7 @@ const MAX_AMOUNT = 200;
 makeDrops(MIN_AMOUNT, MAX_AMOUNT, NB_KEYS).then(([drops, phpDrops]) =>
     [
         ["../contracts/web/tests/testdata/drops.json", JSON.stringify(drops)],
-        ["../app/fixtures/drops.json", JSON.stringify(phpDrops)],
+        ["../app/fixtures/airdrop_user.json", JSON.stringify(phpDrops)],
     ].forEach(([filepath, content]) => {
         fs.writeFileSync(filepath, content);
         console.info(`[OK] ${filepath}`);
@@ -17,8 +17,12 @@ makeDrops(MIN_AMOUNT, MAX_AMOUNT, NB_KEYS).then(([drops, phpDrops]) =>
 );
 
 type PhpDrop = {
-    "Nelmio\\Alice\\support\\models\\User": {
-        [key: string]: { address: string; amount: number };
+    "App\\Entity\\User": {
+        [key: string]: { address: string };
+    };
+
+    "App\\Entity\\AirdropUser": {
+        [key: string]: { airdrop: string; user: string; amount: number };
     };
 };
 
@@ -33,14 +37,21 @@ async function makeDrops(minAmount: number, maxAmount: number, nbKeys: number) {
     }
 
     const phpDrops: PhpDrop = {
-        "Nelmio\\Alice\\support\\models\\User": {},
+        "App\\Entity\\User": {},
+        "App\\Entity\\AirdropUser": {},
     };
 
-    drops.forEach(
-        (drop, index) =>
-            (phpDrops["Nelmio\\Alice\\support\\models\\User"][`drop_${index}`] =
-                { address: drop.pkh, amount: drop.amount })
-    );
+    drops.forEach((drop, index) => {
+        phpDrops["App\\Entity\\User"][`user_${index}`] = {
+            address: drop.pkh,
+        };
+
+        phpDrops["App\\Entity\\AirdropUser"][`drop_${index}`] = {
+            airdrop: "@airdrop_1",
+            user: `@user_${index}`,
+            amount: drop.amount,
+        };
+    });
 
     return [drops, phpDrops];
 }

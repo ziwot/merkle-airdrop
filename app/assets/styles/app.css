@@ -4,11 +4,11 @@
 
 @layer base {
   body {
-    @apply bg-gradient-to-r from-slate-300 to-blue-800;
+    @apply bg-gradient-to-r from-slate-300 to-blue-800 mt-4;
   }
 
   h1 {
-    @apply text-2xl;
+    @apply text-2xl font-bold;
   }
   h2 {
     @apply text-xl;

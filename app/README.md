@@ -23,8 +23,8 @@ A MySQL database is also used to store the projects informations.
 composer install
 yarn
 
-# create db & load fixtures
-sfc d:d:c && sfc d:f:l
+# reset db
+sfc d:d:d --force && sfc d:d:c && sfc d:m:m && sfc h:f:l
 
 # run app
 sf serve -d

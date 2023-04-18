@@ -25,4 +25,4 @@ yarn-error.log
 .direnv
 
 # generated fixtures
-fixtures/drops.json
+fixtures/airdrop_user.json
