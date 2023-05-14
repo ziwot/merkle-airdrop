@@ -11,6 +11,8 @@ use Cake\Validation\Validator;
 /**
  * Airdrops Model
  *
+ * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsToMany $Users
+ *
  * @method \App\Model\Entity\Airdrop newEmptyEntity()
  * @method \App\Model\Entity\Airdrop newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Airdrop[] newEntities(array $data, array $options = [])
@@ -45,6 +47,10 @@ class AirdropsTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        $this->belongsTo('Tokens', [
+            'foreignKey' => 'token_id',
+            'joinType' => 'INNER',
+        ]);
         $this->belongsToMany('Users', [
             'foreignKey' => 'airdrop_id',
             'targetForeignKey' => 'user_id',
@@ -61,6 +67,10 @@ class AirdropsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
+            ->integer('token_id')
+            ->notEmptyString('token_id');
+
+        $validator
             ->scalar('name')
             ->maxLength('name', 255)
             ->requirePresence('name', 'create')
@@ -72,5 +82,19 @@ class AirdropsTable extends Table
             ->allowEmptyString('description');
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->add($rules->existsIn('token_id', 'Tokens'), ['errorField' => 'token_id']);
+
+        return $rules;
     }
 }

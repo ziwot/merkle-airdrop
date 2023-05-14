@@ -27,8 +27,8 @@
                     <td><?= $this->Number->format($token->id) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Identifer') ?></th>
-                    <td><?= $this->Number->format($token->identifer) ?></td>
+                    <th><?= __('Identifier') ?></th>
+                    <td><?= $this->Number->format($token->identifier) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Created') ?></th>

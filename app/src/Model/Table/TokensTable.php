@@ -44,6 +44,10 @@ class TokensTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+
+        $this->hasMany('Airdrops', [
+            'foreignKey' => 'token_id',
+        ]);
     }
 
     /**
@@ -61,9 +65,9 @@ class TokensTable extends Table
             ->notEmptyString('address');
 
         $validator
-            ->integer('identifer')
-            ->requirePresence('identifer', 'create')
-            ->notEmptyString('identifer');
+            ->integer('identifier')
+            ->requirePresence('identifier', 'create')
+            ->notEmptyString('identifier');
 
         return $validator;
     }

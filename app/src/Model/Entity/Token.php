@@ -10,7 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $address
- * @property int $identifer
+ * @property int $identifier
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime|null $modified
  */
@@ -27,7 +27,7 @@ class Token extends Entity
      */
     protected $_accessible = [
         'address' => true,
-        'identifer' => true,
+        'identifier' => true,
         'created' => true,
         'modified' => true,
     ];

@@ -9,12 +9,13 @@ use Cake\ORM\Entity;
  * Airdrop Entity
  *
  * @property int $id
+ * @property int $token_id
  * @property string $name
  * @property string|null $description
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime|null $modified
  *
- * @property \App\Model\Entity\AirdropUser[] $airdrop_user
+ * @property \App\Model\Entity\User[] $users
  */
 class Airdrop extends Entity
 {
@@ -28,10 +29,11 @@ class Airdrop extends Entity
      * @var array<string, bool>
      */
     protected $_accessible = [
+        'token_id' => true,
         'name' => true,
         'description' => true,
         'created' => true,
         'modified' => true,
-        'airdrop_user' => true,
+        'users' => true,
     ];
 }

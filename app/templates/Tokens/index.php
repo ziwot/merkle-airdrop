@@ -13,7 +13,7 @@
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('address') ?></th>
-                    <th><?= $this->Paginator->sort('identifer') ?></th>
+                    <th><?= $this->Paginator->sort('identifier') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
                     <th><?= $this->Paginator->sort('modified') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
@@ -24,7 +24,7 @@
                 <tr>
                     <td><?= $this->Number->format($token->id) ?></td>
                     <td><?= h($token->address) ?></td>
-                    <td><?= $this->Number->format($token->identifer) ?></td>
+                    <td><?= $this->Number->format($token->identifier) ?></td>
                     <td><?= h($token->created) ?></td>
                     <td><?= h($token->modified) ?></td>
                     <td class="actions">

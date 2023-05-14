@@ -2,6 +2,7 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Airdrop $airdrop
+ * @var \Cake\Collection\CollectionInterface|string[] $users
  */
 ?>
 <div class="row">
@@ -17,8 +18,10 @@
             <fieldset>
                 <legend><?= __('Add Airdrop') ?></legend>
                 <?php
+                    echo $this->Form->control('token_id');
                     echo $this->Form->control('name');
                     echo $this->Form->control('description');
+                    echo $this->Form->control('users._ids', ['options' => $users]);
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>

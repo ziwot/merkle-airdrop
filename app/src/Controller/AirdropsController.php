@@ -33,7 +33,7 @@ class AirdropsController extends AppController
     public function view($id = null)
     {
         $airdrop = $this->Airdrops->get($id, [
-            'contain' => ['AirdropUser'],
+            'contain' => ['Users'],
         ]);
 
         $this->set(compact('airdrop'));
@@ -56,7 +56,8 @@ class AirdropsController extends AppController
             }
             $this->Flash->error(__('The airdrop could not be saved. Please, try again.'));
         }
-        $this->set(compact('airdrop'));
+        $users = $this->Airdrops->Users->find('list', ['limit' => 200])->all();
+        $this->set(compact('airdrop', 'users'));
     }
 
     /**
@@ -69,7 +70,7 @@ class AirdropsController extends AppController
     public function edit($id = null)
     {
         $airdrop = $this->Airdrops->get($id, [
-            'contain' => [],
+            'contain' => ['Users'],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $airdrop = $this->Airdrops->patchEntity($airdrop, $this->request->getData());
@@ -80,7 +81,8 @@ class AirdropsController extends AppController
             }
             $this->Flash->error(__('The airdrop could not be saved. Please, try again.'));
         }
-        $this->set(compact('airdrop'));
+        $users = $this->Airdrops->Users->find('list', ['limit' => 200])->all();
+        $this->set(compact('airdrop', 'users'));
     }
 
     /**

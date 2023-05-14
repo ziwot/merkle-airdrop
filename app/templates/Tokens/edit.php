@@ -23,7 +23,7 @@
                 <legend><?= __('Edit Token') ?></legend>
                 <?php
                     echo $this->Form->control('address');
-                    echo $this->Form->control('identifer');
+                    echo $this->Form->control('identifier');
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>

@@ -25,7 +25,7 @@ class AirdropsTableTest extends TestCase
      */
     protected $fixtures = [
         'app.Airdrops',
-        'app.AirdropUser',
+        'app.Users',
     ];
 
     /**
