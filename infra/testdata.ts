@@ -9,15 +9,16 @@ import { generateKeys, generateMnemonic } from "sotez";
 const NB_DROPS = 400;
 const MIN_AMOUNT = 1;
 const MAX_AMOUNT = 200;
-const FILEPATH = "./testdata/drops.json";
+const DROPS_FILEPATH = "./testdata/drops.json";
+const TOKEN_FILEPATH = "./testdata/token.json";
 
 // add here some keys that you want to retrieve later
 const DETEMINISTIC_KEYS = ["alice", "bob"];
 
 makeDrops(MIN_AMOUNT, MAX_AMOUNT, NB_DROPS).then((drops) => {
-    fs.writeFileSync(FILEPATH, JSON.stringify(drops));
+    fs.writeFileSync(DROPS_FILEPATH, JSON.stringify(drops));
     console.info(
-        `[OK] ${FILEPATH} created with ${
+        `[OK] ${DROPS_FILEPATH} created with ${
             NB_DROPS + DETEMINISTIC_KEYS.length
         } drops`
     );
@@ -25,6 +26,7 @@ makeDrops(MIN_AMOUNT, MAX_AMOUNT, NB_DROPS).then((drops) => {
 
 if (isSandboxRunning() && isSandboxBootstrapped()) {
     const tokenAddr = makeToken();
+    fs.writeFileSync(TOKEN_FILEPATH, JSON.stringify(tokenAddr));
     console.log(`[OK] ${tokenAddr} deployed`);
 } else console.error("Please check sandbox is running and bootstapped.");
 

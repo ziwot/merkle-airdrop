@@ -1,7 +1,7 @@
 import test from "ava";
 import { setup, getLeaf } from "./base.mjs";
-import dropsJson from "./testdata/drops.json" assert { type: "json" };
-import { between, confirmOperation } from "./scripts/utils.mjs";
+import dropsJson from "../../../infra/testdata/drops.json" assert { type: "json" };
+import { between, confirmOperation } from "./utils.mjs";
 
 test.serial("claim airdrop", async (t) => {
     const { toolkit, airdrop, token, tree } = await setup();

@@ -4,13 +4,14 @@ import { MerkleTree } from "merkletreejs";
 import SHA256 from "crypto-js/sha256.js";
 import { InMemorySigner } from "@taquito/signer";
 import { TokenContract, AirdropContract } from "../dist/cjs/index.js";
-import { buf2hex, generateKeys, generateMnemonic } from "sotez";
 
-import dropsJson from "./testdata/drops.json" assert { type: "json" };
+import dropsJson from "../../../infra/testdata/drops.json" assert { type: "json" };
 import airdropCode from "../../compiled/airdrop.json" assert { type: "json" };
 import { packDataBytes } from "@taquito/michel-codec";
-import { MichelsonMap, TezosToolkit } from "@taquito/taquito";
-import { confirmOperation } from "./scripts/utils.mjs";
+import { TezosToolkit } from "@taquito/taquito";
+import { confirmOperation } from "./utils.mjs";
+
+import tokenAddr from "../../../infra/testdata/token.json" assert { type: "json" };
 
 dotenv.config();
 
@@ -43,7 +44,7 @@ export const setup = async () => {
             airdropCode,
             `(Pair (Pair {}
             ${root}
-            "${process.env.TOKEN_CONTRACT}"
+            "${tokenAddr}"
             0)
       { Elt "" 0x05010000001574657a6f732d73746f726167653a636f6e74656e74 ;
         Elt "content" 0x01 })`
@@ -52,7 +53,7 @@ export const setup = async () => {
             test: true,
         });
 
-        const token = new TokenContract(toolkit, process.env.TOKEN_CONTRACT, {
+        const token = new TokenContract(toolkit, tokenAddr, {
             test: true,
         });
 
