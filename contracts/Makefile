@@ -2,7 +2,8 @@ SHELL := /bin/bash
 
 npm=npm --prefix ./web
 
-ligo_compiler?=docker run --rm -v "$(PWD)":"$(PWD)" -w "$(PWD)" ligolang/ligo:0.62.0
+# ligo_compiler?=docker run --rm -v "$(PWD)":"$(PWD)" -w "$(PWD)" ligolang/ligo:0.62.0
+ligo_compiler?=ligo
 # ^ Override this variable when you run make command by make <COMMAND> ligo_compiler=<LIGO_EXECUTABLE>
 # ^ Otherwise use default one (you'll need docker)
 protocol_opt?=
@@ -49,9 +50,3 @@ test-js: ## run js tests
 
 lint: ## lint code
 	@$(npm) run lint
-
-sandbox-start: ## start sandbox
-	@$(npm) run sandbox:start
-
-sandbox-stop: ## stop sandbox
-	@$(npm) run sandbox:stop

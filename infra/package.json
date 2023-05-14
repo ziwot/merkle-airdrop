@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "description": "Infra Scripts",
   "scripts": {
-    "infra:up": "ts-node infra-up.ts",
-    "infra:down": "ts-node infra-down.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "generate:drops": "ts-node ./generate-drops.ts"
+    "testdata": "ts-node ./testdata.ts"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.52.0",

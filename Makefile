@@ -44,4 +44,4 @@ install: ##@Infra install infra scripts dependencies
 	@npm --prefix infra ci
 
 testdata: ##@Infra generate testdata
-	@npm --prefix infra run generate:drops -s
+	@npm --prefix infra run testdata -s

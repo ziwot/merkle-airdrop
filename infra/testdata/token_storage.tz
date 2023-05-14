@@ -1,0 +1,6 @@
+(Pair (Pair { Elt (Pair "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb" 0) 3000000 }
+            { Elt "" 0x05010000001674657a6f732d73746f726167653a636f6e74656e7473 ;
+              Elt "contents" 0x })
+      {}
+      { Elt 0 (Pair 0 {}) })
+
