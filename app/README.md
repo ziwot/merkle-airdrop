@@ -1,32 +1,53 @@
-# Merkle Airdrop Demo App
+# CakePHP Application Skeleton
 
-Features:
+![Build Status](https://github.com/cakephp/app/actions/workflows/ci.yml/badge.svg?branch=master)
+[![Total Downloads](https://img.shields.io/packagist/dt/cakephp/app.svg?style=flat-square)](https://packagist.org/packages/cakephp/app)
+[![PHPStan](https://img.shields.io/badge/PHPStan-level%207-brightgreen.svg?style=flat-square)](https://github.com/phpstan/phpstan)
 
-- [ ] Create airdrop project
-  - [ ] validate token contract and parse it.
-  - [ ] CRUD of beneficiaries
-  - [ ] Validate amounts
-  - [ ] Deploy contract
+A skeleton for creating applications with [CakePHP](https://cakephp.org) 4.x.
 
-- [ ] Claim airdrop
-  - [ ] Claim form
+The framework source code can be found here: [cakephp/cakephp](https://github.com/cakephp/cakephp).
 
-## Requirements
+## Installation
 
-This app is using PHP, I should fit on most cheap PHP hosting.
-A MySQL database is also used to store the projects informations.
+1. Download [Composer](https://getcomposer.org/doc/00-intro.md) or update `composer self-update`.
+2. Run `php composer.phar create-project --prefer-dist cakephp/app [app_name]`.
 
-## Dev
+If Composer is installed globally, run
 
-```sh
-# install deps
-composer install
-yarn
-
-# reset db
-sfc d:d:d --force && sfc d:d:c && sfc d:m:m && sfc h:f:l
-
-# run app
-sf serve -d
-yarn dev-server
+```bash
+composer create-project --prefer-dist cakephp/app
 ```
+
+In case you want to use a custom app dir name (e.g. `/myapp/`):
+
+```bash
+composer create-project --prefer-dist cakephp/app myapp
+```
+
+You can now either use your machine's webserver to view the default home page, or start
+up the built-in webserver with:
+
+```bash
+bin/cake server -p 8765
+```
+
+Then visit `http://localhost:8765` to see the welcome page.
+
+## Update
+
+Since this skeleton is a starting point for your application and various files
+would have been modified as per your needs, there isn't a way to provide
+automated upgrades, so you have to do any updates manually.
+
+## Configuration
+
+Read and edit the environment specific `config/app_local.php` and setup the 
+`'Datasources'` and any other configuration relevant for your application.
+Other environment agnostic settings can be changed in `config/app.php`.
+
+## Layout
+
+The app skeleton uses [Milligram](https://milligram.io/) (v1.3) minimalist CSS
+framework by default. You can, however, replace it with any other library or
+custom styles.
