@@ -40,6 +40,9 @@ down: ##@Infra stop containers
 sandbox-shell: ##@Infra enter sandbox container
 	$(DOCKER_COMPOSE) exec sandbox ash
 
+db-shell: ##@Infra enter sandbox container
+	$(DOCKER_COMPOSE) exec db bash
+
 install: ##@Infra install infra scripts dependencies
 	@npm --prefix infra ci
 
