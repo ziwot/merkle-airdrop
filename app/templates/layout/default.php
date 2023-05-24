@@ -29,9 +29,8 @@ $description = 'Merkle Airdrop';
     </title>
     <?= $this->Html->meta('icon') ?>
 
-    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
-
-    <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake']) ?>
+    <?= $this->AssetMix->script('app') ?>
+    <?= $this->AssetMix->css('app') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
