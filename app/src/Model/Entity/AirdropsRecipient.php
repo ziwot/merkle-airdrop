@@ -6,16 +6,17 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * AirdropsUser Entity
+ * AirdropsRecipient Entity
  *
+ * @property int $id
  * @property int $airdrop_id
  * @property int $user_id
  * @property int $amount
  *
  * @property \App\Model\Entity\Airdrop $airdrop
- * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\Recipient $recipient
  */
-class AirdropsUser extends Entity
+class AirdropsRecipient extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -31,6 +32,6 @@ class AirdropsUser extends Entity
         'user_id' => true,
         'amount' => true,
         'airdrop' => true,
-        'user' => true,
+        'recipient' => true,
     ];
 }

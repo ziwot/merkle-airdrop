@@ -1,26 +1,26 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\AirdropsUser $airdropsUser
+ * @var \App\Model\Entity\AirdropsRecipient $airdropsRecipient
  * @var \Cake\Collection\CollectionInterface|string[] $airdrops
- * @var \Cake\Collection\CollectionInterface|string[] $users
+ * @var \Cake\Collection\CollectionInterface|string[] $recipients
  */
 ?>
 <div class="row">
     <aside class="column">
         <div class="side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Html->link(__('List Airdrops Users'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
+            <?= $this->Html->link(__('List Airdrops Recipients'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
         </div>
     </aside>
     <div class="column-responsive column-80">
-        <div class="airdropsUsers form content">
-            <?= $this->Form->create($airdropsUser) ?>
+        <div class="airdropsRecipients form content">
+            <?= $this->Form->create($airdropsRecipient) ?>
             <fieldset>
-                <legend><?= __('Add Airdrops User') ?></legend>
+                <legend><?= __('Add Airdrops Recipient') ?></legend>
                 <?php
                     echo $this->Form->control('airdrop_id', ['options' => $airdrops]);
-                    echo $this->Form->control('user_id', ['options' => $users]);
+                    echo $this->Form->control('user_id', ['options' => $recipients]);
                     echo $this->Form->control('amount');
                 ?>
             </fieldset>

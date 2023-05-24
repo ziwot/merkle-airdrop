@@ -6,15 +6,15 @@ use Cake\Collection\Collection;
 use Migrations\AbstractSeed;
 
 /**
- * AirdropUser seed.
+ * AirdropRecipient seed.
  */
-class AirdropUserSeed extends AbstractSeed
+class AirdropRecipientSeed extends AbstractSeed
 {
     public function getDependencies(): array
     {
         return [
             'AirdropSeed',
-            'UserSeed',
+            'RecipientSeed',
         ];
     }
 
@@ -31,15 +31,15 @@ class AirdropUserSeed extends AbstractSeed
     public function run(): void
     {
         $this->execute('SET foreign_key_checks=0');
-        $this->execute('TRUNCATE TABLE airdrops_users');
+        $this->execute('TRUNCATE TABLE airdrops_recipients');
         $this->execute('SET foreign_key_checks=1');
 
         $json = file_get_contents(ROOT . '/../infra/testdata/drops.json');
         $data = (new Collection(json_decode($json)))
-            ->map(fn ($drop, $index) => ['airdrop_id' => 1, 'user_id' => ++$index, 'amount' => $drop->amount])
+            ->map(fn ($drop, $index) => ['airdrop_id' => 1, 'recipient_id' => ++$index, 'amount' => $drop->amount])
             ->toArray();
 
-        $table = $this->table('airdrops_users');
+        $table = $this->table('airdrops_recipients');
         $table->insert($data)->save();
     }
 }

@@ -6,9 +6,9 @@ use Cake\Collection\Collection;
 use Migrations\AbstractSeed;
 
 /**
- * User seed.
+ * Recipient seed.
  */
-class UserSeed extends AbstractSeed
+class RecipientSeed extends AbstractSeed
 {
     /**
      * Run Method.
@@ -23,7 +23,7 @@ class UserSeed extends AbstractSeed
     public function run(): void
     {
         $this->execute('SET foreign_key_checks=0');
-        $this->execute('TRUNCATE TABLE users');
+        $this->execute('TRUNCATE TABLE recipients');
         $this->execute('SET foreign_key_checks=1');
 
         $json = file_get_contents(ROOT . '/../infra/testdata/drops.json');
@@ -31,7 +31,7 @@ class UserSeed extends AbstractSeed
             ->map(fn ($drop) => ['address' => $drop->pkh, 'created' => date('Y-m-d H:i:s'),])
             ->toArray();
 
-        $table = $this->table('users');
+        $table = $this->table('recipients');
         $table->insert($data)->save();
     }
 }

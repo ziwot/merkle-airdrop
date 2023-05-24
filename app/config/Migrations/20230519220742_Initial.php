@@ -47,13 +47,13 @@ class Initial extends AbstractMigration
             )
             ->create();
 
-        $this->table('airdrops_users')
+        $this->table('airdrops_recipients')
             ->addColumn('airdrop_id', 'integer', [
                 'default' => null,
                 'limit' => null,
                 'null' => false,
             ])
-            ->addColumn('user_id', 'integer', [
+            ->addColumn('recipient_id', 'integer', [
                 'default' => null,
                 'limit' => null,
                 'null' => false,
@@ -65,7 +65,7 @@ class Initial extends AbstractMigration
             ])
             ->addIndex(
                 [
-                    'user_id',
+                    'recipient_id',
                 ]
             )
             ->addIndex(
@@ -98,7 +98,7 @@ class Initial extends AbstractMigration
             ])
             ->create();
 
-        $this->table('users')
+        $this->table('recipients')
             ->addColumn('address', 'string', [
                 'default' => null,
                 'limit' => 36,
@@ -129,10 +129,10 @@ class Initial extends AbstractMigration
             )
             ->update();
 
-        $this->table('airdrops_users')
+        $this->table('airdrops_recipients')
             ->addForeignKey(
-                'user_id',
-                'users',
+                'recipient_id',
+                'recipients',
                 'id',
                 [
                     'update' => 'RESTRICT',
@@ -167,17 +167,17 @@ class Initial extends AbstractMigration
                 'token_id'
             )->save();
 
-        $this->table('airdrops_users')
+        $this->table('airdrops_recipients')
             ->dropForeignKey(
-                'user_id'
+                'recipient_id'
             )
             ->dropForeignKey(
                 'airdrop_id'
             )->save();
 
         $this->table('airdrops')->drop()->save();
-        $this->table('airdrops_users')->drop()->save();
+        $this->table('airdrops_recipients')->drop()->save();
         $this->table('tokens')->drop()->save();
-        $this->table('users')->drop()->save();
+        $this->table('recipients')->drop()->save();
     }
 }

@@ -19,8 +19,8 @@
             <h3><?= h($user->id) ?></h3>
             <table>
                 <tr>
-                    <th><?= __('Address') ?></th>
-                    <td><?= h($user->address) ?></td>
+                    <th><?= __('Email') ?></th>
+                    <td><?= h($user->email) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Id') ?></th>
@@ -35,37 +35,6 @@
                     <td><?= h($user->modified) ?></td>
                 </tr>
             </table>
-            <div class="related">
-                <h4><?= __('Related Airdrops') ?></h4>
-                <?php if (!empty($user->airdrops)) : ?>
-                <div class="table-responsive">
-                    <table>
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('Name') ?></th>
-                            <th><?= __('Description') ?></th>
-                            <th><?= __('Created') ?></th>
-                            <th><?= __('Modified') ?></th>
-                            <th class="actions"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($user->airdrops as $airdrops) : ?>
-                        <tr>
-                            <td><?= h($airdrops->id) ?></td>
-                            <td><?= h($airdrops->name) ?></td>
-                            <td><?= h($airdrops->description) ?></td>
-                            <td><?= h($airdrops->created) ?></td>
-                            <td><?= h($airdrops->modified) ?></td>
-                            <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'Airdrops', 'action' => 'view', $airdrops->id]) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'Airdrops', 'action' => 'edit', $airdrops->id]) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'Airdrops', 'action' => 'delete', $airdrops->id], ['confirm' => __('Are you sure you want to delete # {0}?', $airdrops->id)]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
-                </div>
-                <?php endif; ?>
-            </div>
         </div>
     </div>
 </div>

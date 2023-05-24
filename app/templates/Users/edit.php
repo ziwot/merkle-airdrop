@@ -2,7 +2,6 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\User $user
- * @var string[]|\Cake\Collection\CollectionInterface $airdrops
  */
 ?>
 <div class="row">
@@ -23,8 +22,8 @@
             <fieldset>
                 <legend><?= __('Edit User') ?></legend>
                 <?php
-                    echo $this->Form->control('address');
-                    echo $this->Form->control('airdrops._ids', ['options' => $airdrops]);
+                    echo $this->Form->control('email');
+                    echo $this->Form->control('password');
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>

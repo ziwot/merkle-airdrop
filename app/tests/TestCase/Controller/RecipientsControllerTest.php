@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\UsersController;
+use App\Controller\RecipientsController;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Controller\UsersController Test Case
+ * App\Controller\RecipientsController Test Case
  *
- * @uses \App\Controller\UsersController
+ * @uses \App\Controller\RecipientsController
  */
-class UsersControllerTest extends TestCase
+class RecipientsControllerTest extends TestCase
 {
     use IntegrationTestTrait;
 
@@ -22,14 +22,16 @@ class UsersControllerTest extends TestCase
      * @var array<string>
      */
     protected $fixtures = [
-        'app.Users',
+        'app.Recipients',
+        'app.Airdrops',
+        'app.AirdropsRecipients',
     ];
 
     /**
      * Test index method
      *
      * @return void
-     * @uses \App\Controller\UsersController::index()
+     * @uses \App\Controller\RecipientsController::index()
      */
     public function testIndex(): void
     {
@@ -40,7 +42,7 @@ class UsersControllerTest extends TestCase
      * Test view method
      *
      * @return void
-     * @uses \App\Controller\UsersController::view()
+     * @uses \App\Controller\RecipientsController::view()
      */
     public function testView(): void
     {
@@ -51,7 +53,7 @@ class UsersControllerTest extends TestCase
      * Test add method
      *
      * @return void
-     * @uses \App\Controller\UsersController::add()
+     * @uses \App\Controller\RecipientsController::add()
      */
     public function testAdd(): void
     {
@@ -62,7 +64,7 @@ class UsersControllerTest extends TestCase
      * Test edit method
      *
      * @return void
-     * @uses \App\Controller\UsersController::edit()
+     * @uses \App\Controller\RecipientsController::edit()
      */
     public function testEdit(): void
     {
@@ -73,7 +75,7 @@ class UsersControllerTest extends TestCase
      * Test delete method
      *
      * @return void
-     * @uses \App\Controller\UsersController::delete()
+     * @uses \App\Controller\RecipientsController::delete()
      */
     public function testDelete(): void
     {

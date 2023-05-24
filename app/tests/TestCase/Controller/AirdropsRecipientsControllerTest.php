@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\AirdropsUsersController;
+use App\Controller\AirdropsRecipientsController;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Controller\AirdropsUsersController Test Case
+ * App\Controller\AirdropsRecipientsController Test Case
  *
- * @uses \App\Controller\AirdropsUsersController
+ * @uses \App\Controller\AirdropsRecipientsController
  */
-class AirdropsUsersControllerTest extends TestCase
+class AirdropsRecipientsControllerTest extends TestCase
 {
     use IntegrationTestTrait;
 
@@ -22,16 +22,16 @@ class AirdropsUsersControllerTest extends TestCase
      * @var array<string>
      */
     protected $fixtures = [
-        'app.AirdropsUsers',
+        'app.AirdropsRecipients',
         'app.Airdrops',
-        'app.Users',
+        'app.Recipients',
     ];
 
     /**
      * Test index method
      *
      * @return void
-     * @uses \App\Controller\AirdropsUsersController::index()
+     * @uses \App\Controller\AirdropsRecipientsController::index()
      */
     public function testIndex(): void
     {
@@ -42,7 +42,7 @@ class AirdropsUsersControllerTest extends TestCase
      * Test view method
      *
      * @return void
-     * @uses \App\Controller\AirdropsUsersController::view()
+     * @uses \App\Controller\AirdropsRecipientsController::view()
      */
     public function testView(): void
     {
@@ -53,7 +53,7 @@ class AirdropsUsersControllerTest extends TestCase
      * Test add method
      *
      * @return void
-     * @uses \App\Controller\AirdropsUsersController::add()
+     * @uses \App\Controller\AirdropsRecipientsController::add()
      */
     public function testAdd(): void
     {
@@ -64,7 +64,7 @@ class AirdropsUsersControllerTest extends TestCase
      * Test edit method
      *
      * @return void
-     * @uses \App\Controller\AirdropsUsersController::edit()
+     * @uses \App\Controller\AirdropsRecipientsController::edit()
      */
     public function testEdit(): void
     {
@@ -75,7 +75,7 @@ class AirdropsUsersControllerTest extends TestCase
      * Test delete method
      *
      * @return void
-     * @uses \App\Controller\AirdropsUsersController::delete()
+     * @uses \App\Controller\AirdropsRecipientsController::delete()
      */
     public function testDelete(): void
     {

@@ -6,9 +6,9 @@ namespace App\Test\Fixture;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * AirdropsUsersFixture
+ * RecipientsFixture
  */
-class AirdropsUsersFixture extends TestFixture
+class RecipientsFixture extends TestFixture
 {
     /**
      * Init method
@@ -19,9 +19,10 @@ class AirdropsUsersFixture extends TestFixture
     {
         $this->records = [
             [
-                'airdrop_id' => 1,
-                'user_id' => 1,
-                'amount' => 1,
+                'id' => 1,
+                'address' => 'Lorem ipsum dolor sit amet',
+                'created' => 1684675205,
+                'modified' => 1684675205,
             ],
         ];
         parent::init();

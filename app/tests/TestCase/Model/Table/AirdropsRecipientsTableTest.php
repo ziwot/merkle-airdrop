@@ -3,20 +3,20 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\UsersTable;
+use App\Model\Table\AirdropsRecipientsTable;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\UsersTable Test Case
+ * App\Model\Table\AirdropsRecipientsTable Test Case
  */
-class UsersTableTest extends TestCase
+class AirdropsRecipientsTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var \App\Model\Table\UsersTable
+     * @var \App\Model\Table\AirdropsRecipientsTable
      */
-    protected $Users;
+    protected $AirdropsRecipients;
 
     /**
      * Fixtures
@@ -24,7 +24,9 @@ class UsersTableTest extends TestCase
      * @var array<string>
      */
     protected $fixtures = [
-        'app.Users',
+        'app.AirdropsRecipients',
+        'app.Airdrops',
+        'app.Recipients',
     ];
 
     /**
@@ -35,8 +37,8 @@ class UsersTableTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $config = $this->getTableLocator()->exists('Users') ? [] : ['className' => UsersTable::class];
-        $this->Users = $this->getTableLocator()->get('Users', $config);
+        $config = $this->getTableLocator()->exists('AirdropsRecipients') ? [] : ['className' => AirdropsRecipientsTable::class];
+        $this->AirdropsRecipients = $this->getTableLocator()->get('AirdropsRecipients', $config);
     }
 
     /**
@@ -46,7 +48,7 @@ class UsersTableTest extends TestCase
      */
     protected function tearDown(): void
     {
-        unset($this->Users);
+        unset($this->AirdropsRecipients);
 
         parent::tearDown();
     }
@@ -55,7 +57,7 @@ class UsersTableTest extends TestCase
      * Test validationDefault method
      *
      * @return void
-     * @uses \App\Model\Table\UsersTable::validationDefault()
+     * @uses \App\Model\Table\AirdropsRecipientsTable::validationDefault()
      */
     public function testValidationDefault(): void
     {
@@ -66,7 +68,7 @@ class UsersTableTest extends TestCase
      * Test buildRules method
      *
      * @return void
-     * @uses \App\Model\Table\UsersTable::buildRules()
+     * @uses \App\Model\Table\AirdropsRecipientsTable::buildRules()
      */
     public function testBuildRules(): void
     {

@@ -37,6 +37,9 @@ up: down ##@Infra restart containers
 down: ##@Infra stop containers
 	$(DOCKER_COMPOSE) down --remove-orphans
 
+reset: ##@Infra reset all data
+	docker volume rm infra_db_data
+
 sandbox-shell: ##@Infra enter sandbox container
 	$(DOCKER_COMPOSE) exec sandbox ash
 
