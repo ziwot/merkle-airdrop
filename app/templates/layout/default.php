@@ -43,12 +43,12 @@ $description = 'Merkle Airdrop';
             <a href="<?= $this->Url->build('/') ?>">Homepage</a>
         </div>
         <div class="top-nav-links">
-            <?php if ($this->Identity->isLoggedIn()): ?>
+            <?php if ($this->Identity->isLoggedIn()) : ?>
                 <?= $this->Html->link('Airdrops', ['controller' => 'Airdrops', 'action' => 'index']); ?>
                 <?= $this->Html->link('Tokens', ['controller' => 'Tokens', 'action' => 'index']); ?>
                 <?= $this->Html->link('Recipients', ['controller' => 'Recipients', 'action' => 'index']); ?>
                 <?= $this->Html->link('Disconnect', ['controller' => 'users', 'action' => 'logout']); ?>
-            <?php else: ?>
+            <?php else : ?>
                 <?= $this->Html->link('Connect', ['controller' => '', 'action' => '']); ?>
             <?php endif; ?>
         </div>
@@ -57,6 +57,13 @@ $description = 'Merkle Airdrop';
         <div class="container">
             <?= $this->Flash->render() ?>
             <?= $this->fetch('content') ?>
+            <div data-controller="hello">
+                <input data-hello-target="name" type="text">
+
+                <button data-action="click->hello#greet">Greet</button>
+
+                <span data-hello-target="output"></span>
+            </div>
         </div>
     </main>
     <footer>

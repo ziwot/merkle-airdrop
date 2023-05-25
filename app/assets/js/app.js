@@ -1,13 +1,7 @@
-try {
-    window._ = require('lodash');
-    window.Popper = require('@popperjs/core');
-    window.$ = window.jQuery = require('jquery');
+import { Application } from '@hotwired/stimulus';
+import { definitionsFromContext } from '@hotwired/stimulus-webpack-helpers';
 
-    require('bootstrap');
-} catch (e) {}
+const application = Application.start();
+const context     = require.context('./controllers', true, /\.js$/);
 
-/**
- * Set CSRF token as a header based on the value of the "XSRF" token cookie.
- */
-window.axios = require('axios');
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+application.load(definitionsFromContext(context));

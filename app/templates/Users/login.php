@@ -1,3 +1,10 @@
+<?php
+
+/**
+ * @var \App\View\AppView $this
+ */
+?>
+
 <div class="users form content">
     <?= $this->Form->create() ?>
     <fieldset>

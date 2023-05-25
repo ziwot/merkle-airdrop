@@ -24,6 +24,7 @@ use Cake\View\View;
  *
  * @link https://book.cakephp.org/4/en/views.html#the-app-view
  * @property \Authentication\View\Helper\IdentityHelper $Identity
+ * @property \AssetMix\View\Helper\AssetMixHelper $AssetMix
  */
 class AppView extends View
 {
