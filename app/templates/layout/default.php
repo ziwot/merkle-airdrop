@@ -33,41 +33,56 @@ $description = 'Merkle Airdrop';
     <?= $this->AssetMix->css('app') ?>
 
     <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
 </head>
 
 <body>
-    <nav class="top-nav">
-        <div class="top-nav-title">
-            <a href="<?= $this->Url->build('/') ?>">Homepage</a>
-        </div>
-        <div class="top-nav-links">
-            <?php if ($this->Identity->isLoggedIn()) : ?>
-                <?= $this->Html->link('Airdrops', ['controller' => 'Airdrops', 'action' => 'index']); ?>
-                <?= $this->Html->link('Tokens', ['controller' => 'Tokens', 'action' => 'index']); ?>
-                <?= $this->Html->link('Recipients', ['controller' => 'Recipients', 'action' => 'index']); ?>
-                <?= $this->Html->link('Disconnect', ['controller' => 'users', 'action' => 'logout']); ?>
-            <?php else : ?>
-                <?= $this->Html->link('Connect', ['controller' => '', 'action' => '']); ?>
-            <?php endif; ?>
-        </div>
-    </nav>
-    <main class="main">
-        <div class="container">
-            <?= $this->Flash->render() ?>
-            <?= $this->fetch('content') ?>
-            <div data-controller="hello">
-                <input data-hello-target="name" type="text">
-
-                <button data-action="click->hello#greet">Greet</button>
-
-                <span data-hello-target="output"></span>
+    <div class="flex flex-col h-screen">
+        <div class="flex-grow pb-8">
+            <div class="bg-blue-400">
+                <nav class="container mx-auto text-white">
+                    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+                        <?= $this->Html->link('Tezos Airdrops', '/', ['class' => 'self-center text-2xl font-semibold whitespace-nowrap']); ?>
+                        <div class="flex items-center md:order-2">
+                            <?php if ($this->Identity->isLoggedIn()) : ?>
+                                <?= $this->Html->link('Unsync', ['controller' => 'users', 'action' => 'logout']); ?>
+                            <?php else : ?>
+                                <div class="">
+                                    <div x-data="beacon" class="">
+                                        <button @click="login('<?= $this->request->getAttribute('csrfToken') ?>')">Sync</button>
+                                        <span x-show="error" class="text-red-600 font-semibold"><span x-text="error"></span></span>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
+                            <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 md:flex-row md:space-x-8 md:mt-0 md:border-0">
+                                <li>
+                                    <?= $this->Html->link('Airdrops', ['controller' => 'Airdrops', 'action' => 'index']); ?>
+                                </li>
+                                <li>
+                                    <?= $this->Html->link('Tokens', ['controller' => 'Tokens', 'action' => 'index']); ?>
+                                </li>
+                                <li>
+                                    <?= $this->Html->link('Recipients', ['controller' => 'Recipients', 'action' => 'index']); ?>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
             </div>
+            <main class="container mx-auto">
+                <div class="container">
+                    <?= $this->Flash->render() ?>
+                    <?= $this->fetch('content') ?>
+                </div>
+            </main>
         </div>
-    </main>
-    <footer>
-    </footer>
+        <footer class="bg-blue-500 text-white">
+            <div class="container mx-auto">
+                <div class="flex flex-row py-4">
+                    https://github.com/der-alter/merkle-airdrop
+                </div>
+            </div>
+        </footer>
+    </div>
 </body>
-
-</html>

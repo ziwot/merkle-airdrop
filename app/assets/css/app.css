@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+
+.btn {
+    @apply px-4 py-2 font-semibold shadow-md;
+}
+
+.btn-sync {
+    @apply text-white bg-blue-500 rounded;
+}
+
+.input.text {
+    @apply block;
+}
+
+.input.text > input {
+    @apply mt-1 block w-1/3;
+}
+
+.submit input {
+    @apply cursor-pointer;
+}
+
+#mobile-menu-2 a {
+    @apply block py-2 pl-3 pr-4 text-white md:p-0;
+}
+
+nav button {
+    @apply cursor-pointer;
+}
+
+@tailwind utilities;

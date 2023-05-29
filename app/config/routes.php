@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Routes configuration.
  *
@@ -57,6 +58,7 @@ return static function (RouteBuilder $routes) {
          */
         $builder->connect('/pages/*', 'Pages::display');
 
+
         /*
          * Connect catchall routes for all controllers.
          *
@@ -88,4 +90,10 @@ return static function (RouteBuilder $routes) {
      * });
      * ```
      */
+
+    $routes->post(
+        '/signin',
+        ['controller' => 'Users', 'action' => 'login'],
+        'signin'
+    );
 };

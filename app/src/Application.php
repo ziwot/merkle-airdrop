@@ -18,10 +18,10 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Identifier\TezosIdentifier;
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
-use Authentication\Identifier\IdentifierInterface;
 use Authentication\Middleware\AuthenticationMiddleware;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
@@ -169,24 +169,19 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         ]);
 
         $fields = [
-            IdentifierInterface::CREDENTIAL_USERNAME => 'email',
-            IdentifierInterface::CREDENTIAL_PASSWORD => 'password'
+            TezosIdentifier::CREDENTIAL_PK => 'pk',
+            TezosIdentifier::CREDENTIAL_PKH => 'pkh',
+            TezosIdentifier::CREDENTIAL_MESSAGE => 'message',
+            TezosIdentifier::CREDENTIAL_SIGNATURE => 'signature',
         ];
         // Load the authenticators. Session should be first.
         $service->loadAuthenticator('Authentication.Session');
-        $service->loadAuthenticator('Authentication.Form', [
+        $service->loadAuthenticator('SignedMessage', [
             'fields' => $fields,
-            'loginUrl' => Router::url([
-                'prefix' => false,
-                'plugin' => null,
-                'controller' => 'Users',
-                'action' => 'login',
-            ]),
         ]);
 
         // Load identifiers
-        $service->loadIdentifier('Authentication.Password', compact('fields'));
-
+        $service->loadIdentifier('Tezos', compact('fields'));
         return $service;
     }
 }

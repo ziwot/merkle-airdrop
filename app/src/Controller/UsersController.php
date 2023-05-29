@@ -116,11 +116,12 @@ class UsersController extends AppController
         $result = $this->Authentication->getResult();
         // If the user is logged in send them away.
         if ($result->isValid()) {
-            $target = $this->Authentication->getLoginRedirect() ?? '/home';
-            return $this->redirect($target);
+            return $this->response->withType('application/json')->withStatus(200)
+                ->withStringBody(json_encode(['status' => 'OK.']));
         }
         if ($this->request->is('post')) {
-            $this->Flash->error('Invalid username or password');
+            return $this->response->withType('application/json')->withStatus(400)
+                ->withStringBody(json_encode(['error' => 'Backend Failure.']));
         }
     }
 

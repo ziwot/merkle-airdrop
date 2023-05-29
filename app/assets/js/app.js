@@ -1,7 +1,6 @@
-import { Application } from '@hotwired/stimulus';
-import { definitionsFromContext } from '@hotwired/stimulus-webpack-helpers';
+import Alpine from 'alpinejs';
+import beacon from './beacon';
 
-const application = Application.start();
-const context     = require.context('./controllers', true, /\.js$/);
-
-application.load(definitionsFromContext(context));
+window.Alpine = Alpine;
+Alpine.data('beacon', beacon);
+Alpine.start();
