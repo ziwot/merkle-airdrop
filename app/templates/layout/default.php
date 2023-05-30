@@ -49,7 +49,7 @@ $description = 'Merkle Airdrop';
                                 <div class="">
                                     <div x-data="beacon" class="">
                                         <button @click="login('<?= $this->request->getAttribute('csrfToken') ?>')">Sync</button>
-                                        <span x-show="error" class="text-red-600 font-semibold"><span x-text="error"></span></span>
+                                        <span x-show="error" class="text-red-300 font-semibold"><span x-text="error"></span></span>
                                     </div>
                                 </div>
                             <?php endif; ?>

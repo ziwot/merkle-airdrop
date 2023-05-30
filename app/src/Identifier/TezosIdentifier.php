@@ -5,6 +5,7 @@ namespace App\Identifier;
 use Authentication\Identifier\AbstractIdentifier;
 use Authentication\Identifier\Resolver\ResolverAwareTrait;
 use Authentication\Identifier\Resolver\ResolverInterface;
+use Bzzhh\Pezos\Keys\PubKey;
 
 class TezosIdentifier extends AbstractIdentifier
 {
@@ -18,12 +19,11 @@ class TezosIdentifier extends AbstractIdentifier
     /**
      * Default configuration.
      * - `fields` The fields to use to identify a user by:
-     *   - `username`: one or many username fields.
-     *   - `password`: password field.
+     *   - `pk`: a public key
+     *   - `pkh`: the matching public key hash
+     *   - `message` the payload
+     *   - `signature` the signed payload
      * - `resolver` The resolver implementation to use.
-     * - `passwordHasher` Password hasher class. Can be a string specifying class name
-     *    or an array containing `className` key, any other keys will be passed as
-     *    config to the class. Defaults to 'Default'.
      *
      * @var array
      */
@@ -62,8 +62,21 @@ class TezosIdentifier extends AbstractIdentifier
         return $identity;
     }
 
+    /**
+     * TODO: additional message verification?
+     * is the csrf enough to make sure nothing has been tampered?
+     */
     protected function _checkSignature(string $pk, string $message, string $signature): bool
     {
+        $pubKey = PubKey::fromBase58($pk);
+
+        if (
+            !$pubKey->verifySignature($signature, $message) &&
+            !$pubKey->verifySignature($signature, bin2hex($message))
+        ) {
+            return false;
+        }
+
         return true;
     }
 
