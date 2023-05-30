@@ -2,7 +2,8 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Airdrop $airdrop
- * @var string[]|\Cake\Collection\CollectionInterface $users
+ * @var string[]|\Cake\Collection\CollectionInterface $tokens
+ * @var string[]|\Cake\Collection\CollectionInterface $recipients
  */
 ?>
 <div class="row">
@@ -23,10 +24,10 @@
             <fieldset>
                 <legend><?= __('Edit Airdrop') ?></legend>
                 <?php
-                    echo $this->Form->control('token_id');
+                    echo $this->Form->control('token_id', ['options' => $tokens]);
                     echo $this->Form->control('name');
                     echo $this->Form->control('description');
-                    echo $this->Form->control('users._ids', ['options' => $users]);
+                    echo $this->Form->control('recipients._ids', ['options' => $recipients]);
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>

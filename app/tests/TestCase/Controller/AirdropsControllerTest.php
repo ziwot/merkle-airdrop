@@ -23,8 +23,9 @@ class AirdropsControllerTest extends TestCase
      */
     protected $fixtures = [
         'app.Airdrops',
-        'app.Users',
-        'app.AirdropsUsers',
+        'app.Tokens',
+        'app.Recipients',
+        'app.AirdropsRecipients',
     ];
 
     /**

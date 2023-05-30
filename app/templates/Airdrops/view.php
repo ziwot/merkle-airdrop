@@ -19,16 +19,16 @@
             <h3><?= h($airdrop->name) ?></h3>
             <table>
                 <tr>
+                    <th><?= __('Token') ?></th>
+                    <td><?= $airdrop->has('token') ? $this->Html->link($airdrop->token->id, ['controller' => 'Tokens', 'action' => 'view', $airdrop->token->id]) : '' ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Name') ?></th>
                     <td><?= h($airdrop->name) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Id') ?></th>
                     <td><?= $this->Number->format($airdrop->id) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Token Id') ?></th>
-                    <td><?= $this->Number->format($airdrop->token_id) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Created') ?></th>
@@ -46,8 +46,8 @@
                 </blockquote>
             </div>
             <div class="related">
-                <h4><?= __('Related Users') ?></h4>
-                <?php if (!empty($airdrop->users)) : ?>
+                <h4><?= __('Related Recipients') ?></h4>
+                <?php if (!empty($airdrop->recipients)) : ?>
                 <div class="table-responsive">
                     <table>
                         <tr>
@@ -57,16 +57,16 @@
                             <th><?= __('Modified') ?></th>
                             <th class="actions"><?= __('Actions') ?></th>
                         </tr>
-                        <?php foreach ($airdrop->users as $users) : ?>
+                        <?php foreach ($airdrop->recipients as $recipients) : ?>
                         <tr>
-                            <td><?= h($users->id) ?></td>
-                            <td><?= h($users->address) ?></td>
-                            <td><?= h($users->created) ?></td>
-                            <td><?= h($users->modified) ?></td>
+                            <td><?= h($recipients->id) ?></td>
+                            <td><?= h($recipients->address) ?></td>
+                            <td><?= h($recipients->created) ?></td>
+                            <td><?= h($recipients->modified) ?></td>
                             <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'Users', 'action' => 'view', $users->id]) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'Users', 'action' => 'edit', $users->id]) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'Users', 'action' => 'delete', $users->id], ['confirm' => __('Are you sure you want to delete # {0}?', $users->id)]) ?>
+                                <?= $this->Html->link(__('View'), ['controller' => 'Recipients', 'action' => 'view', $recipients->id]) ?>
+                                <?= $this->Html->link(__('Edit'), ['controller' => 'Recipients', 'action' => 'edit', $recipients->id]) ?>
+                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'Recipients', 'action' => 'delete', $recipients->id], ['confirm' => __('Are you sure you want to delete # {0}?', $recipients->id)]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>

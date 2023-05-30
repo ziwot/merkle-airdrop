@@ -21,7 +21,7 @@ class AirdropsRecipientsFixture extends TestFixture
             [
                 'id' => 1,
                 'airdrop_id' => 1,
-                'user_id' => 1,
+                'recipient_id' => 1,
                 'amount' => 1,
             ],
         ];

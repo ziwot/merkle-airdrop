@@ -23,7 +23,7 @@
                 <?php foreach ($airdrops as $airdrop): ?>
                 <tr>
                     <td><?= $this->Number->format($airdrop->id) ?></td>
-                    <td><?= $this->Number->format($airdrop->token_id) ?></td>
+                    <td><?= $airdrop->has('token') ? $this->Html->link($airdrop->token->id, ['controller' => 'Tokens', 'action' => 'view', $airdrop->token->id]) : '' ?></td>
                     <td><?= h($airdrop->name) ?></td>
                     <td><?= h($airdrop->created) ?></td>
                     <td><?= h($airdrop->modified) ?></td>

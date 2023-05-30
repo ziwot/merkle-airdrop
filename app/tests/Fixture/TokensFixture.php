@@ -22,8 +22,8 @@ class TokensFixture extends TestFixture
                 'id' => 1,
                 'address' => 'Lorem ipsum dolor sit amet',
                 'identifier' => 1,
-                'created' => '2023-05-14 16:23:37',
-                'modified' => '2023-05-14 16:23:37',
+                'created' => 1685480611,
+                'modified' => 1685480611,
             ],
         ];
         parent::init();

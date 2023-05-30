@@ -11,7 +11,8 @@ use Cake\Validation\Validator;
 /**
  * Airdrops Model
  *
- * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsToMany $Users
+ * @property \App\Model\Table\TokensTable&\Cake\ORM\Association\BelongsTo $Tokens
+ * @property \App\Model\Table\RecipientsTable&\Cake\ORM\Association\BelongsToMany $Recipients
  *
  * @method \App\Model\Entity\Airdrop newEmptyEntity()
  * @method \App\Model\Entity\Airdrop newEntity(array $data, array $options = [])
@@ -51,10 +52,10 @@ class AirdropsTable extends Table
             'foreignKey' => 'token_id',
             'joinType' => 'INNER',
         ]);
-        $this->belongsToMany('Users', [
+        $this->belongsToMany('Recipients', [
             'foreignKey' => 'airdrop_id',
-            'targetForeignKey' => 'user_id',
-            'joinTable' => 'airdrops_users',
+            'targetForeignKey' => 'recipient_id',
+            'joinTable' => 'airdrops_recipients',
         ]);
     }
 

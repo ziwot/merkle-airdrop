@@ -49,7 +49,7 @@ class AirdropsRecipientsTable extends Table
             'joinType' => 'INNER',
         ]);
         $this->belongsTo('Recipients', [
-            'foreignKey' => 'user_id',
+            'foreignKey' => 'recipient_id',
             'joinType' => 'INNER',
         ]);
     }
@@ -67,8 +67,8 @@ class AirdropsRecipientsTable extends Table
             ->notEmptyString('airdrop_id');
 
         $validator
-            ->integer('user_id')
-            ->notEmptyString('user_id');
+            ->integer('recipient_id')
+            ->notEmptyString('recipient_id');
 
         $validator
             ->integer('amount')
@@ -88,7 +88,7 @@ class AirdropsRecipientsTable extends Table
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn('airdrop_id', 'Airdrops'), ['errorField' => 'airdrop_id']);
-        $rules->add($rules->existsIn('user_id', 'Recipients'), ['errorField' => 'user_id']);
+        $rules->add($rules->existsIn('recipient_id', 'Recipients'), ['errorField' => 'recipient_id']);
 
         return $rules;
     }

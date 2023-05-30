@@ -25,6 +25,7 @@ class TokensTableTest extends TestCase
      */
     protected $fixtures = [
         'app.Tokens',
+        'app.Airdrops',
     ];
 
     /**

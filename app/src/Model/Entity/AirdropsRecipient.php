@@ -10,7 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $airdrop_id
- * @property int $user_id
+ * @property int $recipient_id
  * @property int $amount
  *
  * @property \App\Model\Entity\Airdrop $airdrop
@@ -29,7 +29,7 @@ class AirdropsRecipient extends Entity
      */
     protected $_accessible = [
         'airdrop_id' => true,
-        'user_id' => true,
+        'recipient_id' => true,
         'amount' => true,
         'airdrop' => true,
         'recipient' => true,

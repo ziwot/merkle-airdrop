@@ -11,8 +11,10 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $address
  * @property int $identifier
- * @property \Cake\I18n\FrozenTime $created
+ * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
+ *
+ * @property \App\Model\Entity\Airdrop[] $airdrops
  */
 class Token extends Entity
 {
@@ -30,5 +32,6 @@ class Token extends Entity
         'identifier' => true,
         'created' => true,
         'modified' => true,
+        'airdrops' => true,
     ];
 }

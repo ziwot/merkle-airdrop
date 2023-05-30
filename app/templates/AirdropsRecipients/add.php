@@ -20,7 +20,7 @@
                 <legend><?= __('Add Airdrops Recipient') ?></legend>
                 <?php
                     echo $this->Form->control('airdrop_id', ['options' => $airdrops]);
-                    echo $this->Form->control('user_id', ['options' => $recipients]);
+                    echo $this->Form->control('recipient_id', ['options' => $recipients]);
                     echo $this->Form->control('amount');
                 ?>
             </fieldset>

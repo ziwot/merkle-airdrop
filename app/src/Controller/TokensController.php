@@ -33,7 +33,7 @@ class TokensController extends AppController
     public function view($id = null)
     {
         $token = $this->Tokens->get($id, [
-            'contain' => [],
+            'contain' => ['Airdrops'],
         ]);
 
         $this->set(compact('token'));

@@ -18,6 +18,9 @@ class AirdropsController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Tokens'],
+        ];
         $airdrops = $this->paginate($this->Airdrops);
 
         $this->set(compact('airdrops'));
@@ -33,7 +36,7 @@ class AirdropsController extends AppController
     public function view($id = null)
     {
         $airdrop = $this->Airdrops->get($id, [
-            'contain' => ['Users'],
+            'contain' => ['Tokens', 'Recipients'],
         ]);
 
         $this->set(compact('airdrop'));
@@ -56,8 +59,9 @@ class AirdropsController extends AppController
             }
             $this->Flash->error(__('The airdrop could not be saved. Please, try again.'));
         }
-        $users = $this->Airdrops->Users->find('list', ['limit' => 200])->all();
-        $this->set(compact('airdrop', 'users'));
+        $tokens = $this->Airdrops->Tokens->find('list', ['limit' => 200])->all();
+        $recipients = $this->Airdrops->Recipients->find('list', ['limit' => 200])->all();
+        $this->set(compact('airdrop', 'tokens', 'recipients'));
     }
 
     /**
@@ -70,7 +74,7 @@ class AirdropsController extends AppController
     public function edit($id = null)
     {
         $airdrop = $this->Airdrops->get($id, [
-            'contain' => ['Users'],
+            'contain' => ['Recipients'],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $airdrop = $this->Airdrops->patchEntity($airdrop, $this->request->getData());
@@ -81,8 +85,9 @@ class AirdropsController extends AppController
             }
             $this->Flash->error(__('The airdrop could not be saved. Please, try again.'));
         }
-        $users = $this->Airdrops->Users->find('list', ['limit' => 200])->all();
-        $this->set(compact('airdrop', 'users'));
+        $tokens = $this->Airdrops->Tokens->find('list', ['limit' => 200])->all();
+        $recipients = $this->Airdrops->Recipients->find('list', ['limit' => 200])->all();
+        $this->set(compact('airdrop', 'tokens', 'recipients'));
     }
 
     /**

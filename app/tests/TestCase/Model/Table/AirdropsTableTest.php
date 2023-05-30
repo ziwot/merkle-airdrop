@@ -25,7 +25,8 @@ class AirdropsTableTest extends TestCase
      */
     protected $fixtures = [
         'app.Airdrops',
-        'app.Users',
+        'app.Tokens',
+        'app.Recipients',
     ];
 
     /**
@@ -59,6 +60,17 @@ class AirdropsTableTest extends TestCase
      * @uses \App\Model\Table\AirdropsTable::validationDefault()
      */
     public function testValidationDefault(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test buildRules method
+     *
+     * @return void
+     * @uses \App\Model\Table\AirdropsTable::buildRules()
+     */
+    public function testBuildRules(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

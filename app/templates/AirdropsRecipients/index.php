@@ -13,7 +13,7 @@
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('airdrop_id') ?></th>
-                    <th><?= $this->Paginator->sort('user_id') ?></th>
+                    <th><?= $this->Paginator->sort('recipient_id') ?></th>
                     <th><?= $this->Paginator->sort('amount') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>

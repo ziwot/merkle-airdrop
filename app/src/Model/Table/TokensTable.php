@@ -11,6 +11,8 @@ use Cake\Validation\Validator;
 /**
  * Tokens Model
  *
+ * @property \App\Model\Table\AirdropsTable&\Cake\ORM\Association\HasMany $Airdrops
+ *
  * @method \App\Model\Entity\Token newEmptyEntity()
  * @method \App\Model\Entity\Token newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Token[] newEntities(array $data, array $options = [])

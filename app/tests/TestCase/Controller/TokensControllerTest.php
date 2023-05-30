@@ -23,6 +23,7 @@ class TokensControllerTest extends TestCase
      */
     protected $fixtures = [
         'app.Tokens',
+        'app.Airdrops',
     ];
 
     /**
