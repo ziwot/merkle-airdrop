@@ -32,8 +32,8 @@ export default () => ({
             }
             this.error = data.error;
         } catch (error) {
-            const { data } = error.response;
-            this.error = data.error;
+            const { statusText } = error.response;
+            this.error = statusText;
         }
     }
 })
