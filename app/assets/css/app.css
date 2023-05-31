@@ -29,4 +29,53 @@ nav button {
     @apply cursor-pointer;
 }
 
+/* table
+ ------------------------------------------------------------*/
+
+.table-responsive {
+    @apply w-full text-sm text-left text-gray-500;
+}
+
+.table-responsive thead {
+    @apply text-xs text-gray-700 uppercase bg-gray-50;
+}
+
+.table-responsive th, .table-responsive td {
+    @apply px-6 py-3;
+}
+
+.table-responsive tbody tr {
+    @apply bg-white border-b;
+}
+
+/* paginator
+ ------------------------------------------------------------*/
+
+.paginator {
+    @apply flex my-6 align-middle;
+}
+.pagination, .paginator p {
+    @apply inline-flex;
+}
+
+.paginator p {
+    @apply text-gray-500 self-center ml-3 italic;
+}
+
+.pagination li {
+    @apply px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700;
+}
+
+.pagination li.active {
+    @apply bg-gray-100 text-gray-700;
+}
+
+.first, .prev.disabled {
+    @apply ml-0 rounded-l-lg;
+}
+
+.last, .next.disabled {
+    @apply rounded-r-lg;
+}
+
 @tailwind utilities;
