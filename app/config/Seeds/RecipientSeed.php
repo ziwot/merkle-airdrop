@@ -26,9 +26,11 @@ class RecipientSeed extends AbstractSeed
         $this->execute('TRUNCATE TABLE recipients');
         $this->execute('SET foreign_key_checks=1');
 
+        $created = date('Y-m-d H:i:s');
+
         $json = file_get_contents(ROOT . '/../infra/testdata/drops.json');
         $data = (new Collection(json_decode($json)))
-            ->map(fn ($drop) => ['address' => $drop->pkh, 'created' => date('Y-m-d H:i:s'),])
+            ->map(fn ($drop) => ['address' => $drop->pkh, 'created' => $created])
             ->toArray();
 
         $table = $this->table('recipients');

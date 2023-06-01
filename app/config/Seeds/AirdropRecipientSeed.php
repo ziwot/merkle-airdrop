@@ -36,8 +36,11 @@ class AirdropRecipientSeed extends AbstractSeed
 
         $json = file_get_contents(ROOT . '/../infra/testdata/drops.json');
         $data = (new Collection(json_decode($json)))
-            ->map(fn ($drop, $index) => ['airdrop_id' => 1, 'recipient_id' => ++$index, 'amount' => $drop->amount])
-            ->toArray();
+            ->map(fn ($drop, $index) => [
+                'airdrop_id' => 1,
+                'recipient_id' => ++$index,
+                'amount' => $drop->amount
+            ])->toArray();
 
         $table = $this->table('airdrops_recipients');
         $table->insert($data)->save();

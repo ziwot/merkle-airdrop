@@ -21,8 +21,14 @@ class TokenSeed extends AbstractSeed
      */
     public function run(): void
     {
+        $this->execute('SET foreign_key_checks=0');
+        $this->execute('TRUNCATE TABLE tokens');
+        $this->execute('SET foreign_key_checks=1');
+
+        $token = file_get_contents(ROOT . '/../infra/testdata/token.json');
+
         $data = [
-            'address' => '',
+            'address' => json_decode($token),
             'identifier' => 0,
             'created' => date('Y-m-d H:i:s')
         ];

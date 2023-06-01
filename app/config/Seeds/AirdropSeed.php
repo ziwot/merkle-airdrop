@@ -33,11 +33,13 @@ class AirdropSeed extends AbstractSeed
         $this->execute('TRUNCATE TABLE airdrops');
         $this->execute('SET foreign_key_checks=1');
 
+        $created = date('Y-m-d H:i:s');
+
         $data = [
             'token_id' => 1,
             'name' => 'Test Airdrop',
             'description' => 'Testing',
-            'created' => date('Y-m-d H:i:s')
+            'created' => $created,
         ];
 
         $table = $this->table('airdrops');
