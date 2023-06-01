@@ -55,11 +55,26 @@ class UsersTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->scalar('pkh')
-            ->maxLength('pkh', 255)
-            ->requirePresence('pkh', 'create')
-            ->notEmptyString('pkh');
+            ->scalar('address')
+            ->maxLength('address', 36)
+            ->requirePresence('address', 'create')
+            ->notEmptyString('address')
+            ->add('address', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->add($rules->isUnique(['address']), ['errorField' => 'address']);
+
+        return $rules;
     }
 }

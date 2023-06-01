@@ -9,7 +9,7 @@ use Cake\ORM\Entity;
  * User Entity
  *
  * @property int $id
- * @property string $pkh
+ * @property string $address
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
  */
@@ -25,7 +25,7 @@ class User extends Entity
      * @var array<string, bool>
      */
     protected $_accessible = [
-        'pkh' => true,
+        'address' => true,
         'created' => true,
         'modified' => true,
     ];

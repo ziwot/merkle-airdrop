@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\AbstractMigration;
 
-class Initial extends AbstractMigration
+class Init extends AbstractMigration
 {
     /**
      * Up Method.
@@ -75,6 +75,24 @@ class Initial extends AbstractMigration
             )
             ->create();
 
+        $this->table('recipients')
+            ->addColumn('address', 'string', [
+                'default' => null,
+                'limit' => 36,
+                'null' => false,
+            ])
+            ->addColumn('created', 'timestamp', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('modified', 'timestamp', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->create();
+
         $this->table('tokens')
             ->addColumn('address', 'string', [
                 'default' => null,
@@ -98,22 +116,28 @@ class Initial extends AbstractMigration
             ])
             ->create();
 
-        $this->table('recipients')
+        $this->table('users')
             ->addColumn('address', 'string', [
                 'default' => null,
                 'limit' => 36,
                 'null' => false,
             ])
-            ->addColumn('created', 'timestamp', [
+            ->addColumn('created', 'datetime', [
                 'default' => null,
                 'limit' => null,
                 'null' => true,
             ])
-            ->addColumn('modified', 'timestamp', [
+            ->addColumn('modified', 'datetime', [
                 'default' => null,
                 'limit' => null,
                 'null' => true,
             ])
+            ->addIndex(
+                [
+                    'address',
+                ],
+                ['unique' => true]
+            )
             ->create();
 
         $this->table('airdrops')
@@ -177,7 +201,8 @@ class Initial extends AbstractMigration
 
         $this->table('airdrops')->drop()->save();
         $this->table('airdrops_recipients')->drop()->save();
-        $this->table('tokens')->drop()->save();
         $this->table('recipients')->drop()->save();
+        $this->table('tokens')->drop()->save();
+        $this->table('users')->drop()->save();
     }
 }

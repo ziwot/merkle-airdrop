@@ -88,12 +88,6 @@ class TezosIdentifier extends AbstractIdentifier
      */
     protected function _findIdentity(string $identifier)
     {
-        $fields = $this->getConfig('fields.' . self::CREDENTIAL_PKH);
-        $conditions = [];
-        foreach ((array)$fields as $field) {
-            $conditions[$field] = $identifier;
-        }
-
-        return $this->getResolver()->find($conditions, ResolverInterface::TYPE_OR);
+        return $this->getResolver()->find(['address' => $identifier]);
     }
 }

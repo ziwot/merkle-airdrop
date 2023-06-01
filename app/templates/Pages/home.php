@@ -15,4 +15,4 @@
  */
 ?>
 
-<p>Welcome <?= $this->Identity->get('pkh') ?>!</p>
+<p>Welcome <?= $this->Identity->get('address') ?>!</p>

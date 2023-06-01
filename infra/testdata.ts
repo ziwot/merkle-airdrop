@@ -15,6 +15,9 @@ const TOKEN_FILEPATH = "./testdata/token.json";
 // add here some keys that you want to retrieve later
 const DETEMINISTIC_KEYS = ["alice", "bob"];
 
+if (!isSandboxRunning() || !isSandboxBootstrapped())
+    console.error("Please check sandbox is running and bootstapped.");
+
 makeDrops(MIN_AMOUNT, MAX_AMOUNT, NB_DROPS).then((drops) => {
     fs.writeFileSync(DROPS_FILEPATH, JSON.stringify(drops));
     console.info(
@@ -24,11 +27,9 @@ makeDrops(MIN_AMOUNT, MAX_AMOUNT, NB_DROPS).then((drops) => {
     );
 });
 
-if (isSandboxRunning() && isSandboxBootstrapped()) {
-    const tokenAddr = makeToken();
-    fs.writeFileSync(TOKEN_FILEPATH, JSON.stringify(tokenAddr));
-    console.log(`[OK] ${tokenAddr} deployed`);
-} else console.error("Please check sandbox is running and bootstapped.");
+const tokenAddr = makeToken();
+fs.writeFileSync(TOKEN_FILEPATH, JSON.stringify(tokenAddr));
+console.log(`[OK] ${tokenAddr} deployed`);
 
 function isSandboxRunning() {
     return (
