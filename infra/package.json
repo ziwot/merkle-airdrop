@@ -5,7 +5,8 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "testdata": "ts-node ./testdata.ts"
+    "testdata": "ts-node ./testdata.ts",
+    "bootstrapped": "ts-node ./bootstrapped.ts"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.52.0",

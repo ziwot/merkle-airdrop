@@ -28,6 +28,8 @@ SHELL=/bin/bash
 
 DOCKER_COMPOSE = docker compose -f ./infra/docker-compose.yml
 
+npm=npm --prefix ./infra -s run
+
 ########################################
 #               INFRA                  #
 ########################################
@@ -47,7 +49,10 @@ db-shell: ##@Infra enter sandbox container
 	$(DOCKER_COMPOSE) exec db bash
 
 install: ##@Infra install infra scripts dependencies
-	@npm --prefix infra ci
+	@$(npm) ci
 
-testdata: ##@Infra generate testdata
-	@npm --prefix infra run testdata -s
+testdata: bootstrapped ##@Infra generate testdata
+	@$(npm) testdata
+
+bootstrapped: ##@Infra check sandbox is bootstrapped
+	@$(npm) bootstrapped

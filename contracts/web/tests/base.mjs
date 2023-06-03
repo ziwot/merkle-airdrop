@@ -2,16 +2,12 @@ import dotenv from "dotenv";
 
 import { MerkleTree } from "merkletreejs";
 import SHA256 from "crypto-js/sha256.js";
-import { InMemorySigner } from "@taquito/signer";
 import { TokenContract, AirdropContract } from "../dist/cjs/index.js";
 
 import dropsJson from "../../../infra/testdata/drops.json" assert { type: "json" };
 import airdropCode from "../../compiled/airdrop.json" assert { type: "json" };
 import { packDataBytes } from "@taquito/michel-codec";
-import { TezosToolkit } from "@taquito/taquito";
 import { confirmOperation } from "./utils.mjs";
-
-import tokenAddr from "../../../infra/testdata/token.json" assert { type: "json" };
 
 dotenv.config();
 
@@ -32,15 +28,13 @@ const buildTree = () => {
     return new MerkleTree(leaves, SHA256);
 };
 
-export const setup = async () => {
-    const toolkit = new TezosToolkit(process.env.RPC_URL);
-    toolkit.setProvider({ signer: new InMemorySigner(process.env.SIGNER_KEY) });
-
+export const setup = async (toolkit, tokenAddr) => {
     const tree = buildTree();
     const root = tree.getHexRoot();
 
     try {
         const airdropAddress = await originate(
+            toolkit,
             airdropCode,
             `(Pair (Pair {}
             ${root}
@@ -77,10 +71,7 @@ export const setup = async () => {
     }
 };
 
-const originate = async (code, init) => {
-    const toolkit = new TezosToolkit(process.env.RPC_URL);
-    toolkit.setProvider({ signer: new InMemorySigner(process.env.SIGNER_KEY) });
-
+const originate = async (toolkit, code, init) => {
     console.log(`Generating origination operation...`);
     const originationOp = await toolkit.contract.originate({
         code,

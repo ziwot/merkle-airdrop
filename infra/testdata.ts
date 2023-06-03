@@ -1,5 +1,5 @@
 import fs from "fs";
-import { execSync, spawnSync } from "node:child_process";
+import { execSync } from "node:child_process";
 import { generateKeys, generateMnemonic } from "sotez";
 
 // For test purpose,
@@ -15,9 +15,6 @@ const TOKEN_FILEPATH = "./testdata/token.json";
 // add here some keys that you want to retrieve later
 const DETEMINISTIC_KEYS = ["alice", "bob"];
 
-if (!isSandboxRunning() || !isSandboxBootstrapped())
-    console.error("Please check sandbox is running and bootstapped.");
-
 makeDrops(MIN_AMOUNT, MAX_AMOUNT, NB_DROPS).then((drops) => {
     fs.writeFileSync(DROPS_FILEPATH, JSON.stringify(drops));
     console.info(
@@ -30,22 +27,6 @@ makeDrops(MIN_AMOUNT, MAX_AMOUNT, NB_DROPS).then((drops) => {
 const tokenAddr = makeToken();
 fs.writeFileSync(TOKEN_FILEPATH, JSON.stringify(tokenAddr));
 console.log(`[OK] ${tokenAddr} deployed`);
-
-function isSandboxRunning() {
-    return (
-        0 ===
-        spawnSync("sh", ["-c", `docker compose ps | grep -q sandbox`]).status
-    );
-}
-
-function isSandboxBootstrapped() {
-    return (
-        "Node is bootstrapped." ===
-        execSync("docker compose exec sandbox octez-client bootstrapped")
-            .toString()
-            .trim()
-    );
-}
 
 function makeToken() {
     execSync(`docker compose exec sandbox octez-client originate contract token \

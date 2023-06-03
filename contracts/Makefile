@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-npm=npm --prefix ./web
+npm=npm --prefix ./web -s run
 
 # ligo_compiler?=docker run --rm -v "$(PWD)":"$(PWD)" -w "$(PWD)" ligolang/ligo:0.62.0
 ligo_compiler?=ligo
@@ -46,7 +46,13 @@ test: ## run tests
 	@$(call test,all.mligo)
 
 test-js: ## run js tests
-	@$(npm) run test
+	@$(npm) test
 
 lint: ## lint code
-	@$(npm) run lint
+	@$(npm) lint
+
+lint-fix: ## lint and fix code
+	@$(npm) lint:fix
+
+build-js: ## build js lib
+	@$(npm) build
