@@ -52,7 +52,6 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
      */
     public function bootstrap(): void
     {
-        // Call parent to load bootstrap from files.
         parent::bootstrap();
 
         if (PHP_SAPI === 'cli') {
@@ -64,16 +63,11 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             );
         }
 
-        /*
-         * Only try to load DebugKit in development mode
-         * Debug Kit should not be installed on a production system
-         */
         if (Configure::read('debug')) {
             $this->addPlugin('DebugKit');
+            $this->addPlugin('IdeHelper');
         }
 
-        // Load more plugins here
-        $this->addPlugin('IdeHelper');
         $this->addPlugin('AssetMix');
     }
 

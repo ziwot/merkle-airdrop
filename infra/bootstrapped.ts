@@ -1,7 +1,6 @@
 import { execSync, spawnSync } from "node:child_process";
 
 // check that sandbox is bootsrapped
-// and local env is sync (deployed contract addresses..)
 
 if (!isSandboxRunning() || !isSandboxBootstrapped())
     console.error("Please check sandbox is running and bootstapped.");
