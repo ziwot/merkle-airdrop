@@ -1,0 +1,16 @@
+.DS_Store
+
+# taq
+artifacts/*
+!artifacts/.keep
+.taq/*-state.json
+.taq/config.local.*.json
+app/assets/js/types
+
+# dependencies
+node_modules/
+
+# ligo
+**/_esy
+**/.ligo
+**/esy.lock

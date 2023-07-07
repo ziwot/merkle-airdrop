@@ -19,11 +19,5 @@ services:
     ports:
       - 7000:8080
 
-  sandbox:
-    image: 'oxheadalpha/flextesa:20230607'
-    command: mumbaibox start
-    ports:
-      - '20000:20000'
-
 volumes:
   db_data:

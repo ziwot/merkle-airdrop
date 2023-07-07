@@ -9,12 +9,16 @@
     "bootstrapped": "ts-node ./bootstrapped.ts"
   },
   "devDependencies": {
+    "@taquito/michel-codec": "^17.0.0",
+    "@types/crypto-js": "^4.1.1",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.52.0",
+    "crypto-js": "^4.1.1",
     "dotenv": "^16.0.3",
     "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "merkletreejs": "^0.3.10",
     "npm-check-updates": "^16.7.4",
     "prettier": "^2.8.4",
     "sotez": "^13.0.1",

@@ -1,9 +1,0 @@
-name: Merkle Airdrop
-description: Merkle Airdrop Smart Contract Template
-authors: [
-	Steven J <hey@sjehan.net>
-]
-homepage: https://github.com/der-alter/merkle-airdrop
-interfaces: [
-    TZIP-16-21fb73fe
-]

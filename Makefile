@@ -25,31 +25,51 @@ help:
 	@perl -e '$(HELP_FUN)' $(MAKEFILE_LIST)
 
 SHELL=/bin/bash
-
 DOCKER_COMPOSE = docker compose -f ./infra/docker-compose.yml
-
 npm=npm --prefix ./infra -s run
+TAQ_LIGO_IMAGE=ligolang/ligo:0.68.0
+
+########################################
+#            DEPENDENCIES              #
+########################################
+install: ##@Dependencies install dependencies
+	@npm ci
+	@TAQ_LIGO_IMAGE=$(TAQ_LIGO_IMAGE) taq ligo -c "install"
 
 ########################################
 #               INFRA                  #
 ########################################
-up: down ##@Infra restart containers
-	$(DOCKER_COMPOSE) up -d
+up: ##@Infra start local infra
+	taq start sandbox
+	$(DOCKER_COMPOSE) up -d --remove-orphans
 
-down: ##@Infra stop containers
-	$(DOCKER_COMPOSE) down --remove-orphans
-
-sandbox-shell: ##@Infra enter sandbox container
-	$(DOCKER_COMPOSE) exec sandbox ash
-
-db-shell: ##@Infra enter sandbox container
-	$(DOCKER_COMPOSE) exec db bash
-
-install: ##@Infra install infra scripts dependencies
-	@$(npm) ci
+down: ##@Infra stop local infra
+	taq stop sandbox
 
 testdata: bootstrapped ##@Infra generate testdata
 	@$(npm) testdata
 
 bootstrapped: ##@Infra check sandbox is bootstrapped
 	@$(npm) bootstrapped
+
+deploy: testdata ##@Infra deploy contracts
+	taq deploy airdrop.tz
+
+########################################
+#             CONTRACTS                #
+########################################
+compile: ##@Contracts compile contracts
+	@TAQ_LIGO_IMAGE=$(TAQ_LIGO_IMAGE) taq compile-all
+
+test: ##@Contracts test contracts
+	@TAQ_LIGO_IMAGE=$(TAQ_LIGO_IMAGE) taq ligo -c "run test contracts/test/all.mligo"
+
+generate-types: compile ##@Contracts generate types
+	taq generate types artifacts/nft.tz artifacts/delegation.tz --typescriptDir ./app/src/types
+
+########################################
+#                 APP                  #
+########################################
+start: ##@App start app
+	@if [ ! -f ./app/.env ]; then cp ./app/config/.env.example  ./app/config/.env; fi
+	sed -i "s/\(AIRDROP_CONTRACT_ADDRESS *= *\).*/\1$(jq -r '.contracts.airdrop.address' ../.taq/config.local.development.json)/" ./app/config/.env

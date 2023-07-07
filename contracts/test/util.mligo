@@ -1,5 +1,5 @@
 #import "ligo-breathalyzer/lib/lib.mligo" "Breath"
-#import "../src/main.mligo" "Airdrop"
+#import "../airdrop.mligo" "Airdrop"
 
 type originated = Breath.Contract.originated
 
@@ -12,14 +12,14 @@ let get_token_initial_storage
   let ledger =
     Big_map.literal ([((owner, token_id), amount_)]) in
   let operators =
-    (Big_map.empty : Airdrop.Token.FA.Operators.t) in
+    (Big_map.empty : Airdrop.FA.Operators.t) in
   let token_metadata =
     (Big_map.literal
        [(token_id,
          ({token_id = token_id;
            token_info = (Map.empty : (string, bytes) map)}
-          : Airdrop.Token.FA.TokenMetadata.data))]
-     : Airdrop.Token.FA.TokenMetadata.t) in
+          : Airdrop.FA.TokenMetadata.data))]
+     : Airdrop.FA.TokenMetadata.t) in
   let owner_token_ids = Set.literal [(owner, token_id)] in
   let token_ids = Set.literal [token_id] in
   {metadata; ledger; token_metadata; operators; owner_token_ids; token_ids}
@@ -33,7 +33,7 @@ let originate_token
   Breath.Contract.originate
     level
     "token_sc"
-    Airdrop.Token.FA.main
+    Airdrop.FA.main
     (get_token_initial_storage (owner, token_id, amount_))
     0mutez
 
@@ -54,9 +54,9 @@ let originate_airdrop
 
 let request_token_transfer
   (contract :
-   (Airdrop.Token.FA.parameter, Airdrop.Token.FA.storage)
+   (Airdrop.FA.parameter, Airdrop.FA.storage)
      originated)
-  (p : Airdrop.Token.FA.transfer)
+  (p : Airdrop.FA.transfer)
   () =
   Breath.Contract.transfer_to
     contract
@@ -72,9 +72,9 @@ let request_claim
 
 let expected_token_state
   (contract :
-   (Airdrop.Token.FA.parameter, Airdrop.Token.FA.storage)
+   (Airdrop.FA.parameter, Airdrop.FA.storage)
      originated)
-  (operators : Airdrop.Token.FA.Operators.t)
+  (operators : Airdrop.FA.Operators.t)
 : Breath.Result.result =
   let storage = Breath.Contract.storage_of contract in
   let operators_expectation =
