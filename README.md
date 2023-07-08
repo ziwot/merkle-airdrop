@@ -23,7 +23,9 @@ An off-chain app also is helping on the merkle tree generation and validation be
 1. Install dependencies: `make install`
 2. Launch infra: `make up` (Stop it: `make down`)
 3. Generate testdata: `make testdata`
-4. Go to [app](./app) or [contracts](./contracts)
+4. Compile contracts: `make compile`
+5. Deploy contracts: `make deploy`
+6. Start app: `make start`
 
 ## Resources
 

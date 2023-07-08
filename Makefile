@@ -72,4 +72,6 @@ generate-types: compile ##@Contracts generate types
 ########################################
 start: ##@App start app
 	@if [ ! -f ./app/.env ]; then cp ./app/config/.env.example  ./app/config/.env; fi
-	sed -i "s/\(AIRDROP_CONTRACT_ADDRESS *= *\).*/\1$(jq -r '.contracts.airdrop.address' ../.taq/config.local.development.json)/" ./app/config/.env
+	@sed -i "s/\(AIRDROP_CONTRACT_ADDRESS *= *\).*/\1$(shell jq -r '.contracts.airdrop.address' .taq/config.local.development.json)/" ./app/config/.env
+	@sed -i "s/\(RPC_URL *= *\).*/\1$(shell jq -r '.rpcUrl' .taq/config.local.development.json | sed "s/\//\\\\\\//g")/" ./app/config/.env
+	./app/bin/cake server

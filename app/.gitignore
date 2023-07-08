@@ -51,9 +51,6 @@ nbproject/*
 yarn-debug.log
 yarn-error.log
 
-# nix
-.direnv
-
 # assets mix
 /webroot/js
 /webroot/css

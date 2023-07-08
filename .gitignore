@@ -14,3 +14,10 @@ node_modules/
 **/_esy
 **/.ligo
 **/esy.lock
+
+testdata/
+!testdata/token.tz
+!testdata/token_storage.tz
+
+# nix
+.direnv
