@@ -42,7 +42,7 @@ $description = 'Merkle Airdrop';
         <div class="flex-grow pb-8">
             <div class="bg-blue-400">
                 <nav class="container mx-auto text-white">
-                    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+                    <div class="max-w-screen-xl flex flex-wrap items-center justify-between p-4">
                         <?= $this->Html->link('Tezos Airdrops', '/', ['class' => 'self-center text-2xl font-semibold whitespace-nowrap']); ?>
                         <?php if ($this->Identity->isLoggedIn()) : ?>
                             <div x-data="profile" class="flex items-center md:order-2">
