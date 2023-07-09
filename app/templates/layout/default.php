@@ -53,7 +53,12 @@ $description = 'Merkle Airdrop';
                                 <div x-ref="panel" class="panel z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
                                     <div class="px-4 py-3">
                                         <span class="block text-sm text-gray-900 dark:text-white"><?= $this->Tz->shortenAddress($this->Identity->get('address')) ?></span>
-                                        <span class="block text-sm  text-gray-500 truncate dark:text-gray-400"><?= $this->request->getSession()->read('network', 'local') ?></span>
+                                        <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">
+                                            <?= $this->request->getSession()->read('network', 'local') ?>
+                                            <?= $this->cell('Balance', [], [
+                                                'cache' => ['config' => 'short', 'key' => 'inbox_' . $this->Identity->get('address')]
+                                            ]) ?>
+                                        </span>
                                     </div>
                                     <ul class="py-2" aria-labelledby="user-menu-button">
                                         <li>

@@ -10,9 +10,11 @@
     <?php foreach ($recentAirdrops as $airdrop) : ?>
         <div class="airdrop">
             <h3><?= $airdrop->name ?><h3>
-            <h4><?= $airdrop->token->address ?></h4>
-            <p><?= $airdrop->description ?></p>
+                    <h4><?= $airdrop->token->address ?></h4>
+                    <p><?= $airdrop->description ?></p>
         </div>
-        <button>Check Eligibility</button>
+        <?php if ($this->Identity->isLoggedIn()) : ?>
+            <button>Check Eligibility</button>
+        <?php endif; ?>
     <?php endforeach; ?>
 </div>
