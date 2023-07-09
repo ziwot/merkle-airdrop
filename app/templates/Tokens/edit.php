@@ -22,6 +22,7 @@
             <fieldset>
                 <legend><?= __('Edit Token') ?></legend>
                 <?php
+                    echo $this->Form->control('network');
                     echo $this->Form->control('address');
                     echo $this->Form->control('identifier');
                 ?>

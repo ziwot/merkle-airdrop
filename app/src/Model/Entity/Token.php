@@ -9,9 +9,10 @@ use Cake\ORM\Entity;
  * Token Entity
  *
  * @property int $id
+ * @property string $network
  * @property string $address
  * @property int $identifier
- * @property \Cake\I18n\FrozenTime|null $created
+ * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime|null $modified
  *
  * @property \App\Model\Entity\Airdrop[] $airdrops
@@ -28,6 +29,7 @@ class Token extends Entity
      * @var array<string, bool>
      */
     protected $_accessible = [
+        'network' => true,
         'address' => true,
         'identifier' => true,
         'created' => true,

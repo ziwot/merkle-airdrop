@@ -17,6 +17,7 @@
             <fieldset>
                 <legend><?= __('Add Token') ?></legend>
                 <?php
+                    echo $this->Form->control('network');
                     echo $this->Form->control('address');
                     echo $this->Form->control('identifier');
                 ?>

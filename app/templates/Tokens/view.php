@@ -19,6 +19,10 @@
             <h3><?= h($token->id) ?></h3>
             <table>
                 <tr>
+                    <th><?= __('Network') ?></th>
+                    <td><?= h($token->network) ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Address') ?></th>
                     <td><?= h($token->address) ?></td>
                 </tr>
@@ -47,6 +51,8 @@
                         <tr>
                             <th><?= __('Id') ?></th>
                             <th><?= __('Token Id') ?></th>
+                            <th><?= __('Merkle Root') ?></th>
+                            <th><?= __('Address') ?></th>
                             <th><?= __('Name') ?></th>
                             <th><?= __('Description') ?></th>
                             <th><?= __('Created') ?></th>
@@ -57,6 +63,8 @@
                         <tr>
                             <td><?= h($airdrops->id) ?></td>
                             <td><?= h($airdrops->token_id) ?></td>
+                            <td><?= h($airdrops->merkle_root) ?></td>
+                            <td><?= h($airdrops->address) ?></td>
                             <td><?= h($airdrops->name) ?></td>
                             <td><?= h($airdrops->description) ?></td>
                             <td><?= h($airdrops->created) ?></td>

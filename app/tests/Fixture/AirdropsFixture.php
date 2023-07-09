@@ -21,10 +21,12 @@ class AirdropsFixture extends TestFixture
             [
                 'id' => 1,
                 'token_id' => 1,
+                'merkle_root' => 'Lorem ipsum dolor sit amet',
+                'address' => 'Lorem ipsum dolor sit amet',
                 'name' => 'Lorem ipsum dolor sit amet',
                 'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-                'created' => 1685480560,
-                'modified' => 1685480560,
+                'created' => 1688896760,
+                'modified' => 1688896760,
             ],
         ];
         parent::init();

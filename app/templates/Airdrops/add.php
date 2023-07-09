@@ -20,6 +20,8 @@
                 <legend><?= __('Add Airdrop') ?></legend>
                 <?php
                     echo $this->Form->control('token_id', ['options' => $tokens]);
+                    echo $this->Form->control('merkle_root');
+                    echo $this->Form->control('address');
                     echo $this->Form->control('name');
                     echo $this->Form->control('description');
                     echo $this->Form->control('recipients._ids', ['options' => $recipients]);

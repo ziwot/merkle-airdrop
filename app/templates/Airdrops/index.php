@@ -13,6 +13,8 @@
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('token_id') ?></th>
+                    <th><?= $this->Paginator->sort('merkle_root') ?></th>
+                    <th><?= $this->Paginator->sort('address') ?></th>
                     <th><?= $this->Paginator->sort('name') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
                     <th><?= $this->Paginator->sort('modified') ?></th>
@@ -24,6 +26,8 @@
                 <tr>
                     <td><?= $this->Number->format($airdrop->id) ?></td>
                     <td><?= $airdrop->has('token') ? $this->Html->link($airdrop->token->id, ['controller' => 'Tokens', 'action' => 'view', $airdrop->token->id]) : '' ?></td>
+                    <td><?= h($airdrop->merkle_root) ?></td>
+                    <td><?= h($airdrop->address) ?></td>
                     <td><?= h($airdrop->name) ?></td>
                     <td><?= h($airdrop->created) ?></td>
                     <td><?= h($airdrop->modified) ?></td>

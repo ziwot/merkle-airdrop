@@ -28,9 +28,9 @@ class TokenSeed extends AbstractSeed
         $token = file_get_contents(ROOT . '/../infra/testdata/token.json');
 
         $data = [
+            'network' => 'local',
             'address' => json_decode($token),
             'identifier' => 0,
-            'created' => date('Y-m-d H:i:s')
         ];
 
         $table = $this->table('tokens');

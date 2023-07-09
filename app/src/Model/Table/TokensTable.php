@@ -61,6 +61,12 @@ class TokensTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
+            ->scalar('network')
+            ->maxLength('network', 15)
+            ->requirePresence('network', 'create')
+            ->notEmptyString('network');
+
+        $validator
             ->scalar('address')
             ->maxLength('address', 36)
             ->requirePresence('address', 'create')

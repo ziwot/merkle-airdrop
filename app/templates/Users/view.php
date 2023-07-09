@@ -19,8 +19,8 @@
             <h3><?= h($user->id) ?></h3>
             <table>
                 <tr>
-                    <th><?= __('Email') ?></th>
-                    <td><?= h($user->email) ?></td>
+                    <th><?= __('Address') ?></th>
+                    <td><?= h($user->address) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Id') ?></th>

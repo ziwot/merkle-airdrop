@@ -23,6 +23,14 @@
                     <td><?= $airdrop->has('token') ? $this->Html->link($airdrop->token->id, ['controller' => 'Tokens', 'action' => 'view', $airdrop->token->id]) : '' ?></td>
                 </tr>
                 <tr>
+                    <th><?= __('Merkle Root') ?></th>
+                    <td><?= h($airdrop->merkle_root) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Address') ?></th>
+                    <td><?= h($airdrop->address) ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Name') ?></th>
                     <td><?= h($airdrop->name) ?></td>
                 </tr>

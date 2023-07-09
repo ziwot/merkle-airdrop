@@ -37,6 +37,7 @@ const tokenAddr = makeToken();
 console.log(`[OK] ${tokenAddr} deployed`);
 
 fs.writeFileSync(`${TESTDATA_PATH}/token.json`, JSON.stringify(tokenAddr));
+fs.writeFileSync(`${TESTDATA_PATH}/merkleRoot.json`, JSON.stringify(merkleRoot));
 fs.writeFileSync(
     `${TESTDATA_PATH}/airdrop_storage.mligo`,
     `

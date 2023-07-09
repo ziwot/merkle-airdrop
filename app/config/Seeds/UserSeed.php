@@ -26,8 +26,6 @@ class UserSeed extends AbstractSeed
         $this->execute('TRUNCATE TABLE users');
         $this->execute('SET foreign_key_checks=1');
 
-        $created = date('Y-m-d H:i:s');
-
         $addresses = [
             'tz1baLSnTXirZwSqbH6LJf136JhP4J1FpvEG',
             'tz1dmn3QEzmVwtuf72B1bhsuA9uL8NYoRwxq',
@@ -36,7 +34,7 @@ class UserSeed extends AbstractSeed
         ];
 
         $data = (new Collection($addresses))
-            ->map(fn ($address) => ['address' => $address, 'created' => $created])
+            ->map(fn ($address) => ['address' => $address])
             ->toArray();
 
         $table = $this->table('users');

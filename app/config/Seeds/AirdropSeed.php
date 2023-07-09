@@ -33,13 +33,15 @@ class AirdropSeed extends AbstractSeed
         $this->execute('TRUNCATE TABLE airdrops');
         $this->execute('SET foreign_key_checks=1');
 
-        $created = date('Y-m-d H:i:s');
+        $config = json_decode(file_get_contents(ROOT . '/../.taq/config.local.development.json'), true);
+        $merkleRoot = json_decode(file_get_contents(ROOT . '/../infra/testdata/merkleRoot.json'));
 
         $data = [
+            'merkle_root' => substr($merkleRoot, 2),
             'token_id' => 1,
+            'address' => $config['contracts']['airdrop']['address'],
             'name' => 'Test Airdrop',
             'description' => 'Testing',
-            'created' => $created,
         ];
 
         $table = $this->table('airdrops');

@@ -20,10 +20,11 @@ class TokensFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
+                'network' => 'Lorem ipsum d',
                 'address' => 'Lorem ipsum dolor sit amet',
                 'identifier' => 1,
-                'created' => 1685480611,
-                'modified' => 1685480611,
+                'created' => 1688890705,
+                'modified' => 1688890705,
             ],
         ];
         parent::init();

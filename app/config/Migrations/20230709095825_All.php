@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\AbstractMigration;
 
-class Init extends AbstractMigration
+class All extends AbstractMigration
 {
     /**
      * Up Method.
@@ -20,6 +20,16 @@ class Init extends AbstractMigration
                 'limit' => null,
                 'null' => false,
             ])
+            ->addColumn('merkle_root', 'string', [
+                'default' => null,
+                'limit' => 64,
+                'null' => true,
+            ])
+            ->addColumn('address', 'string', [
+                'default' => null,
+                'limit' => 36,
+                'null' => true,
+            ])
             ->addColumn('name', 'string', [
                 'default' => null,
                 'limit' => 255,
@@ -31,9 +41,9 @@ class Init extends AbstractMigration
                 'null' => true,
             ])
             ->addColumn('created', 'timestamp', [
-                'default' => null,
+                'default' => 'CURRENT_TIMESTAMP',
                 'limit' => null,
-                'null' => true,
+                'null' => false,
             ])
             ->addColumn('modified', 'timestamp', [
                 'default' => null,
@@ -43,6 +53,9 @@ class Init extends AbstractMigration
             ->addIndex(
                 [
                     'token_id',
+                ],
+                [
+                    'name' => 'airdrops_ibfk_1',
                 ]
             )
             ->create();
@@ -66,11 +79,17 @@ class Init extends AbstractMigration
             ->addIndex(
                 [
                     'recipient_id',
+                ],
+                [
+                    'name' => 'FK_9EB53DD7A76ED395',
                 ]
             )
             ->addIndex(
                 [
                     'airdrop_id',
+                ],
+                [
+                    'name' => 'FK_9EB53DD713543E34',
                 ]
             )
             ->create();
@@ -82,9 +101,9 @@ class Init extends AbstractMigration
                 'null' => false,
             ])
             ->addColumn('created', 'timestamp', [
-                'default' => null,
+                'default' => 'CURRENT_TIMESTAMP',
                 'limit' => null,
-                'null' => true,
+                'null' => false,
             ])
             ->addColumn('modified', 'timestamp', [
                 'default' => null,
@@ -94,6 +113,11 @@ class Init extends AbstractMigration
             ->create();
 
         $this->table('tokens')
+            ->addColumn('network', 'string', [
+                'default' => null,
+                'limit' => 15,
+                'null' => false,
+            ])
             ->addColumn('address', 'string', [
                 'default' => null,
                 'limit' => 36,
@@ -105,9 +129,9 @@ class Init extends AbstractMigration
                 'null' => false,
             ])
             ->addColumn('created', 'timestamp', [
-                'default' => null,
+                'default' => 'CURRENT_TIMESTAMP',
                 'limit' => null,
-                'null' => true,
+                'null' => false,
             ])
             ->addColumn('modified', 'timestamp', [
                 'default' => null,
@@ -122,12 +146,12 @@ class Init extends AbstractMigration
                 'limit' => 36,
                 'null' => false,
             ])
-            ->addColumn('created', 'datetime', [
-                'default' => null,
+            ->addColumn('created', 'timestamp', [
+                'default' => 'CURRENT_TIMESTAMP',
                 'limit' => null,
-                'null' => true,
+                'null' => false,
             ])
-            ->addColumn('modified', 'datetime', [
+            ->addColumn('modified', 'timestamp', [
                 'default' => null,
                 'limit' => null,
                 'null' => true,
@@ -136,7 +160,10 @@ class Init extends AbstractMigration
                 [
                     'address',
                 ],
-                ['unique' => true]
+                [
+                    'name' => 'pkh',
+                    'unique' => true,
+                ]
             )
             ->create();
 

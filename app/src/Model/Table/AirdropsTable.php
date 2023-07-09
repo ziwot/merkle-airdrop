@@ -72,6 +72,16 @@ class AirdropsTable extends Table
             ->notEmptyString('token_id');
 
         $validator
+            ->scalar('merkle_root')
+            ->maxLength('merkle_root', 64)
+            ->allowEmptyString('merkle_root');
+
+        $validator
+            ->scalar('address')
+            ->maxLength('address', 36)
+            ->allowEmptyString('address');
+
+        $validator
             ->scalar('name')
             ->maxLength('name', 255)
             ->requirePresence('name', 'create')

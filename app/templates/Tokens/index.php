@@ -12,6 +12,7 @@
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
+                    <th><?= $this->Paginator->sort('network') ?></th>
                     <th><?= $this->Paginator->sort('address') ?></th>
                     <th><?= $this->Paginator->sort('identifier') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
@@ -23,6 +24,7 @@
                 <?php foreach ($tokens as $token): ?>
                 <tr>
                     <td><?= $this->Number->format($token->id) ?></td>
+                    <td><?= h($token->network) ?></td>
                     <td><?= h($token->address) ?></td>
                     <td><?= $this->Number->format($token->identifier) ?></td>
                     <td><?= h($token->created) ?></td>

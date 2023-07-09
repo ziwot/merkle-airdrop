@@ -10,9 +10,11 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $token_id
+ * @property string|null $merkle_root
+ * @property string|null $address
  * @property string $name
  * @property string|null $description
- * @property \Cake\I18n\FrozenTime|null $created
+ * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime|null $modified
  *
  * @property \App\Model\Entity\Token $token
@@ -31,6 +33,8 @@ class Airdrop extends Entity
      */
     protected $_accessible = [
         'token_id' => true,
+        'merkle_root' => true,
+        'address' => true,
         'name' => true,
         'description' => true,
         'created' => true,
