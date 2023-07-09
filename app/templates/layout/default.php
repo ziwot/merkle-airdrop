@@ -15,6 +15,8 @@
  * @var \App\View\AppView $this
  */
 
+use App\Tezos\Network;
+
 $description = 'Merkle Airdrop';
 ?>
 <!DOCTYPE html>
@@ -48,20 +50,17 @@ $description = 'Merkle Airdrop';
                                     <span class="sr-only">Open user menu</span>
                                     <img class="w-8 h-8 rounded-full" src="https://pbs.twimg.com/profile_images/1660739913631817728/WM93OmoG_reasonably_small.jpg" alt="user photo">
                                 </button>
-                                <div  x-ref="panel" class="panel z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+                                <div x-ref="panel" class="panel z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
                                     <div class="px-4 py-3">
-                                        <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-                                        <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+                                        <span class="block text-sm text-gray-900 dark:text-white"><?= $this->Tz->shortenAddress($this->Identity->get('address')) ?></span>
+                                        <span class="block text-sm  text-gray-500 truncate dark:text-gray-400"><?= $this->request->getSession()->read('network', 'local') ?></span>
                                     </div>
                                     <ul class="py-2" aria-labelledby="user-menu-button">
                                         <li>
                                             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
                                         </li>
                                         <li>
-                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
+                                            <?= $this->Html->link('Settings', ['controller' => 'MemberArea', 'action' => 'settings']) ?>
                                         </li>
                                         <li>
                                             <?= $this->Html->link('Sign out', [
@@ -80,13 +79,12 @@ $description = 'Merkle Airdrop';
                                 <span x-show="error" class="text-red-600 font-semibold"><span x-text="error"></span></span>
                             </div>
                         <?php endif; ?>
-                        <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
+                        <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 md:ml-20" id="mobile-menu-2">
                             <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 md:flex-row md:space-x-8 md:mt-0 md:border-0">
-                                <li>
-                                    <?= $this->Html->link('Airdrops', ['controller' => 'Airdrops', 'action' => 'index']); ?>
-                                </li>
-
                                 <?php if ($this->Identity->isLoggedIn()) : ?>
+                                    <li>
+                                        <?= $this->Html->link('Airdrops', ['controller' => 'Airdrops', 'action' => 'index']); ?>
+                                    </li>
                                     <li>
                                         <?= $this->Html->link('Airdrops Recipients', ['controller' => 'AirdropsRecipients', 'action' => 'index']); ?>
                                     </li>

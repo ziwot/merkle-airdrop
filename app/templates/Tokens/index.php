@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var iterable<\App\Model\Entity\Token> $tokens
+ * @var \App\Model\Entity\Token[]|\Cake\Collection\CollectionInterface $tokens
  */
 ?>
 <div class="tokens index content">

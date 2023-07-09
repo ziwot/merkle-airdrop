@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Tezos\Network;
 use Migrations\AbstractSeed;
 
 /**
@@ -28,7 +29,7 @@ class TokenSeed extends AbstractSeed
         $token = file_get_contents(ROOT . '/../infra/testdata/token.json');
 
         $data = [
-            'network' => 'local',
+            'network' => (Network::LOCAL)->value,
             'address' => json_decode($token),
             'identifier' => 0,
         ];

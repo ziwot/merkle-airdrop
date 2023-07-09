@@ -16,7 +16,6 @@ class AirdropSeed extends AbstractSeed
         ];
     }
 
-
     /**
      * Run Method.
      *
@@ -41,7 +40,7 @@ class AirdropSeed extends AbstractSeed
             'token_id' => 1,
             'address' => $config['contracts']['airdrop']['address'],
             'name' => 'Test Airdrop',
-            'description' => 'Testing',
+            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce elit lorem, pretium vitae risus in, varius rhoncus est. Pellentesque at tellus odio. Donec eu tempus sapien, sit amet pulvinar metus. Phasellus dignissim convallis cursus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius porta auctor.',
         ];
 
         $table = $this->table('airdrops');

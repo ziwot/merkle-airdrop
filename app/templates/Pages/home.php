@@ -14,5 +14,3 @@
  * @var \App\View\AppView $this
  */
 ?>
-
-<p>Welcome <?= $this->Identity->get('address') ?>!</p>

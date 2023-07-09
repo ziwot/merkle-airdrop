@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -107,5 +108,14 @@ class AirdropsTable extends Table
         $rules->add($rules->existsIn('token_id', 'Tokens'), ['errorField' => 'token_id']);
 
         return $rules;
+    }
+
+    public function recentAirdrops()
+    {
+        return $this->find('all', [
+            'limit' => 5,
+            'order' => 'Airdrops.created DESC',
+            'contain' => ['Tokens']
+        ])->all();
     }
 }
