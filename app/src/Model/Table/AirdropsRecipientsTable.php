@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -75,6 +76,10 @@ class AirdropsRecipientsTable extends Table
             ->requirePresence('amount', 'create')
             ->notEmptyString('amount');
 
+        $validator
+            ->dateTime('claimed')
+            ->allowEmptyDateTime('claimed');
+
         return $validator;
     }
 
@@ -91,5 +96,12 @@ class AirdropsRecipientsTable extends Table
         $rules->add($rules->existsIn('recipient_id', 'Recipients'), ['errorField' => 'recipient_id']);
 
         return $rules;
+    }
+
+    public function byAirdrop(int $airdropId)
+    {
+        return $this->find('all', [
+            'conditions' => ['airdrop_id' => $airdropId]
+        ])->all();
     }
 }

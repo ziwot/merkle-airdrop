@@ -146,7 +146,7 @@ return [
         ],
         'short' => [
             'className' => 'File',
-            'duration' => '+1 hours',
+            'duration' => '+5 minutes',
             'path' => CACHE,
             'prefix' => 'cake_short_'
         ],

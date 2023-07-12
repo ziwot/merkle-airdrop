@@ -104,8 +104,9 @@ nav button {
 /* homepage
  ------------------------------------------------------------*/
 
+.recent-airdrops { @apply p-4; }
 .recent-airdrops h2 {
-    @apply font-bold border-sky-400;
+    @apply text-xl font-extrabold ;
 }
 
 .recent-airdrops p {

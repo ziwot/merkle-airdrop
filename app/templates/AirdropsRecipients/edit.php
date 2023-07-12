@@ -27,6 +27,7 @@
                     echo $this->Form->control('airdrop_id', ['options' => $airdrops]);
                     echo $this->Form->control('recipient_id', ['options' => $recipients]);
                     echo $this->Form->control('amount');
+                    echo $this->Form->control('claimed');
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>

@@ -12,6 +12,7 @@ use Cake\ORM\Entity;
  * @property int $airdrop_id
  * @property int $recipient_id
  * @property int $amount
+ * @property \Cake\I18n\FrozenTime|null $claimed
  *
  * @property \App\Model\Entity\Airdrop $airdrop
  * @property \App\Model\Entity\Recipient $recipient
@@ -31,6 +32,7 @@ class AirdropsRecipient extends Entity
         'airdrop_id' => true,
         'recipient_id' => true,
         'amount' => true,
+        'claimed' => true,
         'airdrop' => true,
         'recipient' => true,
     ];

@@ -10,7 +10,10 @@
     <?php foreach ($recentAirdrops as $airdrop) : ?>
         <div class="airdrop">
             <h3><?= $airdrop->name ?><h3>
+                    <!-- todo: fetch metadata -->
                     <h4><?= $airdrop->token->address ?></h4>
+                    <!-- todo: decimal conversion from metadata -->
+                    <p><?= $totalAmounts[$airdrop->id] ?> tokens</p>
                     <p><?= $airdrop->description ?></p>
         </div>
         <?php if ($this->Identity->isLoggedIn()) : ?>

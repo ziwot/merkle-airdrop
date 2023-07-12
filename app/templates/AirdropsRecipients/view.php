@@ -34,6 +34,10 @@
                     <th><?= __('Amount') ?></th>
                     <td><?= $this->Number->format($airdropsRecipient->amount) ?></td>
                 </tr>
+                <tr>
+                    <th><?= __('Claimed') ?></th>
+                    <td><?= h($airdropsRecipient->claimed) ?></td>
+                </tr>
             </table>
         </div>
     </div>

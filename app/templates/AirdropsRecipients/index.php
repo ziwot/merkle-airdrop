@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\AirdropsRecipient[]|\Cake\Collection\CollectionInterface $airdropsRecipients
+ * @var iterable<\App\Model\Entity\AirdropsRecipient> $airdropsRecipients
  */
 ?>
 <div class="airdropsRecipients index content">
@@ -15,6 +15,7 @@
                     <th><?= $this->Paginator->sort('airdrop_id') ?></th>
                     <th><?= $this->Paginator->sort('recipient_id') ?></th>
                     <th><?= $this->Paginator->sort('amount') ?></th>
+                    <th><?= $this->Paginator->sort('claimed') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
@@ -25,6 +26,7 @@
                     <td><?= $airdropsRecipient->has('airdrop') ? $this->Html->link($airdropsRecipient->airdrop->name, ['controller' => 'Airdrops', 'action' => 'view', $airdropsRecipient->airdrop->id]) : '' ?></td>
                     <td><?= $airdropsRecipient->has('recipient') ? $this->Html->link($airdropsRecipient->recipient->id, ['controller' => 'Recipients', 'action' => 'view', $airdropsRecipient->recipient->id]) : '' ?></td>
                     <td><?= $this->Number->format($airdropsRecipient->amount) ?></td>
+                    <td><?= h($airdropsRecipient->claimed) ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('View'), ['action' => 'view', $airdropsRecipient->id]) ?>
                         <?= $this->Html->link(__('Edit'), ['action' => 'edit', $airdropsRecipient->id]) ?>
