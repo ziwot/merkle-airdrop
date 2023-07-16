@@ -6,8 +6,8 @@ services:
       command:  --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
       environment:
           MYSQL_ROOT_PASSWORD: secret
-          MYSQL_DATABASE: my_app
-          MYSQL_USER: my_app
+          MYSQL_DATABASE: app
+          MYSQL_USER: app
           MYSQL_PASSWORD: secret
       ports:
         - '3306:3306'
