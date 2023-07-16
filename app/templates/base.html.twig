@@ -50,7 +50,7 @@
                             </div>
                         {% else %}
                             <div x-data="beacon" class="flex items-center md:order-2">
-                                <button>Sync</button>
+                                <button @click="login('{{ csrf_token('authenticate') }}')">Sync</button>
                                 <span x-show="error" class="text-red-600 font-semibold"><span x-text="error"></span></span>
                             </div>
                         {% endif %}

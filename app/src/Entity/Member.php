@@ -5,9 +5,10 @@ namespace App\Entity;
 use App\Repository\MemberRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: MemberRepository::class)]
-class Member
+class Member implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -62,5 +63,19 @@ class Member
         $this->updated = $updated;
 
         return $this;
+    }
+
+    public function getUserIdentifier(): string
+    {
+      return $this->address;
+    }
+
+    public function getRoles(): array
+    {
+        return ['ROLE_MEMBER'];
+    }
+
+    public function eraseCredentials(): void
+    {
     }
 }
