@@ -28,7 +28,8 @@ export default () => ({
         csrfToken: csrfToken,
       });
 
-      window.location.replace("/");
+      if (null === data) window.location.replace("/");
+      this.error = JSON.stringify(data);
     } catch (error) {
       const { statusText } = error.response;
       this.error = statusText;

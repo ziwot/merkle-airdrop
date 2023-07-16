@@ -38,7 +38,7 @@ class Airdrop
     #[ORM\JoinColumn(nullable: false)]
     private ?Token $token = null;
 
-    #[ORM\OneToMany(mappedBy: 'Airdrop', targetEntity: AirdropRecipient::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'airdrop', targetEntity: AirdropRecipient::class, orphanRemoval: true)]
     private Collection $airdropRecipients;
 
     public function __construct()

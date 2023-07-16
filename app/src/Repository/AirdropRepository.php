@@ -16,33 +16,20 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AirdropRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Airdrop::class);
-    }
+  public function __construct(ManagerRegistry $registry)
+  {
+    parent::__construct($registry, Airdrop::class);
+  }
 
-//    /**
-//     * @return Airdrop[] Returns an array of Airdrop objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Airdrop
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+  public function recentAirdrops()
+  {
+    return $this->createQueryBuilder('a')
+      ->select('COUNT(r.id) AS nb_recipients, a.name, a.description')
+      ->join('a.airdropRecipients', 'r')
+      ->orderBy('a.id', 'DESC')
+      ->groupBy('a.id')
+      ->setMaxResults(5)
+      ->getQuery()
+      ->getResult();
+  }
 }
