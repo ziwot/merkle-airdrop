@@ -20,7 +20,7 @@ export default () => ({
       const signedPayload = await dAppClient.requestSignPayload(messagePayload);
 
       // sign in the user to our app
-      const { status, data } = await signIn("")({
+      const { data } = await signIn("")({
         pk: walletPermissions.accountInfo.publicKey,
         pkh: walletPermissions.address,
         message: messagePayload.payload,
@@ -28,12 +28,7 @@ export default () => ({
         csrfToken: csrfToken,
       });
 
-      console.dir(data);
-
-      if (200 === status) {
-        window.location.replace("/");
-      }
-      this.error = data.error;
+      window.location.replace("/");
     } catch (error) {
       const { statusText } = error.response;
       this.error = statusText;

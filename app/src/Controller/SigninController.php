@@ -13,7 +13,7 @@ class SigninController extends AbstractController
   public function signin(AuthenticationUtils $authenticationUtils): JsonResponse
   {
     $error = $authenticationUtils->getLastAuthenticationError();
-    $code = $error === null ? 400 : 200;
+    $code = $error === null ? 200 : 400;
 
     return $this->json(['error' => $error], $code);
   }

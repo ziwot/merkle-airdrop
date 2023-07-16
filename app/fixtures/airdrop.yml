@@ -1,0 +1,4 @@
+App\Entity\Airdrop:
+  airdrop_1:
+    name: <sentence()>
+    description: <paragraph()>
