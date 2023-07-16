@@ -17,7 +17,7 @@ class AirdropRecipient
     #[ORM\Column]
     private ?int $amount = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, options: ["default" => "CURRENT_TIMESTAMP"])]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $claimed = null;
 
     #[ORM\ManyToOne(inversedBy: 'airdropRecipients')]

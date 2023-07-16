@@ -77,3 +77,6 @@ generate-types: compile ##@Contracts generate types
 start: ##@App start app
 	@if [ ! -f ./app/.env ] && [ -a ./app.env.local ]; then cp ./app/.env.local  ./app/.env; fi
 	symfony serve -d --document-root=app/public
+
+stop: ##@App stop app
+	symfony server:stop
