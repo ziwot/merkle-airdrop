@@ -1,0 +1,34 @@
+{
+    "devDependencies": {
+        "@babel/core": "^7.17.0",
+        "@babel/preset-env": "^7.16.0",
+        "@symfony/webpack-encore": "^4.0.0",
+        "autoprefixer": "^10.4.14",
+        "core-js": "^3.23.0",
+        "node-polyfill-webpack-plugin": "^2.0.1",
+        "postcss": "^8.4.26",
+        "postcss-loader": "^7.3.3",
+        "regenerator-runtime": "^0.13.9",
+        "tailwindcss": "^3.3.3",
+        "webpack": "^5.74.0",
+        "webpack-cli": "^4.10.0",
+        "webpack-notifier": "^1.15.0"
+    },
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress"
+    },
+    "dependencies": {
+        "@airgap/beacon-sdk": "^4.0.5",
+        "@alpinejs/focus": "^3.12.3",
+        "@awcodes/alpine-floating-ui": "^3.5.0",
+        "@floating-ui/dom": "^1.4.5",
+        "@siwt/sdk": "^0.0.4",
+        "@taquito/taquito": "^17.1.0",
+        "alpinejs": "^3.12.3"
+    }
+}

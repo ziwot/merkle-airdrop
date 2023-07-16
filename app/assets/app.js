@@ -1,7 +1,11 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- * This file will be included onto the page via the importmap() Twig function,
- * which should already be in your base.html.twig.
- */
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉')
+import Alpine from 'alpinejs';
+import Focus from "@alpinejs/focus"; // optional unless you want to use x-trap
+import AlpineFloatingUI from "@awcodes/alpine-floating-ui";
+import beacon from './beacon';
+import './styles/app.css';
+
+window.Alpine = Alpine;
+Alpine.plugin(Focus); // optional unless you want to use x-trap
+Alpine.plugin(AlpineFloatingUI);
+Alpine.data('beacon', beacon);
+Alpine.start();
