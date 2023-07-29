@@ -18,6 +18,13 @@ the hex of a merkle root of beneficiaries (address, amount), and the registry of
 - [off-chain](./app), the merkle tree must be stored to be able to generate the merkle proofs required to claim.
 An off-chain app also is helping on the merkle tree generation and validation before deploying the airdrop contract.
 
+## Why PHP?
+
+- it is still the king of cheap hosting.
+- it has great retro-compatibilty
+- it is [evolving](https://php.watch), there is a [PHP fundation](https://thephp.foundation/) now, and everything is [discussed openly](https://php.watch/rfcs).
+- it stills runs an important part of the web, and we want to make decentralized apps, so why not using a popular language for this.
+
 ## Dev
 
 1. Install dependencies: `make install`

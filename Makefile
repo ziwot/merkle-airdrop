@@ -45,6 +45,10 @@ up: ##@Infra start local infra
 
 down: ##@Infra stop local infra
 	taq stop sandbox
+	$(DOCKER_COMPOSE) down
+
+data-reset: down ##@Infra reset data
+	docker volume rm infra_db_data
 
 testdata: bootstrapped ##@Infra generate testdata
 	@$(npm) testdata
@@ -72,5 +76,4 @@ generate-types: compile ##@Contracts generate types
 ########################################
 start: ##@App start app
 	@if [ ! -f ./app/.env ]; then cp ./app/config/.env.example  ./app/config/.env; fi
-	@sed -i "s/\(RPC_URL *= *\).*/\1$(shell jq -r '.rpcUrl' .taq/config.local.development.json | sed "s/\//\\\\\\//g")/" ./app/config/.env
 	./app/bin/cake server
