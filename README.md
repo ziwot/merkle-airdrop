@@ -23,7 +23,7 @@ An off-chain app also is helping on the merkle tree generation and validation be
 - it is still the king of cheap hosting.
 - it has great retro-compatibilty
 - it is [evolving](https://php.watch), there is a [PHP fundation](https://thephp.foundation/) now, and everything is [discussed openly](https://php.watch/rfcs).
-- it stills runs an important part of the web, and we want to make decentralized apps, so why not using a popular language for this.
+- it still runs an important part of the web, and we want to make decentralized apps, so why not using a popular language for this.
 
 ## Dev
 
@@ -33,6 +33,15 @@ An off-chain app also is helping on the merkle tree generation and validation be
 4. Compile contracts: `make compile`
 5. Deploy contracts: `make deploy`
 6. Start app: `make start`
+
+## Dapp
+
+Use [flextesa](https://gitlab.com/tezos/flextesa)'s bob or alice for dev purpose, you can also add
+choosen deterministic keys in the [testdata script](./infra/testdata.ts).
+
+Otherwise, you can add your address in same script.
+
+The Dapp will check for the address existence in the [Identifier](./app/src/Identifier/TezosIdentifier.php).
 
 ## Resources
 

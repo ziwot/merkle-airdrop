@@ -55,11 +55,7 @@
     "plugins": [
         {
             "type": "npm",
-            "name": "@taqueria/plugin-ligo"
-        },
-        {
-            "type": "npm",
-            "name": "@taqueria/plugin-contract-types"
+            "name": "@taqueria/plugin-ligo-legacy"
         },
         {
             "type": "npm",
@@ -76,6 +72,10 @@
         {
             "type": "npm",
             "name": "@taqueria/plugin-tezos-client"
+        },
+        {
+            "type": "npm",
+            "name": "@taqueria/plugin-contract-types"
         }
     ]
 }

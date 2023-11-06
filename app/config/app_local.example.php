@@ -42,7 +42,7 @@ return [
              * MySQL on MAMP uses port 8889, MAMP users will want to uncomment
              * the following line and set the port accordingly
              */
-            //'port' => 'non_standard_port_number',
+            'port' => 3307,
 
             'username' => 'my_app',
             'password' => 'secret',
@@ -64,8 +64,8 @@ return [
          * The test connection is used during the test suite.
          */
         'test' => [
-            'host' => 'localhost',
-            //'port' => 'non_standard_port_number',
+            'host' => '127.0.0.1',
+            'port' => 3307,
             'username' => 'my_app',
             'password' => 'secret',
             'database' => 'test_myapp',

@@ -27,7 +27,7 @@ help:
 SHELL=/bin/bash
 DOCKER_COMPOSE = docker compose -f ./infra/docker-compose.yml
 npm=npm --prefix ./infra -s run
-TAQ_LIGO_IMAGE=ligolang/ligo:0.68.0
+TAQ_LIGO_IMAGE=ligolang/ligo:0.72.0
 
 ########################################
 #            DEPENDENCIES              #
@@ -35,29 +35,35 @@ TAQ_LIGO_IMAGE=ligolang/ligo:0.68.0
 install: ##@Dependencies install dependencies
 	@npm ci
 	@TAQ_LIGO_IMAGE=$(TAQ_LIGO_IMAGE) taq ligo -c "install"
+	@cd app/ \
+		&& composer install \
+		&& cp config/app_local.example.php config/app_local.php \
+		&& cd ..
 
 ########################################
 #               INFRA                  #
 ########################################
 up: ##@Infra start local infra
-	taq start sandbox
-	$(DOCKER_COMPOSE) up -d --remove-orphans
+	@taq start sandbox
+	@$(DOCKER_COMPOSE) up -d --remove-orphans
 
 down: ##@Infra stop local infra
-	taq stop sandbox
-	$(DOCKER_COMPOSE) down
-
-data-reset: down ##@Infra reset data
-	docker volume rm infra_db_data
+	@taq stop sandbox
+	@$(DOCKER_COMPOSE) down
 
 testdata: bootstrapped ##@Infra generate testdata
 	@$(npm) testdata
+	@./app/bin/cake migrations migrate
+	@./app/bin/cake migrations seed
+
+data-reset: down ##@Infra reset data
+	@docker volume rm infra_db_data
 
 bootstrapped: ##@Infra check sandbox is bootstrapped
 	@$(npm) bootstrapped
 
 deploy: testdata ##@Infra deploy contracts
-	taq deploy airdrop.tz
+	@taq deploy airdrop.tz
 
 ########################################
 #             CONTRACTS                #
@@ -69,11 +75,13 @@ test: ##@Contracts test contracts
 	@TAQ_LIGO_IMAGE=$(TAQ_LIGO_IMAGE) taq ligo -c "run test contracts/test/all.mligo"
 
 generate-types: compile ##@Contracts generate types
-	taq generate types artifacts/nft.tz artifacts/delegation.tz --typescriptDir ./app/src/types
+	@taq generate types artifacts/nft.tz artifacts/delegation.tz --typescriptDir ./app/src/types
 
 ########################################
 #                 APP                  #
 ########################################
 start: ##@App start app
-	@if [ ! -f ./app/.env ]; then cp ./app/config/.env.example  ./app/config/.env; fi
-	./app/bin/cake server
+	@if [ ! -f ./app/config/app_local.php ]; then cp ./app/config/app_local.example.php ./app/config/app_local.php; fi
+	@sed -i "s/__SALT__/$(shell openssl rand -base64 32 | tr -d /=+)/" ./app/config/app_local.php
+	@sed -i "s/localhost/127.0.0.1/" ./app/config/app_local.php
+	@./app/bin/cake server
