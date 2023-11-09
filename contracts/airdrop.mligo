@@ -1,4 +1,4 @@
-#import "@ligo/fa/lib/fa2/asset/multi_asset.mligo" "FA"
+#import "@ligo/fa/lib/fa2/asset/multi_asset.impl.mligo" "FA"
 module Errors = struct
   let already_claimed = "ALREADY_CLAIMED"
 
@@ -22,9 +22,9 @@ module Token = struct
 
   type t = address * token_id
 
-  let get_transfer_entrypoint (addr : address) : FA.transfer contract =
+  let get_transfer_entrypoint (addr : address) : FA.TZIP12.transfer contract =
     match (Tezos.get_entrypoint_opt "%transfer" addr
-       : FA.transfer contract option)
+       : FA.TZIP12.transfer contract option)
     with
       None -> failwith Errors.fa_not_found
     | Some c -> c
@@ -44,10 +44,10 @@ module Token = struct
                  amount
                 }
               ]
-              : FA.atomic_trans list)
+              : FA.TZIP12.atomic_trans list)
           })
        ]
-       : FA.transfer) in
+       : FA.TZIP12.transfer) in
     Tezos.transaction transfer_requests 0mutez dest
 
 end
@@ -106,14 +106,15 @@ type storage = Storage.t
 
 type result = operation list * storage
 
+[@entry]
 let claim
-  (s : storage)
   ({
     addr;
     amnt;
     merkle_proof
    }
-   : parameter) =
+   : parameter)
+  (s : storage) =
   let () = Storage.assert_not_claimed s addr in
   let leaf = MerkleProof.get_leaf (Bytes.pack (addr, amnt)) in
   let () =
@@ -121,8 +122,6 @@ let claim
       (not (MerkleProof.verify (merkle_proof, s.config.merkle_root, leaf)))
       Errors.invalid_proof in
   [Token.transfer (s.config.token, addr, amnt)], Storage.register_claim s addr
-
-let main (p, store : parameter * storage) = claim store p
 
 let generate_initial_storage
   (about, token, merkle_root, claimed
