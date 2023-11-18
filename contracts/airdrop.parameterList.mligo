@@ -1,5 +1,6 @@
-#include "airdrop.mligo"
+#import "airdrop.mligo" "Contract"
 
-// Define your parameter values as a list of LIGO variable definitions
-// E.g. let aParameterValue : aParameterType = Increment 1
+// When this file was created, the smart contract was defined with an entrypoint using `@entry` that was not within a named module. As such, the examples below are written with that assumption in mind.
 
+// IMPORTANT: We suggest always explicitly typing your parameter values:
+// E.g.: `let parameter: int = 10` or `let parameter: Contract.parameter = 10`

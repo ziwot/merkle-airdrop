@@ -18,6 +18,11 @@ the hex of a merkle root of beneficiaries (address, amount), and the registry of
 - [off-chain](./app), the merkle tree must be stored to be able to generate the merkle proofs required to claim.
 An off-chain app also is helping on the merkle tree generation and validation before deploying the airdrop contract.
 
+## Prerequisites
+
+- [taqueria](https://taqueria.io/docs/getting-started/installation) is used for the contracts stack
+- PHP8 is used for the dApp
+
 ## Why PHP?
 
 - it is still the king of cheap hosting.

@@ -13,7 +13,8 @@ node_modules/
 # ligo
 **/_esy
 **/.ligo
-**/esy.lock
+**/_ligo
+**/ligo.esy.lock
 
 testdata/
 !testdata/token.tz

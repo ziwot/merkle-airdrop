@@ -27,14 +27,13 @@ help:
 SHELL=/bin/bash
 DOCKER_COMPOSE = docker compose -f ./infra/docker-compose.yml
 npm=npm --prefix ./infra -s run
-TAQ_LIGO_IMAGE=ligolang/ligo:0.72.0
 
 ########################################
 #            DEPENDENCIES              #
 ########################################
 install: ##@Dependencies install dependencies
 	@npm ci
-	@TAQ_LIGO_IMAGE=$(TAQ_LIGO_IMAGE) taq ligo -c "install"
+	taq ligo -c "install"
 	@cd app/ \
 		&& composer install \
 		&& cp config/app_local.example.php config/app_local.php \
@@ -69,10 +68,10 @@ deploy: testdata ##@Infra deploy contracts
 #             CONTRACTS                #
 ########################################
 compile: ##@Contracts compile contracts
-	@TAQ_LIGO_IMAGE=$(TAQ_LIGO_IMAGE) taq compile-all
+	taq compile-all
 
 test: ##@Contracts test contracts
-	@TAQ_LIGO_IMAGE=$(TAQ_LIGO_IMAGE) taq ligo -c "run test contracts/test/all.mligo"
+	taq ligo -c "run test contracts/test/all.mligo"
 
 generate-types: compile ##@Contracts generate types
 	@taq generate types artifacts/nft.tz artifacts/delegation.tz --typescriptDir ./app/src/types
