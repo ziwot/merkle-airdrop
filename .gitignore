@@ -19,6 +19,3 @@ node_modules/
 testdata/
 !testdata/token.tz
 !testdata/token_storage.tz
-
-# nix
-.direnv

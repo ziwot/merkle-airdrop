@@ -1,6 +1,7 @@
 #import "ligo-breathalyzer/lib/lib.mligo" "Breath"
 #import "./util.mligo" "Util"
 #import "../airdrop.mligo" "Airdrop"
+
 let dummy_metadata = 0x01
 
 let case_happy_path =
@@ -40,11 +41,9 @@ let case_happy_path =
                          amount = 200n;
                          token_id = 0n
                         }
-                      ]
-                      : Airdrop.FA.TZIP12.atomic_trans list)
+                      ])
                   })
-               ]
-               : Airdrop.FA.TZIP12.transfer)) in
+               ])) in
        let () = Breath.Logger.log level "Claim Airdrop" in
        let alice_action_2 =
          Breath.Context.act_as

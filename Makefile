@@ -33,7 +33,8 @@ npm=npm --prefix ./infra -s run
 ########################################
 install: ##@Dependencies install dependencies
 	@npm ci
-	taq ligo -c "install"
+	@cd ./infra && npm ci && cd ..
+	@taq ligo -c "install"
 	@cd app/ \
 		&& composer install \
 		&& cp config/app_local.example.php config/app_local.php \

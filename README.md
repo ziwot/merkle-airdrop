@@ -22,6 +22,7 @@ An off-chain app also is helping on the merkle tree generation and validation be
 
 - [taqueria](https://taqueria.io/docs/getting-started/installation) is used for the contracts stack
 - PHP8 is used for the dApp
+- docker for infra (MySQL, adminer, flextesa..)
 
 ## Why PHP?
 
@@ -38,6 +39,12 @@ An off-chain app also is helping on the merkle tree generation and validation be
 4. Compile contracts: `make compile`
 5. Deploy contracts: `make deploy`
 6. Start app: `make start`
+
+Then, you'll have :
+
+- adminer available at <http://localhost:7000>
+- local sandbox at <http://localhost:20000>
+- tzkt api at <http://localhost:5000>
 
 ## Dapp
 

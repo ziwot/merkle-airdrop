@@ -1,4 +1,3 @@
-#import "@ligo/fa/lib/fa2/asset/multi_asset.impl.mligo" "FA"
 module Errors = struct
   let already_claimed = "ALREADY_CLAIMED"
 
@@ -7,25 +6,20 @@ module Errors = struct
   let fa_not_found = "FA_NOT_FOUND"
 
   let not_admin = "NOT_ADMIN"
-
-end
+  end
 
 module Metadata = struct
   (* tzip-16 https://tzip.tezosagora.org/proposal/tzip-16/ *)
-
   type t = (string, bytes) big_map
-
-end
+  end
 
 module Token = struct
   type token_id = nat
 
   type t = address * token_id
 
-  let get_transfer_entrypoint (addr : address) : FA.TZIP12.transfer contract =
-    match (Tezos.get_entrypoint_opt "%transfer" addr
-       : FA.TZIP12.transfer contract option)
-    with
+  let get_transfer_entrypoint (addr : address) =
+    match (Tezos.get_entrypoint_opt "%transfer" addr) with
       None -> failwith Errors.fa_not_found
     | Some c -> c
 
@@ -43,14 +37,11 @@ module Token = struct
                  token_id;
                  amount
                 }
-              ]
-              : FA.TZIP12.atomic_trans list)
+              ])
           })
-       ]
-       : FA.TZIP12.transfer) in
-    Tezos.transaction transfer_requests 0mutez dest
-
-end
+       ]) in
+    Tezos.Next.Operation.transaction transfer_requests 0mutez dest
+  end
 
 module Config = struct
   type t =
@@ -58,8 +49,7 @@ module Config = struct
      token : Token.t;
      merkle_root : bytes
     }
-
-end
+  end
 
 module MerkleProof = struct
   let verify (proof, root, leaf : bytes list * bytes * bytes) =
@@ -70,8 +60,7 @@ module MerkleProof = struct
     = root
 
   let get_leaf (message : bytes) : bytes = Crypto.sha256 message
-
-end
+  end
 
 type parameter =
   [@layout comb]
@@ -99,8 +88,7 @@ module Storage = struct
   let register_claim (s : t) (addr : address) =
     let claimed = Big_map.add addr unit s.claimed in
     {s with claimed}
-
-end
+  end
 
 type storage = Storage.t
 
@@ -118,7 +106,7 @@ let claim
   let () = Storage.assert_not_claimed s addr in
   let leaf = MerkleProof.get_leaf (Bytes.pack (addr, amnt)) in
   let () =
-    assert_with_error
+    Assert.Error.assert
       (not (MerkleProof.verify (merkle_proof, s.config.merkle_root, leaf)))
       Errors.invalid_proof in
   [Token.transfer (s.config.token, addr, amnt)], Storage.register_claim s addr

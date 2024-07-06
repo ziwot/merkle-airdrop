@@ -1,5 +1,8 @@
+#import "@ligo/fa/lib/fa2/common/tzip12.datatypes.jsligo" "TZIP12"
+#import "@ligo/fa/lib/main.mligo" "FA2"
 #import "ligo-breathalyzer/lib/lib.mligo" "Breath"
 #import "../airdrop.mligo" "Airdrop"
+
 type originated = Breath.Contract.originated
 
 let get_token_initial_storage (owner, token_id, amount_ : address * nat * nat) =
@@ -7,7 +10,7 @@ let get_token_initial_storage (owner, token_id, amount_ : address * nat * nat) =
     Big_map.literal
       [("", Bytes.pack ("tezos-storage:contents")); ("contents", ("" : bytes))] in
   let ledger = Big_map.literal ([((owner, token_id), amount_)]) in
-  let operators = (Big_map.empty : Airdrop.FA.MultiAsset.operators) in
+  let operators = (Big_map.empty : FA2.MultiAsset.operators) in
   let token_metadata =
     (Big_map.literal
        [
@@ -15,10 +18,8 @@ let get_token_initial_storage (owner, token_id, amount_ : address * nat * nat) =
           ({
             token_id = token_id;
             token_info = (Map.empty : (string, bytes) map)
-           }
-           : Airdrop.FA.TZIP12.tokenMetadataData))
-       ]
-     : Airdrop.FA.TZIP12.tokenMetadata) in
+           }))
+       ]) in
   {
    metadata;
    ledger;
@@ -35,7 +36,7 @@ let originate_token
   Breath.Contract.originate
     level
     "token_sc"
-    (contract_of  Airdrop.FA.MultiAsset)
+    (contract_of  FA2.MultiAsset)
     (get_token_initial_storage (owner, token_id, amount_))
     0mutez
 
@@ -54,10 +55,8 @@ let originate_airdrop
     0mutez
 
 let request_token_transfer
-  (contract
-   : ( Airdrop.FA.MultiAsset parameter_of, Airdrop.FA.MultiAsset.storage)
-       originated)
-  (p : Airdrop.FA.TZIP12.transfer)
+  (contract : ( FA2.MultiAsset parameter_of, FA2.MultiAsset.storage) originated)
+  (p : TZIP12.transfer)
   () = Breath.Contract.transfer_to contract (Transfer (p)) 0mutez
 
 let request_claim
@@ -66,10 +65,8 @@ let request_claim
   () = Breath.Contract.transfer_to contract p 0mutez
 
 let expected_token_state
-  (contract
-   : ( Airdrop.FA.MultiAsset parameter_of, Airdrop.FA.MultiAsset.storage)
-       originated)
-  (operators : Airdrop.FA.MultiAsset.operators)
+  (contract : ( FA2.MultiAsset parameter_of, FA2.MultiAsset.storage) originated)
+  (operators : FA2.MultiAsset.operators)
 : Breath.Result.result =
   let storage = Breath.Contract.storage_of contract in
   let operators_expectation =

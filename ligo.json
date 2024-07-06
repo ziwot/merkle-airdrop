@@ -1,1 +1,6 @@
-{ "dependencies": { "ligo-breathalyzer": "^1.5.0", "@ligo/fa": "^1.0.9" } }
+{
+    "dependencies": {
+        "ligo-breathalyzer": "^1.7.0",
+        "@ligo/fa": "^1.4.2"
+    }
+}
