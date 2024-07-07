@@ -53,8 +53,9 @@ down: ##@Infra stop local infra
 
 testdata: bootstrapped ##@Infra generate testdata
 	@$(npm) testdata
-	@./app/bin/cake migrations migrate
-	@./app/bin/cake migrations seed
+	@cd ./app && ./bin/cake migrations migrate \
+	&& ./bin/cake migrations seed \
+	&& cd ..
 
 data-reset: down ##@Infra reset data
 	@docker volume rm infra_db_data
