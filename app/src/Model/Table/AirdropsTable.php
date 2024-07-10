@@ -112,10 +112,9 @@ class AirdropsTable extends Table
 
     public function recentAirdrops()
     {
-        return $this->find('all', [
-            'limit' => 5,
-            'order' => 'Airdrops.created DESC',
-            'contain' => ['Tokens']
-        ])->all();
+        return $this->find('all',
+        limit: 5,
+        order: 'Airdrops.created DESC',
+        contain: ['Tokens'])->all();
     }
 }

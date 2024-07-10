@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -52,29 +51,20 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
      */
     public function bootstrap(): void
     {
+        // Call parent to load bootstrap from files.
         parent::bootstrap();
-
-        if (PHP_SAPI === 'cli') {
-            $this->bootstrapCli();
-        } else {
+        if (PHP_SAPI !== 'cli') {
             FactoryLocator::add(
                 'Table',
                 (new TableLocator())->allowFallbackClass(false)
             );
         }
-
-        if (Configure::read('debug')) {
-            $this->addPlugin('DebugKit');
-            $this->addPlugin('IdeHelper');
-        }
-
-        $this->addPlugin('AssetMix');
     }
 
     /**
      * Setup the middleware queue your application will use.
      *
-     * @param \Cake\Http\MiddlewareQueue $middlewareQueue The middleware queue to setup.
+     * @param  \Cake\Http\MiddlewareQueue $middlewareQueue The middleware queue to setup.
      * @return \Cake\Http\MiddlewareQueue The updated middleware queue.
      */
     public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
@@ -85,9 +75,13 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             ->add(new ErrorHandlerMiddleware(Configure::read('Error')))
 
             // Handle plugin/theme assets like CakePHP normally does.
-            ->add(new AssetMiddleware([
-                'cacheTime' => Configure::read('Asset.cacheTime'),
-            ]))
+            ->add(
+                new AssetMiddleware(
+                    [
+                    'cacheTime' => Configure::read('Asset.cacheTime'),
+                    ]
+                )
+            )
 
             // Add routing middleware.
             // If you have a large number of routes connected, turning on routes
@@ -106,9 +100,13 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
             // Cross Site Request Forgery (CSRF) Protection Middleware
             // https://book.cakephp.org/4/en/security/csrf.html#cross-site-request-forgery-csrf-middleware
-            ->add(new CsrfProtectionMiddleware([
-                'httponly' => true,
-            ]));
+            ->add(
+                new CsrfProtectionMiddleware(
+                    [
+                    'httponly' => true,
+                    ]
+                )
+            );
 
         return $middlewareQueue;
     }
@@ -116,35 +114,18 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     /**
      * Register application container services.
      *
-     * @param \Cake\Core\ContainerInterface $container The Container to update.
+     * @param  \Cake\Core\ContainerInterface $container The Container to update.
      * @return void
-     * @link https://book.cakephp.org/4/en/development/dependency-injection.html#dependency-injection
+     * @link   https://book.cakephp.org/4/en/development/dependency-injection.html#dependency-injection
      */
     public function services(ContainerInterface $container): void
     {
     }
 
     /**
-     * Bootstrapping for CLI application.
-     *
-     * That is when running commands.
-     *
-     * @return void
-     */
-    protected function bootstrapCli(): void
-    {
-        $this->addOptionalPlugin('Cake/Repl');
-        $this->addOptionalPlugin('Bake');
-
-        $this->addPlugin('Migrations');
-
-        // Load more plugins here
-    }
-
-    /**
      * Returns a service provider instance.
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request Request
+     * @param  \Psr\Http\Message\ServerRequestInterface $request Request
      * @return \Authentication\AuthenticationServiceInterface
      */
     public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
@@ -152,15 +133,19 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $service = new AuthenticationService();
 
         // Define where users should be redirected to when they are not authenticated
-        $service->setConfig([
-            'unauthenticatedRedirect' => Router::url([
+        $service->setConfig(
+            [
+            'unauthenticatedRedirect' => Router::url(
+                [
                 'prefix' => false,
                 'plugin' => null,
                 'controller' => 'Users',
                 'action' => 'login',
-            ]),
+                ]
+            ),
             'queryParam' => 'redirect',
-        ]);
+            ]
+        );
 
         $fields = [
             TezosIdentifier::CREDENTIAL_PK => 'pk',
@@ -170,12 +155,15 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         ];
         // Load the authenticators. Session should be first.
         $service->loadAuthenticator('Authentication.Session');
-        $service->loadAuthenticator('SignedMessage', [
+        $service->loadAuthenticator(
+            'SignedMessage', [
             'fields' => $fields,
-        ]);
+            ]
+        );
 
         // Load identifiers
         $service->loadIdentifier('Tezos', compact('fields'));
+
         return $service;
     }
 }

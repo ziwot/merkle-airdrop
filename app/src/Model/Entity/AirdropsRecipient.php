@@ -12,7 +12,7 @@ use Cake\ORM\Entity;
  * @property int $airdrop_id
  * @property int $recipient_id
  * @property int $amount
- * @property \Cake\I18n\FrozenTime|null $claimed
+ * @property \Cake\I18n\DateTime|null $claimed
  *
  * @property \App\Model\Entity\Airdrop $airdrop
  * @property \App\Model\Entity\Recipient $recipient
@@ -28,7 +28,7 @@ class AirdropsRecipient extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'airdrop_id' => true,
         'recipient_id' => true,
         'amount' => true,

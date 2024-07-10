@@ -12,8 +12,8 @@ use Cake\ORM\Entity;
  * @property string $network
  * @property string $address
  * @property int $identifier
- * @property \Cake\I18n\FrozenTime $created
- * @property \Cake\I18n\FrozenTime|null $modified
+ * @property \Cake\I18n\DateTime $created
+ * @property \Cake\I18n\DateTime|null $modified
  *
  * @property \App\Model\Entity\Airdrop[] $airdrops
  */
@@ -28,7 +28,7 @@ class Token extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'network' => true,
         'address' => true,
         'identifier' => true,

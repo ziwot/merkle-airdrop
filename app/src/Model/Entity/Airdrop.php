@@ -14,8 +14,8 @@ use Cake\ORM\Entity;
  * @property string|null $address
  * @property string $name
  * @property string|null $description
- * @property \Cake\I18n\FrozenTime $created
- * @property \Cake\I18n\FrozenTime|null $modified
+ * @property \Cake\I18n\DateTime $created
+ * @property \Cake\I18n\DateTime|null $modified
  *
  * @property \App\Model\Entity\Token $token
  * @property \App\Model\Entity\Recipient[] $recipients
@@ -31,7 +31,7 @@ class Airdrop extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'token_id' => true,
         'merkle_root' => true,
         'address' => true,

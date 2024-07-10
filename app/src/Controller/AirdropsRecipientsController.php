@@ -35,9 +35,7 @@ class AirdropsRecipientsController extends AppController
      */
     public function view($id = null)
     {
-        $airdropsRecipient = $this->AirdropsRecipients->get($id, [
-            'contain' => ['Airdrops', 'Recipients'],
-        ]);
+        $airdropsRecipient = $this->AirdropsRecipients->get($id, contain: ['Airdrops', 'Recipients']);
 
         $this->set(compact('airdropsRecipient'));
     }
@@ -73,9 +71,7 @@ class AirdropsRecipientsController extends AppController
      */
     public function edit($id = null)
     {
-        $airdropsRecipient = $this->AirdropsRecipients->get($id, [
-            'contain' => [],
-        ]);
+        $airdropsRecipient = $this->AirdropsRecipients->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $airdropsRecipient = $this->AirdropsRecipients->patchEntity($airdropsRecipient, $this->request->getData());
             if ($this->AirdropsRecipients->save($airdropsRecipient)) {

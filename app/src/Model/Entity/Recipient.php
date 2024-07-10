@@ -10,8 +10,8 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $address
- * @property \Cake\I18n\FrozenTime $created
- * @property \Cake\I18n\FrozenTime|null $modified
+ * @property \Cake\I18n\DateTime $created
+ * @property \Cake\I18n\DateTime|null $modified
  *
  * @property \App\Model\Entity\Airdrop[] $airdrops
  */
@@ -26,7 +26,7 @@ class Recipient extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'address' => true,
         'created' => true,
         'modified' => true,

@@ -32,9 +32,7 @@ class RecipientsController extends AppController
      */
     public function view($id = null)
     {
-        $recipient = $this->Recipients->get($id, [
-            'contain' => ['Airdrops'],
-        ]);
+        $recipient = $this->Recipients->get($id, contain: ['Airdrops']);
 
         $this->set(compact('recipient'));
     }
@@ -69,9 +67,7 @@ class RecipientsController extends AppController
      */
     public function edit($id = null)
     {
-        $recipient = $this->Recipients->get($id, [
-            'contain' => ['Airdrops'],
-        ]);
+        $recipient = $this->Recipients->get($id, contain: ['Airdrops']);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $recipient = $this->Recipients->patchEntity($recipient, $this->request->getData());
             if ($this->Recipients->save($recipient)) {

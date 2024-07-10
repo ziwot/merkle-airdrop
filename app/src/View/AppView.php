@@ -22,7 +22,7 @@ use Cake\View\View;
  *
  * Your application's default view class
  *
- * @link https://book.cakephp.org/4/en/views.html#the-app-view
+ * @link     https://book.cakephp.org/4/en/views.html#the-app-view
  * @property \Authentication\View\Helper\IdentityHelper $Identity
  * @property \AssetMix\View\Helper\AssetMixHelper $AssetMix
  * @property \App\View\Helper\TzHelper $Tz
@@ -41,7 +41,6 @@ class AppView extends View
     public function initialize(): void
     {
         $this->loadHelper('Authentication.Identity');
-        $this->loadHelper('AssetMix.AssetMix');
         $this->loadHelper('Tz');
     }
 }

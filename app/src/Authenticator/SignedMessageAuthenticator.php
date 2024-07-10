@@ -9,10 +9,10 @@ declare(strict_types=1);
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link          https://cakephp.org CakePHP(tm) Project
- * @since         1.0.0
- * @license       https://opensource.org/licenses/mit-license.php MIT License
+ * @copyright Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link      https://cakephp.org CakePHP(tm) Project
+ * @since     1.0.0
+ * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
 namespace App\Authenticator;
 
@@ -36,10 +36,8 @@ class SignedMessageAuthenticator extends AbstractAuthenticator
      * - `fields` The fields to use to identify a user by.
      * - `loginUrl` Login URL or an array of URLs.
      * - `urlChecker` Url checker config.
-     *
-     * @var array
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'loginUrl' => null,
         'urlChecker' => 'Authentication.Default',
         'fields' => [
@@ -49,13 +47,15 @@ class SignedMessageAuthenticator extends AbstractAuthenticator
     /**
      * Checks the fields to ensure they are supplied.
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request The request that contains login information.
+     * @param  \Psr\Http\Message\ServerRequestInterface $request The request that contains login information.
      * @return array|null Username and password retrieved from a request body.
      */
     protected function _getData(ServerRequestInterface $request): ?array
     {
         $fields = $this->_config['fields'];
-        /** @var array $body */
+        /**
+ * @var array $body
+*/
         $body = $request->getParsedBody();
 
         $data = [];
@@ -78,7 +78,7 @@ class SignedMessageAuthenticator extends AbstractAuthenticator
     /**
      * Prepares the error object for a login URL error
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request The request that contains login information.
+     * @param  \Psr\Http\Message\ServerRequestInterface $request The request that contains login information.
      * @return \Authentication\Authenticator\ResultInterface
      */
     protected function _buildLoginUrlErrorResult(ServerRequestInterface $request): ResultInterface
@@ -112,7 +112,7 @@ class SignedMessageAuthenticator extends AbstractAuthenticator
      * to find POST data that is used to find a matching record in the `config.userModel`. Will return false if
      * there is no post data, either username or password is missing, or if the scope conditions have not been met.
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request The request that contains login information.
+     * @param  \Psr\Http\Message\ServerRequestInterface $request The request that contains login information.
      * @return \Authentication\Authenticator\ResultInterface
      */
     public function authenticate(ServerRequestInterface $request): ResultInterface
@@ -124,9 +124,11 @@ class SignedMessageAuthenticator extends AbstractAuthenticator
         $data = $this->_getData($request);
 
         if ($data === null) {
-            return new Result(null, Result::FAILURE_CREDENTIALS_MISSING, [
+            return new Result(
+                null, Result::FAILURE_CREDENTIALS_MISSING, [
                 'Login credentials not found',
-            ]);
+                ]
+            );
         }
 
         $user = $this->_identifier->identify($data);

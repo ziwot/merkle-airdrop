@@ -32,9 +32,7 @@ class TokensController extends AppController
      */
     public function view($id = null)
     {
-        $token = $this->Tokens->get($id, [
-            'contain' => ['Airdrops'],
-        ]);
+        $token = $this->Tokens->get($id, contain: ['Airdrops']);
 
         $this->set(compact('token'));
     }
@@ -68,9 +66,7 @@ class TokensController extends AppController
      */
     public function edit($id = null)
     {
-        $token = $this->Tokens->get($id, [
-            'contain' => [],
-        ]);
+        $token = $this->Tokens->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $token = $this->Tokens->patchEntity($token, $this->request->getData());
             if ($this->Tokens->save($token)) {

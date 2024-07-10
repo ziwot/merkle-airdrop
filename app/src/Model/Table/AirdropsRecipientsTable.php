@@ -100,8 +100,6 @@ class AirdropsRecipientsTable extends Table
 
     public function byAirdrop(int $airdropId)
     {
-        return $this->find('all', [
-            'conditions' => ['airdrop_id' => $airdropId]
-        ])->all();
+        return $this->find('all', conditions: ['airdrop_id' => $airdropId])->all();
     }
 }

@@ -4,7 +4,6 @@ namespace App\Identifier;
 
 use Authentication\Identifier\AbstractIdentifier;
 use Authentication\Identifier\Resolver\ResolverAwareTrait;
-use Authentication\Identifier\Resolver\ResolverInterface;
 use Bzzhh\Pezos\Keys\PubKey;
 
 class TezosIdentifier extends AbstractIdentifier
@@ -24,10 +23,8 @@ class TezosIdentifier extends AbstractIdentifier
      *   - `message` the payload
      *   - `signature` the signed payload
      * - `resolver` The resolver implementation to use.
-     *
-     * @var array
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'fields' => [
             self::CREDENTIAL_PK => 'pk',
             self::CREDENTIAL_PKH => 'pkh',
@@ -40,15 +37,14 @@ class TezosIdentifier extends AbstractIdentifier
     /**
      * @inheritDoc
      */
-    public function identify(array $credentials)
+    public function identify(array $credentials) : \ArrayAccess|array|null
     {
         if (!isset($credentials[self::CREDENTIAL_PKH])) {
             return null;
         }
 
         $identity = $this->_findIdentity($credentials[self::CREDENTIAL_PKH]);
-        if (
-            array_key_exists(self::CREDENTIAL_MESSAGE, $credentials)
+        if (array_key_exists(self::CREDENTIAL_MESSAGE, $credentials)
             && array_key_exists(self::CREDENTIAL_SIGNATURE, $credentials)
         ) {
             $pk = $credentials[self::CREDENTIAL_PK];
@@ -70,9 +66,8 @@ class TezosIdentifier extends AbstractIdentifier
     {
         $pubKey = PubKey::fromBase58($pk);
 
-        if (
-            !$pubKey->verifySignature($signature, $message) &&
-            !$pubKey->verifySignature($signature, bin2hex($message))
+        if (!$pubKey->verifySignature($signature, $message)
+            && !$pubKey->verifySignature($signature, bin2hex($message))
         ) {
             return false;
         }
@@ -83,7 +78,7 @@ class TezosIdentifier extends AbstractIdentifier
     /**
      * Find a user record using the username/identifier provided.
      *
-     * @param string $identifier The username/identifier.
+     * @param  string $identifier The username/identifier.
      * @return \ArrayAccess|array|null
      */
     protected function _findIdentity(string $identifier)
