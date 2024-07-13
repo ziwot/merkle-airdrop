@@ -13,4 +13,5 @@ return [
     ],
     'BootstrapUI' => [],
     'IdeHelper' => [],
+    'ViteHelper' => [],
 ];

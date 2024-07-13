@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var iterable<\App\Model\Entity\AirdropsRecipient> $airdropsRecipients
+ * @var \App\Model\Entity\AirdropsRecipient[]|\Cake\Collection\CollectionInterface $airdropsRecipients
  */
 ?>
 <div class="airdropsRecipients index content">

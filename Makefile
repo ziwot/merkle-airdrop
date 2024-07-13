@@ -26,7 +26,6 @@ help:
 
 SHELL=/bin/bash
 DOCKER_COMPOSE = docker compose -f ./infra/docker-compose.yml
-npm=npm --prefix ./infra -s run
 
 ########################################
 #            DEPENDENCIES              #
@@ -37,6 +36,7 @@ install: ##@Dependencies install dependencies
 	@taq ligo -c "install"
 	@cd app/ \
 		&& composer install \
+		&& npm ci \
 		&& cp config/app_local.example.php config/app_local.php \
 		&& cd ..
 
@@ -52,7 +52,7 @@ down: ##@Infra stop local infra
 	@$(DOCKER_COMPOSE) down
 
 testdata: bootstrapped ##@Infra generate testdata
-	@$(npm) testdata
+	@npm --prefix ./infra -s run testdata
 	@cd ./app && ./bin/cake migrations migrate \
 	&& ./bin/cake migrations seed \
 	&& cd ..
@@ -61,7 +61,7 @@ data-reset: down ##@Infra reset data
 	@docker volume rm infra_db_data
 
 bootstrapped: ##@Infra check sandbox is bootstrapped
-	@$(npm) bootstrapped
+	@npm --prefix ./infra -s run bootstrapped
 
 deploy: testdata ##@Infra deploy contracts
 	@taq deploy airdrop.tz
@@ -85,4 +85,5 @@ start: ##@App start app
 	@if [ ! -f ./app/config/app_local.php ]; then cp ./app/config/app_local.example.php ./app/config/app_local.php; fi
 	@sed -i "s/__SALT__/$(shell openssl rand -base64 32 | tr -d /=+)/" ./app/config/app_local.php
 	@sed -i "s/localhost/127.0.0.1/" ./app/config/app_local.php
-	@./app/bin/cake server
+	@./app/bin/cake server \
+		& npm --prefix ./app -s run dev

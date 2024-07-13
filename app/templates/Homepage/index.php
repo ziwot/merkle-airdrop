@@ -3,6 +3,7 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Airdrop[] $recentAirdrops
+ * @var array $totalAmounts
  */
 ?>
 <div class="recent-airdrops">

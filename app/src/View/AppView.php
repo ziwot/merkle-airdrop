@@ -26,6 +26,11 @@ use Cake\View\View;
  * @property \Authentication\View\Helper\IdentityHelper $Identity
  * @property \AssetMix\View\Helper\AssetMixHelper $AssetMix
  * @property \App\View\Helper\TzHelper $Tz
+ * @property \BootstrapUI\View\Helper\HtmlHelper $Html
+ * @property \BootstrapUI\View\Helper\FormHelper $Form
+ * @property \BootstrapUI\View\Helper\FlashHelper $Flash
+ * @property \BootstrapUI\View\Helper\PaginatorHelper $Paginator
+ * @property \BootstrapUI\View\Helper\BreadcrumbsHelper $Breadcrumbs
  */
 class AppView extends View
 {
@@ -40,7 +45,19 @@ class AppView extends View
      */
     public function initialize(): void
     {
-        $this->loadHelper('Authentication.Identity');
-        $this->loadHelper('Tz');
+        parent::initialize();
+
+        $helpers = [
+            'Html' => ['className' => 'BootstrapUI.Html'],
+            'Form' => ['className' => 'BootstrapUI.Form'],
+            'Flash' => ['className' => 'BootstrapUI.Flash'],
+            'Paginator' => ['className' => 'BootstrapUI.Paginator'],
+            'Breadcrumbs' => ['className' => 'BootstrapUI.Breadcrumbs'],
+        ];
+
+        $this->helpers = array_merge($helpers, $this->helpers);
+        $this->loadHelper('ViteHelper.ViteScripts');
+        $this->addHelper('Authentication.Identity');
+        $this->addHelper('Tz');
     }
 }

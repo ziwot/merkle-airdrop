@@ -51,7 +51,5 @@ nbproject/*
 yarn-debug.log
 yarn-error.log
 
-# assets mix
-/webroot/js
-/webroot/css
-/webroot/mix-manifest.json
+# build
+/webroot/dist

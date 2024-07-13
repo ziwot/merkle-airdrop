@@ -4,7 +4,7 @@ import { createMessagePayload, signIn } from '@siwt/sdk'
 export default () => ({
     error: false,
 
-    async login(csrfToken) {
+    async login(csrfToken: string) {
         const dAppClient = new DAppClient({ name: 'airdrop.pezos.fi' });
         try {
             // request wallet permissions with Beacon dAppClient
