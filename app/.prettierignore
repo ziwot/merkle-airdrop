@@ -1,0 +1,9 @@
+bin
+webroot
+logs
+resources
+src
+tests
+tmp
+vendor
+composer.lock

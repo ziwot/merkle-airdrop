@@ -82,8 +82,10 @@ generate-types: compile ##@Contracts generate types
 #                 APP                  #
 ########################################
 start: ##@App start app
-	@if [ ! -f ./app/config/app_local.php ]; then cp ./app/config/app_local.example.php ./app/config/app_local.php; fi
-	@sed -i "s/__SALT__/$(shell openssl rand -base64 32 | tr -d /=+)/" ./app/config/app_local.php
-	@sed -i "s/localhost/127.0.0.1/" ./app/config/app_local.php
 	@./app/bin/cake server \
 		& npm --prefix ./app -s run dev
+
+config: ##@App swap app config (ENV=dev make config)
+	@cp "./app/config/app_local.$(ENV).php" ./app/config/app_local.php ; \
+	sed -i "s/__SALT__/$(shell openssl rand -base64 32 | tr -d /=+)/" ./app/config/app_local.php ; \
+	echo "[OK] environment : $(ENV)"

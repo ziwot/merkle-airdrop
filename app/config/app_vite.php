@@ -9,7 +9,6 @@ return [
         'development' => [
             'scriptEntries' => [],
             'styleEntries' => [],
-            'hostNeedles' => ['localhost'],
         ],
     ],
 ];

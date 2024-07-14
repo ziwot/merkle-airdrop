@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Http\CorsMiddleware;
 use App\Identifier\TezosIdentifier;
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;
@@ -82,6 +83,8 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
                     ]
                 )
             )
+
+            ->add(new CorsMiddleware())
 
             // Add routing middleware.
             // If you have a large number of routes connected, turning on routes

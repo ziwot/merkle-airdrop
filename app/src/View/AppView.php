@@ -31,6 +31,7 @@ use Cake\View\View;
  * @property \BootstrapUI\View\Helper\FlashHelper $Flash
  * @property \BootstrapUI\View\Helper\PaginatorHelper $Paginator
  * @property \BootstrapUI\View\Helper\BreadcrumbsHelper $Breadcrumbs
+ * @property \ViteHelper\View\Helper\ViteScriptsHelper $ViteScripts
  */
 class AppView extends View
 {

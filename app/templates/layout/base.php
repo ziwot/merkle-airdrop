@@ -32,11 +32,13 @@ if (!$this->fetch('title')) {
  */
 if (!$this->fetch('tb_footer')) {
     $this->start('tb_footer');
+    echo '<p>';
     if (Configure::check('App.title')) {
         printf('&copy;%s %s', date('Y'), Configure::read('App.title'));
     } else {
         printf('&copy;%s', date('Y'));
     }
+    echo '</p>';
     $this->end();
 }
 
@@ -69,10 +71,12 @@ if (!$this->fetch('tb_body_end')) {
 if (Configure::check('App.author')) {
     $this->prepend(
         'meta',
-        $this->Html->meta('author', null, [
+        $this->Html->meta(
+            'author', null, [
             'name' => 'author',
             'content' => Configure::read('App.author'),
-        ]),
+            ]
+        ),
     );
 }
 $this->prepend(
@@ -84,13 +88,13 @@ $this->prepend(
 $this->ViteScripts->script('assets/main.ts');
 ?>
 <!doctype html>
-<?= $this->fetch('html') ?>
+<?php echo $this->fetch('html') ?>
     <head>
-        <?= $this->Html->charset() ?>
+        <?php echo $this->Html->charset() ?>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title><?= h($this->fetch('title')) ?></title>
-        <?= $this->fetch('meta') ?>
-        <?= $this->fetch('css') ?>
+        <title><?php echo h($this->fetch('title')) ?></title>
+        <?php echo $this->fetch('meta') ?>
+        <?php echo $this->fetch('css') ?>
     </head>
 
     <?php
