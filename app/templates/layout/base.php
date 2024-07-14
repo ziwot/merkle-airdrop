@@ -83,9 +83,6 @@ $this->prepend(
     'meta',
     $this->Html->meta('favicon.ico', '/favicon.ico', ['type' => 'icon']),
 );
-
-//$this->ViteScripts->css('assets/styles/styles.scss');
-$this->ViteScripts->script('assets/main.ts');
 ?>
 <!doctype html>
 <?php echo $this->fetch('html') ?>

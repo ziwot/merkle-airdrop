@@ -101,6 +101,14 @@ return [
             'url' => env('CACHE_DEFAULT_URL', null),
         ],
 
+        'short' => [
+            'className' => FileEngine::class,
+            'prefix' => 'cake_short_',
+            'path' => CACHE,
+            'duration' => '+5 minutes',
+            'url' => env('CACHE_DEFAULT_URL', null),
+        ],
+
         /*
          * Configure the cache used for general framework caching.
          * Translation cache files are stored with this configuration.

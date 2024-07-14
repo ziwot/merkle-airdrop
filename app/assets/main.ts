@@ -1,4 +1,3 @@
-import './styles/styles.scss';
 import Alpine from 'alpinejs';
 import Focus from "@alpinejs/focus"; // optional unless you want to use x-trap
 import AlpineFloatingUI from "@awcodes/alpine-floating-ui";
@@ -10,9 +9,9 @@ Alpine.plugin(Focus); // optional unless you want to use x-trap
 Alpine.plugin(AlpineFloatingUI);
 document.addEventListener('alpine:init', () => {
     Alpine.data('beacon', () => ({
-        error: 'ok',
+        error: false,
         dAppClient: new DAppClient({ name: 'Tez Drops' }),
-        async login(dappUrl: string) {
+        async login(dappUrl: string, csrfToken: string) {
             try {
                 this.dAppClient.subscribeToEvent(BeaconEvent.ACTIVE_ACCOUNT_SET, (account: string) => {
                     // An active account has been set, update the dApp UI
@@ -37,6 +36,7 @@ document.addEventListener('alpine:init', () => {
                     pkh: permissions.address,
                     message: messagePayload.payload,
                     signature: signedPayload.signature,
+                    _csrfToken: csrfToken
                 })
                 if (200 === status) {
                     window.location.replace(dappUrl);

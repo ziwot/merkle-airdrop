@@ -16,9 +16,13 @@
  */
 
 use Cake\Routing\Router;
+use ViteHelper\Utilities\ConfigDefaults;
 
 $this->extend('base');
 $this->append('title', ' – Tez Drops');
+
+$this->ViteScripts->css(['files' => ['assets/styles/styles.scss'], 'block' => ConfigDefaults::VIEW_BLOCK_CSS]);
+$this->ViteScripts->script('assets/main.ts');
 ?>
 
 <main class="container">
@@ -58,7 +62,7 @@ $this->append('title', ' – Tez Drops');
                         ['class' => 'nav-link'],
                     ) ?>
                 </li>
-                <?= echo $this->request
+                <?= $this->request
                     ->getSession()
                     ->read('network', 'local') ?>
                 <?= $this->cell(
@@ -86,11 +90,10 @@ $this->append('title', ' – Tez Drops');
                 </li>
             <?php else : ?>
                 <div x-data="beacon" class="flex items-center md:order-2">
-                    <button @click="login('<?= Router::fullbaseUrl() ?>')">Sync</button>
+                    <button @click="login('<?= Router::fullbaseUrl() ?>','<?= $this->request->getAttribute('csrfToken') ?>')">Sync</button>
                     <span x-show="error" class="text-red-600 font-semibold"><span x-text="error"></span></span>
                 </div>
             <?php endif; ?>
-            </ul>
         </div>
     </nav>
     <?php echo $this->Flash->render(); ?>

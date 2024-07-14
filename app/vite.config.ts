@@ -13,11 +13,15 @@ export default defineConfig({
         }
     },
     build: {
+        emptyOutDir: false,
         manifest: true,
         assetsDir: '',
         outDir: './webroot/dist',
         rollupOptions: {
-            input: './assets/main.ts',
+            input: {
+                app: './assets/main.ts',
+                styles: './assets/styles/styles.scss',
+            }
         }
     },
     server: {
