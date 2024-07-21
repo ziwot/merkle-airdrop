@@ -40,16 +40,6 @@ $this->ViteScripts->script('assets/main.ts');
                 </li>
                 <li class="nav-item">
                     <?= $this->Html->link(
-                        'Airdrops Recipients',
-                        [
-                            'controller' => 'AirdropsRecipients',
-                            'action' => 'index',
-                        ],
-                        ['class' => 'nav-link'],
-                    ) ?>
-                </li>
-                <li class="nav-item">
-                    <?= $this->Html->link(
                         'Tokens',
                         ['controller' => 'Tokens', 'action' => 'index'],
                         ['class' => 'nav-link'],
@@ -62,26 +52,29 @@ $this->ViteScripts->script('assets/main.ts');
                         ['class' => 'nav-link'],
                     ) ?>
                 </li>
-                <?= $this->request
-                    ->getSession()
-                    ->read('network', 'local') ?>
-                <?= $this->cell(
-                    'Balance',
-                    [],
-                    [
-                        'cache' => [
-                            'config' => 'short',
-                            'key' => 'inbox_' . $this->Identity->get('address'),
-                        ],
-                    ],
-                ) ?>
             <?php endif; ?>
-            <div x-data="beacon" class="flex items-center md:order-2">
+            <div x-data="beacon" class="d-flex flex-column items-center md:order-2">
                 <?php if (!$this->Identity->isLoggedIn()) : ?>
                 <button @click="login('<?= Router::fullbaseUrl() ?>','<?= $this->request->getAttribute('csrfToken') ?>')">Connect</button>
                 <span x-show="error" class="text-red-600 font-semibold"><span x-text="error"></span></span>
                 <?php else : ?>
-                <button @click="logout('<?= $this->Url->build(['controller' => 'Users', 'action' => 'logout'])?>')">Disconnect</button>
+                <div>
+                    Welcome, <?= $this->Identity->get('address') ?> !
+                    <button @click="logout('<?= $this->Url->build(['controller' => 'Users', 'action' => 'logout'])?>')">Disconnect</button>
+                </div>
+                <div class="align-self-end">
+                    <?= $this->cell(
+                        'Balance',
+                        [],
+                        [
+                        'cache' => [
+                            'config' => 'short',
+                            'key' => 'inbox_' . $this->Identity->get('address'),
+                        ],
+                        ],
+                    ) ?>
+                    (<?= $this->request ->getSession() ->read('network', 'local') ?>)
+                </div>
                 <?php endif; ?>
             </div>
         </div>

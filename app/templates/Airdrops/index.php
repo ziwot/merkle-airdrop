@@ -1,54 +1,66 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Airdrop[]|\Cake\Collection\CollectionInterface $airdrops
+ * @var iterable<\App\Model\Entity\Airdrop> $airdrops
+ * @var mixed $q
  */
 ?>
-<div class="airdrops index content">
-    <?= $this->Html->link(__('New Airdrop'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Airdrops') ?></h3>
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('token_id') ?></th>
-                    <th><?= $this->Paginator->sort('merkle_root') ?></th>
-                    <th><?= $this->Paginator->sort('address') ?></th>
-                    <th><?= $this->Paginator->sort('name') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('modified') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($airdrops as $airdrop): ?>
-                <tr>
-                    <td><?= $this->Number->format($airdrop->id) ?></td>
-                    <td><?= $airdrop->has('token') ? $this->Html->link($airdrop->token->id, ['controller' => 'Tokens', 'action' => 'view', $airdrop->token->id]) : '' ?></td>
-                    <td><?= h($airdrop->merkle_root) ?></td>
-                    <td><?= h($airdrop->address) ?></td>
-                    <td><?= h($airdrop->name) ?></td>
-                    <td><?= h($airdrop->created) ?></td>
-                    <td><?= h($airdrop->modified) ?></td>
-                    <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $airdrop->id]) ?>
-                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $airdrop->id]) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $airdrop->id], ['confirm' => __('Are you sure you want to delete # {0}?', $airdrop->id)]) ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+<div>
+    <div class="d-flex justify-content-between">
+        <div>
+            <h1>Airdrops</h1>
+            <p>A list of all airdrops.</p>
+        </div>
+        <div>
+            <?= $this->Html->link(
+                'Add airdrop',
+                ['action' => 'add'],
+                ['class' => 'btn btn-outline-primary mt-2'],
+            ) ?>
+        </div>
     </div>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
+    <div class="d-flex justify-content-between">
+        <?= $this->Form->create(null, [
+            'type' => 'get',
+            'class' => 'd-flex gap-3',
+        ]) ?>
+            <?= $this->Form->input('q', [
+                'type' => 'search',
+                'label' => 'Search',
+                'id' => 'search',
+                'value' => $q,
+                'hx-get' => $this->Url->build(['action' => 'index']),
+                'hx-trigger' => 'search, keyup delay:200ms changed',
+                'hx-target' => 'tbody',
+                'hx-swap' => 'outerhtml',
+                'hx-push-url' => 'true',
+                'hx-indicator' => '#spinner',
+            ]) ?>
+            <?= $this->Form->submit('Search', ['class' => 'btn btn-outline-primary']) ?>
+        <?= $this->Form->end() ?>
+        <div id="spinner" class="spinner-border htmx-indicator" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <div>
+        <div>
+            <div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Created</th>
+                        <th scope="col">Modified</th>
+                        <th scope="col">
+                            <span class="visually-hidden">Edit or View</span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <?= $this->element('Airdrops/list') ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
