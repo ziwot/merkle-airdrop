@@ -1,52 +1,66 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Token[]|\Cake\Collection\CollectionInterface $tokens
+ * @var iterable<\App\Model\Entity\Token> $tokens
+ * @var mixed $q
  */
 ?>
-<div class="tokens index content">
-    <?= $this->Html->link(__('New Token'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Tokens') ?></h3>
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('network') ?></th>
-                    <th><?= $this->Paginator->sort('address') ?></th>
-                    <th><?= $this->Paginator->sort('identifier') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('modified') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($tokens as $token): ?>
-                <tr>
-                    <td><?= $this->Number->format($token->id) ?></td>
-                    <td><?= h($token->network) ?></td>
-                    <td><?= h($token->address) ?></td>
-                    <td><?= $this->Number->format($token->identifier) ?></td>
-                    <td><?= h($token->created) ?></td>
-                    <td><?= h($token->modified) ?></td>
-                    <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $token->id]) ?>
-                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $token->id]) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $token->id], ['confirm' => __('Are you sure you want to delete # {0}?', $token->id)]) ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+<div>
+    <div class="d-flex justify-content-between">
+        <div>
+            <h1>Tokens</h1>
+            <p>A list of all tokens.</p>
+        </div>
+        <div>
+            <?= $this->Html->link(
+                'Add token',
+                ['action' => 'add'],
+                ['class' => 'btn btn-outline-primary mt-2'],
+            ) ?>
+        </div>
     </div>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
+    <div class="d-flex justify-content-between">
+        <?= $this->Form->create(null, [
+            'type' => 'get',
+            'class' => 'd-flex gap-3',
+        ]) ?>
+            <?= $this->Form->input('q', [
+                'type' => 'search',
+                'label' => 'Search',
+                'id' => 'search',
+                'value' => $q,
+                'hx-get' => $this->Url->build(['action' => 'index']),
+                'hx-trigger' => 'search, keyup delay:200ms changed',
+                'hx-target' => 'tbody',
+                'hx-swap' => 'outerhtml',
+                'hx-push-url' => 'true',
+                'hx-indicator' => '#spinner',
+            ]) ?>
+            <?= $this->Form->submit('Search', ['class' => 'btn btn-outline-primary']) ?>
+        <?= $this->Form->end() ?>
+        <div id="spinner" class="spinner-border htmx-indicator" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <div>
+        <div>
+            <div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Network</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Identifier</th>
+                        <th scope="col">
+                            <span class="visually-hidden">Edit or View</span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <?= $this->element('Tokens/list') ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

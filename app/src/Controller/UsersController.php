@@ -8,7 +8,7 @@ namespace App\Controller;
  * Users Controller
  *
  * @property \App\Model\Table\UsersTable $Users
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method   \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class UsersController extends AppController
 {
@@ -34,7 +34,7 @@ class UsersController extends AppController
     /**
      * View method
      *
-     * @param string|null $id User id.
+     * @param  string|null $id User id.
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -68,7 +68,7 @@ class UsersController extends AppController
     /**
      * Edit method
      *
-     * @param string|null $id User id.
+     * @param  string|null $id User id.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -90,7 +90,7 @@ class UsersController extends AppController
     /**
      * Delete method
      *
-     * @param string|null $id User id.
+     * @param  string|null $id User id.
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -110,11 +110,13 @@ class UsersController extends AppController
     public function login()
     {
         $result = $this->Authentication->getResult();
+
         // If the user is logged in send them away.
         if ($result->isValid()) {
             return $this->response->withType('application/json')->withStatus(200)
                 ->withStringBody(json_encode(['status' => 'OK.']));
         }
+
         if ($this->request->is('post')) {
             return $this->response->withType('application/json')->withStatus(400)
                 ->withStringBody(json_encode(['error' => 'Backend Failure.']));

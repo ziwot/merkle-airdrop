@@ -10,6 +10,11 @@ The advantages are of 2 kinds:
 - It is cheap because fees will be paid by the claimers.
 - It brings engagement, requiring some action from the claimers.
 
+Status is experimental / side-project.
+
+If you are looking for real airdrops, take a look at [organicgrowth.wtf](https://www.organicgrowth.wtf) 
+(on etherlink)
+
 ## How it works?
 
 An airdrop project consists in off-chain and on-chain data:

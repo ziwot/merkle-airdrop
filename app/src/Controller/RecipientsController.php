@@ -11,26 +11,24 @@ namespace App\Controller;
  */
 class RecipientsController extends AppController
 {
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|null|void Renders view
-     */
-    public function index()
+    public function index(): void
     {
-        $recipients = $this->paginate($this->Recipients);
+        $query = $this->Recipients->find();
+        if ($q = $this->request->getQuery('q')) {
+            $q = trim($q);
+            $query = $query->where(['address LIKE' => "%{$q}%"]);
+        }
+        $recipients = $this->paginate($query);
+        $this->set(compact('recipients', 'q'));
 
-        $this->set(compact('recipients'));
+        if ($this->isHTMXRequest()) {
+            $this->viewBuilder()
+                ->setLayout('ajax')
+                ->setTemplate('list');
+        }
     }
 
-    /**
-     * View method
-     *
-     * @param string|null $id Recipient id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
+    public function view(?string $id = null): void
     {
         $recipient = $this->Recipients->get($id, contain: ['Airdrops']);
 
@@ -44,60 +42,53 @@ class RecipientsController extends AppController
      */
     public function add()
     {
-        $recipient = $this->Recipients->newEmptyEntity();
+        $contact = $this->Recipients->newEmptyEntity();
         if ($this->request->is('post')) {
-            $recipient = $this->Recipients->patchEntity($recipient, $this->request->getData());
-            if ($this->Recipients->save($recipient)) {
-                $this->Flash->success(__('The recipient has been saved.'));
-
+            $contact = $this->Recipients->patchEntity($contact, $this->request->getData());
+            if ($this->Recipients->save($contact)) {
+                $this->Flash->success(__('The contact has been saved.'));
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The recipient could not be saved. Please, try again.'));
-        }
-        $airdrops = $this->Recipients->Airdrops->find('list', ['limit' => 200])->all();
-        $this->set(compact('recipient', 'airdrops'));
-    }
+            $this->Flash->error(__('The contact could not be saved. Please, try again.'));
 
+        }
+        $this->set(compact('contact'));
+    }
     /**
      * Edit method
      *
-     * @param string|null $id Recipient id.
+     * @param string|null $id Contact id.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null)
     {
-        $recipient = $this->Recipients->get($id, contain: ['Airdrops']);
+        $contact = $this->Recipients->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $recipient = $this->Recipients->patchEntity($recipient, $this->request->getData());
-            if ($this->Recipients->save($recipient)) {
-                $this->Flash->success(__('The recipient has been saved.'));
-
+            $contact = $this->Recipients->patchEntity($contact, $this->request->getData());
+            if ($this->Recipients->save($contact)) {
+                $this->Flash->success(__('The contact has been saved.'));
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The recipient could not be saved. Please, try again.'));
+            $this->Flash->error(__('The contact could not be saved. Please, try again.'));
         }
-        $airdrops = $this->Recipients->Airdrops->find('list', ['limit' => 200])->all();
-        $this->set(compact('recipient', 'airdrops'));
+        $this->set(compact('contact'));
     }
-
     /**
      * Delete method
      *
-     * @param string|null $id Recipient id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @param string|null $id Contact id.
+     * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete(?string $id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $recipient = $this->Recipients->get($id);
-        if ($this->Recipients->delete($recipient)) {
-            $this->Flash->success(__('The recipient has been deleted.'));
-        } else {
-            $this->Flash->error(__('The recipient could not be deleted. Please, try again.'));
+        $this->request->allowMethod('delete');
+        $todoItem = $this->Recipients->get($id);
+        if ($this->Recipients->delete($todoItem)) {
+            $this->Flash->success(__('The contact has been deleted.'));
+            return $this->redirect(['action' => 'index']);
         }
-
-        return $this->redirect(['action' => 'index']);
+        $this->Flash->error(__('The contact could not be deleted.'));
     }
 }

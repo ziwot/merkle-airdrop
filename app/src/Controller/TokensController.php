@@ -11,16 +11,21 @@ namespace App\Controller;
  */
 class TokensController extends AppController
 {
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|null|void Renders view
-     */
-    public function index()
+    public function index(): void
     {
-        $tokens = $this->paginate($this->Tokens);
+        $query = $this->Tokens->find();
+        if ($q = $this->request->getQuery('q')) {
+            $q = trim($q);
+            $query = $query->where(['address LIKE' => "%{$q}%"]);
+        }
+        $tokens = $this->paginate($query);
+        $this->set(compact('tokens', 'q'));
 
-        $this->set(compact('tokens'));
+        if ($this->isHTMXRequest()) {
+            $this->viewBuilder()
+                ->setLayout('ajax')
+                ->setTemplate('list');
+        }
     }
 
     /**

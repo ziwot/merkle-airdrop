@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -52,5 +51,11 @@ class AppController extends Controller
          * see https://book.cakephp.org/4/en/controllers/components/form-protection.html
          */
         //$this->loadComponent('FormProtection');
+    }
+
+    protected function isHTMXRequest(): bool
+    {
+        return $this->request->hasHeader('HX-Request') &&
+            $this->request->getHeaderLine('HX-Request') === 'true';
     }
 }

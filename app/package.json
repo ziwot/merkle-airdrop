@@ -15,7 +15,8 @@
         "@siwt/sdk": "0.0.6",
         "@taquito/taquito": "^20.0.1",
         "alpinejs": "^3.14.1",
-        "bootstrap": "^5.0.0"
+        "bootstrap": "^5.0.0",
+        "htmx.org": "^2.0.1"
     },
     "devDependencies": {
         "@esbuild-plugins/node-globals-polyfill": "^0.2.3",

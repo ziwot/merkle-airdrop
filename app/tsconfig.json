@@ -17,7 +17,7 @@
         "experimentalDecorators": true
     },
     "include": [
-        "webroot_src/**/*.ts",
-        "webroot_src/**/*.d.ts"
+        "assets/**/*.ts",
+        "assets/**/*.d.ts"
     ]
 }

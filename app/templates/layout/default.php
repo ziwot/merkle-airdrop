@@ -75,25 +75,15 @@ $this->ViteScripts->script('assets/main.ts');
                         ],
                     ],
                 ) ?>
-                <li>
-                    <?= $this->Html->link(
-                        'Sign out',
-                        [
-                            'controller' => 'users',
-                            'action' => 'logout',
-                        ],
-                        [
-                            'class' =>
-                                'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white',
-                        ],
-                    ) ?>
-                </li>
-            <?php else : ?>
-                <div x-data="beacon" class="flex items-center md:order-2">
-                    <button @click="login('<?= Router::fullbaseUrl() ?>','<?= $this->request->getAttribute('csrfToken') ?>')">Sync</button>
-                    <span x-show="error" class="text-red-600 font-semibold"><span x-text="error"></span></span>
-                </div>
             <?php endif; ?>
+            <div x-data="beacon" class="flex items-center md:order-2">
+                <?php if (!$this->Identity->isLoggedIn()) : ?>
+                <button @click="login('<?= Router::fullbaseUrl() ?>','<?= $this->request->getAttribute('csrfToken') ?>')">Connect</button>
+                <span x-show="error" class="text-red-600 font-semibold"><span x-text="error"></span></span>
+                <?php else : ?>
+                <button @click="logout('<?= $this->Url->build(['controller' => 'Users', 'action' => 'logout'])?>')">Disconnect</button>
+                <?php endif; ?>
+            </div>
         </div>
     </nav>
     <?php echo $this->Flash->render(); ?>
