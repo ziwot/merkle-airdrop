@@ -5,20 +5,20 @@
  * @var \Cake\Collection\CollectionInterface|array<\App\Model\Entity\Token> $tokens
  */
 ?>
-<?php foreach ($tokens as $token) : ?>
+<?php foreach ($tokens as $token): ?>
 <tr>
     <th scope="row">
         <?= $token->network ?>
     </th>
     <td><?= $token->address ?></td>
-    <td><?= $token->Identifier ?></td>
+    <td><?= $this->Number->format($token->identifier) ?></td>
     <td>
-        <?= $this->Html->link('Edit', [ 'action' => 'edit', $token->id ]) ?>
-        <?= $this->Html->link('View', [ 'action' => 'view', $token->id ]) ?>
+        <?= $this->Html->link('Edit', ['action' => 'edit', $token->id]) ?>
+        <?= $this->Html->link('View', ['action' => 'view', $token->id]) ?>
     </td>
 </tr>
 <?php endforeach; ?>
-<?php if ($this->Paginator->hasNext()) : ?>
+<?php if ($this->Paginator->hasNext()): ?>
 <tr>
     <td colspan="4">
         <div>
