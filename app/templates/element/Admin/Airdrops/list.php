@@ -2,23 +2,27 @@
 /**
  * @var \App\View\AppView $this
  * @var mixed $q
- * @var \Cake\Collection\CollectionInterface|array<\App\Model\Entity\Token> $tokens
+ * @var \Cake\Collection\CollectionInterface|array<\App\Model\Entity\Airdrop> $airdrops
  */
 ?>
-<?php foreach ($tokens as $token): ?>
+<?php foreach ($airdrops as $airdrop) : ?>
 <tr>
     <th scope="row">
-        <?= $token->network ?>
+        <?= $airdrop->name ?>
     </th>
-    <td><?= $token->address ?></td>
-    <td><?= $this->Number->format($token->identifier) ?></td>
+    <td><?= $airdrop->created ?></td>
+    <td><?= $airdrop->modified ?></td>
     <td>
-        <?= $this->Html->link('Edit', ['action' => 'edit', $token->id]) ?>
-        <?= $this->Html->link('View', ['action' => 'view', $token->id]) ?>
+        <a class="text-decoration-none p-1" href="<?= $this->Url->build(['_name' => 'admin:airdrops:edit', $airdrop->id]) ?>">
+            <?= $this->Html->icon('pencil-square') ?>
+        </a>
+        <a class="text-decoration-none p-1" href="<?= $this->Url->build(['_name' => 'admin:airdrops:view', $airdrop->id]) ?>">
+            <?= $this->Html->icon('eye-fill') ?>
+        </a>
     </td>
 </tr>
 <?php endforeach; ?>
-<?php if ($this->Paginator->hasNext()): ?>
+<?php if ($this->Paginator->hasNext()) : ?>
 <tr>
     <td colspan="4">
         <div>
@@ -40,4 +44,5 @@
     </td>
 </tr>
 <?php endif; ?>
+
 

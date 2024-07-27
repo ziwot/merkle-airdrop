@@ -17,15 +17,15 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link          https://cakephp.org CakePHP(tm) Project
- * @license       https://opensource.org/licenses/mit-license.php MIT License
+ * @copyright Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link      https://cakephp.org CakePHP(tm) Project
+ * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
 
 use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
 
-return static function (RouteBuilder $routes) {
+return static function (RouteBuilder $routes): void {
     /*
      * The default class to use for all routes
      *
@@ -45,7 +45,87 @@ return static function (RouteBuilder $routes) {
      */
     $routes->setRouteClass(DashedRoute::class);
 
-    $routes->scope('/', function (RouteBuilder $builder) {
+    $routes->prefix('Admin', ['_namePrefix' => 'admin:'], function (
+        RouteBuilder $builder,
+    ): void {
+        $builder->scope(
+            '/recipients',
+            ['_namePrefix' => 'recipients:'],
+            function (RouteBuilder $builder): void {
+                $builder->connect('/', 'Admin/Recipients::index', [
+                    '_name' => 'index',
+                ]);
+                $builder->connect('/add', 'Admin/Recipients::add', [
+                    '_name' => 'add',
+                ]);
+                $builder->connect('/delete/*', 'Admin/Recipients::delete', [
+                    '_name' => 'delete',
+                ]);
+                $builder->connect('/edit/*', 'Admin/Recipients::edit', [
+                    '_name' => 'edit',
+                ]);
+                $builder->connect('/view/*', 'Admin/Recipients::view', [
+                    '_name' => 'view',
+                ]);
+            },
+        );
+
+        $builder->scope(
+            '/airdrops',
+            ['_namePrefix' => 'airdrops:'],
+            function (RouteBuilder $builder): void {
+                $builder->connect('/', 'Admin/Airdrops::index', [
+                    '_name' => 'index',
+                ]);
+                $builder->connect('/add', 'Admin/Airdrops::add', [
+                    '_name' => 'add',
+                ]);
+                $builder->connect('/delete/*', 'Admin/Airdrops::delete', [
+                    '_name' => 'delete',
+                ]);
+                $builder->connect('/edit/*', 'Admin/Airdrops::edit', [
+                    '_name' => 'edit',
+                ]);
+                $builder->connect('/view/*', 'Admin/Airdrops::view', [
+                    '_name' => 'view',
+                ]);
+            },
+        );
+
+        $builder->scope(
+            '/tokens',
+            ['_namePrefix' => 'tokens:'],
+            function (RouteBuilder $builder): void {
+                $builder->connect('/', 'Admin/Tokens::index', [
+                    '_name' => 'index',
+                ]);
+                $builder->connect('/add', 'Admin/Tokens::add', [
+                    '_name' => 'add',
+                ]);
+                $builder->connect('/delete/*', 'Admin/Tokens::delete', [
+                    '_name' => 'delete',
+                ]);
+                $builder->connect('/edit/*', 'Admin/Tokens::edit', [
+                    '_name' => 'edit',
+                ]);
+                $builder->connect('/view/*', 'Admin/Tokens::view', [
+                    '_name' => 'view',
+                ]);
+            },
+        );
+    });
+
+    $routes->scope('/users', ['_namePrefix' => 'users:'], function (RouteBuilder $builder): void {
+        $builder->connect('/login', 'Users::login', [
+            '_name' => 'login',
+        ]);
+
+        $builder->connect('/logout', 'Users::logout', [
+            '_name' => 'logout',
+        ]);
+    });
+
+    $routes->scope('/', function (RouteBuilder $builder): void {
         /*
          * Here, we are connecting '/' (base path) to a controller called 'Pages',
          * its action called 'display', and we pass a param to select the view file
@@ -57,7 +137,6 @@ return static function (RouteBuilder $routes) {
          * ...and connect the rest of 'Pages' controller's URLs.
          */
         $builder->connect('/pages/*', 'Pages::display');
-
 
         /*
          * Connect catchall routes for all controllers.
@@ -94,6 +173,6 @@ return static function (RouteBuilder $routes) {
     $routes->post(
         '/signin',
         ['controller' => 'Users', 'action' => 'login'],
-        'signin'
+        'signin',
     );
 };

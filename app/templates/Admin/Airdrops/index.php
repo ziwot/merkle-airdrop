@@ -57,7 +57,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <?= $this->element('Airdrops/list') ?>
+                        <?= $this->element('Admin/Airdrops/list') ?>
                     </tbody>
                 </table>
             </div>

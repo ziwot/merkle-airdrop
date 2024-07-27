@@ -37,21 +37,21 @@ $this->ViteScripts->script('assets/main.ts');
                 <li class="nav-item">
                     <?= $this->Html->link(
                         'Airdrops',
-                        ['controller' => 'Airdrops', 'action' => 'index'],
+                        ['_name' => 'admin:airdrops:index'],
                         ['class' => 'nav-link'],
                     ) ?>
                 </li>
                 <li class="nav-item">
                     <?= $this->Html->link(
                         'Tokens',
-                        ['controller' => 'Tokens', 'action' => 'index'],
+                        ['_name' => 'admin:tokens:index'],
                         ['class' => 'nav-link'],
                     ) ?>
                 </li>
                 <li class="nav-item">
                     <?= $this->Html->link(
                         'Recipients',
-                        ['controller' => 'Recipients', 'action' => 'index'],
+                        ['_name' => 'admin:recipients:index'],
                         ['class' => 'nav-link'],
                     ) ?>
                 </li>
@@ -68,10 +68,9 @@ $this->ViteScripts->script('assets/main.ts');
                 <?php else: ?>
                     <div>
                         Welcome, <?= $this->Identity->get('address') ?> !
-                        <button @click="logout('<?= $this->Url->build([
-                            'controller' => 'Users',
-                            'action' => 'logout',
-                        ]) ?>')">Disconnect</button>
+                        <button @click="logout('<?= $this->Url->build(['_name' => 'users:logout']) ?>')">
+                            Disconnect
+                        </button>
                     </div>
                     <div class="align-self-end">
                             <?= $this->cell(
@@ -97,7 +96,7 @@ $this->ViteScripts->script('assets/main.ts');
 </header>
 
 <main class="flex-shrink-0">
-    <div class="container">
+    <div class="container py-3">
         <?php echo $this->Flash->render(); ?>
         <?php echo $this->fetch('content'); ?>
     </div>

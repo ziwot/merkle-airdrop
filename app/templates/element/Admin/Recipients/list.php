@@ -8,19 +8,17 @@
 <?php foreach ($recipients as $recipient) : ?>
 <tr>
     <th scope="row">
-        <?= $recipient->address ?>
+        <?php echo $recipient->address ?>
     </th>
     <td><?= $recipient->created ?></td>
     <td><?= $recipient->modified ?></td>
     <td>
-        <?= $this->Html->link('Edit', [
-            'action' => 'edit',
-            $recipient->id,
-        ]) ?>
-        <?= $this->Html->link('View', [
-            'action' => 'view',
-            $recipient->id,
-        ]) ?>
+        <a class="text-decoration-none p-1" href="<?= $this->Url->build(['_name' => 'admin:recipients:edit', $recipient->id]) ?>">
+            <?= $this->Html->icon('pencil-square') ?>
+        </a>
+        <a class="text-decoration-none p-1" href="<?= $this->Url->build(['_name' => 'admin:recipients:view', $recipient->id]) ?>">
+            <?= $this->Html->icon('eye-fill') ?>
+        </a>
     </td>
 </tr>
 <?php endforeach; ?>
@@ -29,13 +27,15 @@
     <td colspan="4">
         <div>
             <span
-                hx-get="<?= $this->Url->build([
+                hx-get="<?php echo $this->Url->build(
+                    [
                     'action' => 'index',
                     '?' => [
                         'page' => $this->Paginator->current() + 1,
                         'q' => $q,
                     ],
-                ]) ?>"
+                    ]
+                        ) ?>"
                 hx-trigger="revealed"
                 hx-select="tr"
                 hx-target="closest tr"

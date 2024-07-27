@@ -57,7 +57,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <?= $this->element('Tokens/list') ?>
+                        <?= $this->element('Admin/Tokens/list') ?>
                     </tbody>
                 </table>
             </div>

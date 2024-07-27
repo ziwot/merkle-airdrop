@@ -36,7 +36,9 @@
                 'hx-push-url' => 'true',
                 'hx-indicator' => '#spinner',
             ]) ?>
-            <?= $this->Form->submit('Search', ['class' => 'btn btn-outline-primary']) ?>
+            <?= $this->Form->submit('Search', [
+                'class' => 'btn btn-outline-primary',
+            ]) ?>
         <?= $this->Form->end() ?>
         <div id="spinner" class="spinner-border htmx-indicator" role="status">
           <span class="visually-hidden">Loading...</span>
@@ -57,7 +59,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <?= $this->element('Recipients/list') ?>
+                        <?= $this->element('Admin/Recipients/list') ?>
                     </tbody>
                 </table>
             </div>

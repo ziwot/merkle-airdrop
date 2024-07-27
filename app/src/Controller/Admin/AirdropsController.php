@@ -1,13 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Admin;
+
+use App\Controller\AppController;
 
 /**
  * Airdrops Controller
  *
  * @property \App\Model\Table\AirdropsTable $Airdrops
- * @method \App\Model\Entity\Airdrop[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method   \App\Model\Entity\Airdrop[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class AirdropsController extends AppController
 {

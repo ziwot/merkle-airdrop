@@ -3,7 +3,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build",
+        "build": "vite build --base=/dist/",
         "preview": "vite preview",
         "postinstall": "patch-package"
     },
@@ -25,6 +25,7 @@
         "@types/alpinejs": "^3.13.10",
         "@types/alpinejs__focus": "^3.13.4",
         "@vitejs/plugin-legacy": "^5.4.1",
+        "bootstrap-icons": "^1.11.3",
         "patch-package": "^8.0.0",
         "rollup-plugin-node-polyfills": "^0.2.1",
         "sass": "^1.77.8",

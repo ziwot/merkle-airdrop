@@ -10,10 +10,5 @@ return [
         ],
     ],
 
-    'ViteHelper.forceProductionMode' => true
-    // necessaire si on utilise le plugin authentication
-    //'DebugKit' => [
-    //    'ignoreAuthorization' => true,
-    //    'forceEnable' => true
-    //],
+    'ViteHelper.forceProductionMode' => true,
 ];
