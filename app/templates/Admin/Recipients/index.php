@@ -13,7 +13,7 @@
         </div>
         <div>
             <?= $this->Html->link(
-                'Add recipient',
+                'Add Recipient',
                 ['action' => 'add'],
                 ['class' => 'btn btn-outline-primary mt-2'],
             ) ?>

@@ -11,6 +11,7 @@
         __('Delete'),
         ['_name' => 'admin:airdrops:delete', $airdrop->id],
         [
+            'method' => 'delete',
             'confirm' => __(
                 'Are you sure you want to delete {0}?',
                 $airdrop->name,

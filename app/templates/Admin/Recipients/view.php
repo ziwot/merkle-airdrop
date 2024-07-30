@@ -6,23 +6,24 @@
 ?>
 <div class="d-flex mb-3 gap-2">
     <?= $this->Html->link(
-        __('Edit Airdrop'),
-        ['_name' => 'admin:airdrops:edit', $airdrop->id],
-        ['class' => 'btn btn-primary']
+        __('Edit Recipient'),
+        ['_name' => 'admin:recipients:edit', $recipient->id],
+        ['class' => 'btn btn-primary'],
     ) ?>
     <?= $this->Form->postLink(
         __('Delete'),
-        ['_name' => 'admin:airdrops:delete', $airdrop->id],
+        ['_name' => 'admin:recipients:delete', $recipient->id],
         [
+            'method' => 'delete',
             'confirm' => __(
                 'Are you sure you want to delete {0}?',
-                $airdrop->address,
+                $recipient->address,
             ),
             'class' => 'btn btn-danger',
         ],
     ) ?>
     <a class="btn btn-secondary" href="<?= $this->Url->build([
-        '_name' => 'admin:airdrops:index',
+        '_name' => 'admin:recipients:index',
     ]) ?>">Back</a>
 </div>
 
@@ -72,12 +73,23 @@
                     <td><?= h($airdrops->created) ?></td>
                     <td><?= h($airdrops->modified) ?></td>
                     <td class="actions">
-                        <?= $this->Html->link(__('View'), ['_name' => 'admin:airdrops:view', $airdrops->id]) ?>
-                        <?= $this->Html->link(__('Edit'), ['_name' => 'admin:airdrops:edit', $airdrops->id]) ?>
+                        <?= $this->Html->link(__('View'), [
+                            '_name' => 'admin:airdrops:view',
+                            $airdrops->id,
+                        ]) ?>
+                        <?= $this->Html->link(__('Edit'), [
+                            '_name' => 'admin:airdrops:edit',
+                            $airdrops->id,
+                        ]) ?>
                         <?= $this->Form->postLink(
                             __('Delete'),
                             ['_name' => 'admin:airdrops:delete', $airdrops->id],
-                            ['confirm' => __('Are you sure you want to delete # {0}?', $airdrops->id)]
+                            [
+                                'confirm' => __(
+                                    'Are you sure you want to delete # {0}?',
+                                    $airdrops->id,
+                                ),
+                            ],
                         ) ?>
                     </td>
                 </tr>

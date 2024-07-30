@@ -5,7 +5,7 @@
  * @var \Cake\Collection\CollectionInterface|array<\App\Model\Entity\Airdrop> $airdrops
  */
 ?>
-<?php foreach ($airdrops as $airdrop) : ?>
+<?php foreach ($airdrops as $airdrop): ?>
 <tr>
     <th scope="row">
         <?= $airdrop->name ?>
@@ -13,22 +13,28 @@
     <td><?= $airdrop->created ?></td>
     <td><?= $airdrop->modified ?></td>
     <td>
-        <a class="text-decoration-none p-1" href="<?= $this->Url->build(['_name' => 'admin:airdrops:edit', $airdrop->id]) ?>">
+        <a class="text-decoration-none p-1" href="<?= $this->Url->build([
+            '_name' => 'admin:airdrops:edit',
+            $airdrop->id,
+        ]) ?>">
             <?= $this->Html->icon('pencil-square') ?>
         </a>
-        <a class="text-decoration-none p-1" href="<?= $this->Url->build(['_name' => 'admin:airdrops:view', $airdrop->id]) ?>">
+        <a class="text-decoration-none p-1" href="<?= $this->Url->build([
+            '_name' => 'admin:airdrops:view',
+            $airdrop->id,
+        ]) ?>">
             <?= $this->Html->icon('eye-fill') ?>
         </a>
     </td>
 </tr>
 <?php endforeach; ?>
-<?php if ($this->Paginator->hasNext()) : ?>
+<?php if ($this->Paginator->hasNext()): ?>
 <tr>
     <td colspan="4">
         <div>
             <span
                 hx-get="<?= $this->Url->build([
-                    'action' => 'index',
+                    '_name' => 'admin:airdrops:index',
                     '?' => [
                         'page' => $this->Paginator->current() + 1,
                         'q' => $q,

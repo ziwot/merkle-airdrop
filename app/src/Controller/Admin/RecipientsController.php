@@ -49,7 +49,8 @@ class RecipientsController extends AppController
             }
             $this->Flash->error(__('The recipient could not be saved. Please, try again.'));
         }
-        $this->set(compact('recipient'));
+        $airdrops = $this->Recipients->Airdrops->find('list', ['limit' => 200])->all();
+        $this->set(compact('recipient', 'airdrops'));
     }
 
     public function edit(?string $id = null)

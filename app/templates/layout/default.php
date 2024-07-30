@@ -68,7 +68,9 @@ $this->ViteScripts->script('assets/main.ts');
                 <?php else: ?>
                     <div>
                         Welcome, <?= $this->Identity->get('address') ?> !
-                        <button @click="logout('<?= $this->Url->build(['_name' => 'users:logout']) ?>')">
+                        <button @click="logout('<?= $this->Url->build([
+                            '_name' => 'users:logout',
+                        ]) ?>')">
                             Disconnect
                         </button>
                     </div>

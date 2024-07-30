@@ -34,7 +34,7 @@
         <div>
             <span
                 hx-get="<?= $this->Url->build([
-                    'action' => 'index',
+                    '_name' => 'admin:tokens:index',
                     '?' => [
                         'page' => $this->Paginator->current() + 1,
                         'q' => $q,

@@ -10,6 +10,7 @@
         __('Delete'),
         ['_name' => 'admin:recipients:delete', $recipient->id],
         [
+            'method' => 'delete',
             'confirm' => __(
                 'Are you sure you want to delete {0}?',
                 $recipient->address,

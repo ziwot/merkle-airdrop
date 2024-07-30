@@ -13,7 +13,7 @@
         </div>
         <div>
             <?= $this->Html->link(
-                'Add token',
+                'Add Token',
                 ['action' => 'add'],
                 ['class' => 'btn btn-outline-primary mt-2'],
             ) ?>
@@ -36,7 +36,9 @@
                 'hx-push-url' => 'true',
                 'hx-indicator' => '#spinner',
             ]) ?>
-            <?= $this->Form->submit('Search', ['class' => 'btn btn-outline-primary']) ?>
+            <?= $this->Form->submit('Search', [
+                'class' => 'btn btn-outline-primary',
+            ]) ?>
         <?= $this->Form->end() ?>
         <div id="spinner" class="spinner-border htmx-indicator" role="status">
           <span class="visually-hidden">Loading...</span>

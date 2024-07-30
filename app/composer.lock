@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ceb7127a9e2de50a3e90d205df73bcc",
+    "content-hash": "6014a5683a24a15dcbdc963f05540e5d",
     "packages": [
         {
             "name": "bzzhh/pezos",
