@@ -48,7 +48,7 @@
     </table>
     <div class="related">
         <h4><?= __('Related Airdrops') ?></h4>
-        <?php if (!empty($recipient->airdrops)) : ?>
+        <?php if (!empty($recipient->airdrops)): ?>
         <div class="table-responsive">
             <table>
                 <tr>
@@ -62,7 +62,7 @@
                     <th><?= __('Modified') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
-                <?php foreach ($recipient->airdrops as $airdrops) : ?>
+                <?php foreach ($recipient->airdrops as $airdrops): ?>
                 <tr>
                     <td><?= h($airdrops->id) ?></td>
                     <td><?= h($airdrops->token_id) ?></td>

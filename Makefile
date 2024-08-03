@@ -91,7 +91,13 @@ config: ##@App swap app config (ENV=dev make config)
 	echo "[OK] environment : $(ENV)"
 
 lint: ##@App lint code
-	@cd ./app && composer run-script cs-check && cd ..
+	@cd ./app \
+		&& composer run-script cs-check \
+		&& npx prettier . -c \
+		&& cd ..
 
 fmt: ##@App format code
-	@cd ./app && composer run-script cs-fix && cd ..
+	@cd ./app \
+		&& composer run-script cs-fix \
+		&& npx prettier -w . \
+		&& cd ..

@@ -10,14 +10,8 @@
         "sourceMap": true,
         "resolveJsonModule": true,
         "esModuleInterop": true,
-        "lib": [
-            "esnext",
-            "dom"
-        ],
+        "lib": ["esnext", "dom"],
         "experimentalDecorators": true
     },
-    "include": [
-        "assets/**/*.ts",
-        "assets/**/*.d.ts"
-    ]
+    "include": ["assets/**/*.ts", "assets/**/*.d.ts"]
 }

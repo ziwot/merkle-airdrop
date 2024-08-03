@@ -84,7 +84,7 @@
             </div>
             <div class="related">
                 <h4><?= __('Related Recipients') ?></h4>
-                <?php if (!empty($airdrop->recipients)) : ?>
+                <?php if (!empty($airdrop->recipients)): ?>
                 <div class="table-responsive">
                     <table>
                         <tr>
@@ -94,7 +94,7 @@
                             <th><?= __('Modified') ?></th>
                             <th class="actions"><?= __('Actions') ?></th>
                         </tr>
-                        <?php foreach ($airdrop->recipients as $recipients) : ?>
+                        <?php foreach ($airdrop->recipients as $recipients): ?>
                         <tr>
                             <td><?= h($recipients->id) ?></td>
                             <td><?= h($recipients->address) ?></td>
