@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6014a5683a24a15dcbdc963f05540e5d",
+    "content-hash": "4dc3d5cae1f2ced4d231a8cfaccaf2c6",
     "packages": [
         {
             "name": "bzzhh/pezos",
@@ -5924,6 +5924,63 @@
             "time": "2024-05-08T08:12:09+00:00"
         },
         {
+            "name": "fig-r/psr2r-sniffer",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig-rectified/psr2r-sniffer.git",
+                "reference": "c9e46599a144fdcf487187eb8faf8c00559476d9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig-rectified/psr2r-sniffer/zipball/c9e46599a144fdcf487187eb8faf8c00559476d9",
+                "reference": "c9e46599a144fdcf487187eb8faf8c00559476d9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "php-collective/code-sniffer": "^0.2.6",
+                "slevomat/coding-standard": "^8.3.0",
+                "squizlabs/php_codesniffer": "^3.7.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.0.0",
+                "phpunit/phpunit": "^10.3"
+            },
+            "bin": [
+                "bin/tokenize",
+                "bin/sniff"
+            ],
+            "type": "phpcodesniffer-standard",
+            "autoload": {
+                "psr-4": {
+                    "PSR2R\\": "PSR2R/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Scherer",
+                    "homepage": "https://www.dereuromark.de",
+                    "role": "Contributor"
+                }
+            ],
+            "description": "Code-Sniffer, Auto-Fixer and Tokenizer for PSR2-R",
+            "keywords": [
+                "codesniffer",
+                "cs",
+                "static analysis"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig-rectified/psr2r-sniffer/issues",
+                "source": "https://github.com/php-fig-rectified/psr2r-sniffer/tree/2.1.0"
+            },
+            "time": "2024-03-29T22:38:12+00:00"
+        },
+        {
             "name": "jasny/twig-extensions",
             "version": "v1.3.0",
             "source": {
@@ -6404,6 +6461,68 @@
                 "source": "https://github.com/phar-io/version/tree/3.2.1"
             },
             "time": "2022-02-21T01:04:05+00:00"
+        },
+        {
+            "name": "php-collective/code-sniffer",
+            "version": "0.2.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-collective/code-sniffer.git",
+                "reference": "661c6bb2ce1c52233df5f74d489a8b0f5e9738da"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-collective/code-sniffer/zipball/661c6bb2ce1c52233df5f74d489a8b0f5e9738da",
+                "reference": "661c6bb2ce1c52233df5f74d489a8b0f5e9738da",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "slevomat/coding-standard": "^8.14.1",
+                "squizlabs/php_codesniffer": "^3.8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.0.0",
+                "phpunit/phpunit": "^10.3"
+            },
+            "bin": [
+                "bin/tokenize"
+            ],
+            "type": "phpcodesniffer-standard",
+            "autoload": {
+                "psr-4": {
+                    "PhpCollective\\": "PhpCollective/",
+                    "PhpCollectiveStrict\\": "PhpCollectiveStrict/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "The PHP Collective",
+                    "homepage": "https://github.com/php-collective"
+                },
+                {
+                    "name": "Spryker",
+                    "homepage": "https://spryker.com"
+                }
+            ],
+            "description": "PhpCollective Code Sniffer Standards",
+            "homepage": "https://github.com/php-collective/code-sniffer",
+            "keywords": [
+                "codesniffer",
+                "framework",
+                "phpcs",
+                "standards",
+                "static analysis"
+            ],
+            "support": {
+                "issues": "https://github.com/php-collective/code-sniffer/issues",
+                "source": "https://github.com/php-collective/code-sniffer"
+            },
+            "time": "2024-03-29T19:16:20+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",

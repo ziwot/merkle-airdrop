@@ -1,10 +1,7 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
-use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -29,54 +26,53 @@ use Cake\Validation\Validator;
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class TokensTable extends Table
-{
-    /**
-     * Initialize method
-     *
-     * @param array $config The configuration for the Table.
-     * @return void
-     */
-    public function initialize(array $config): void
-    {
-        parent::initialize($config);
+class TokensTable extends Table {
 
-        $this->setTable('tokens');
-        $this->setDisplayField('id');
-        $this->setPrimaryKey('id');
+	/**
+	 * Initialize method
+	 *
+	 * @param array $config The configuration for the Table.
+	 * @return void
+	 */
+	public function initialize(array $config): void {
+		parent::initialize($config);
 
-        $this->addBehavior('Timestamp');
+		$this->setTable('tokens');
+		$this->setDisplayField('id');
+		$this->setPrimaryKey('id');
 
-        $this->hasMany('Airdrops', [
-            'foreignKey' => 'token_id',
-        ]);
-    }
+		$this->addBehavior('Timestamp');
 
-    /**
-     * Default validation rules.
-     *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
-     */
-    public function validationDefault(Validator $validator): Validator
-    {
-        $validator
-            ->scalar('network')
-            ->maxLength('network', 15)
-            ->requirePresence('network', 'create')
-            ->notEmptyString('network');
+		$this->hasMany('Airdrops', [
+			'foreignKey' => 'token_id',
+		]);
+	}
 
-        $validator
-            ->scalar('address')
-            ->maxLength('address', 36)
-            ->requirePresence('address', 'create')
-            ->notEmptyString('address');
+	/**
+	 * Default validation rules.
+	 *
+	 * @param \Cake\Validation\Validator $validator Validator instance.
+	 * @return \Cake\Validation\Validator
+	 */
+	public function validationDefault(Validator $validator): Validator {
+		$validator
+			->scalar('network')
+			->maxLength('network', 15)
+			->requirePresence('network', 'create')
+			->notEmptyString('network');
 
-        $validator
-            ->integer('identifier')
-            ->requirePresence('identifier', 'create')
-            ->notEmptyString('identifier');
+		$validator
+			->scalar('address')
+			->maxLength('address', 36)
+			->requirePresence('address', 'create')
+			->notEmptyString('address');
 
-        return $validator;
-    }
+		$validator
+			->integer('identifier')
+			->requirePresence('identifier', 'create')
+			->notEmptyString('identifier');
+
+		return $validator;
+	}
+
 }

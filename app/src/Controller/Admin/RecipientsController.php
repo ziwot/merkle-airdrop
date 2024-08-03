@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
@@ -9,75 +8,91 @@ use App\Controller\AppController;
  * Recipients Controller
  *
  * @property \App\Model\Table\RecipientsTable $Recipients
- * @method   \App\Model\Entity\Recipient[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \App\Model\Entity\Recipient[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class RecipientsController extends AppController
-{
-    public function index(): void
-    {
-        $query = $this->Recipients->find();
-        if ($q = $this->request->getQuery('q')) {
-            $q = trim($q);
-            $query = $query->where(['address LIKE' => "%{$q}%"]);
-        }
-        $recipients = $this->paginate($query);
-        $this->set(compact('recipients', 'q'));
+class RecipientsController extends AppController {
 
-        if ($this->isHTMXRequest()) {
-            $this->viewBuilder()
-                ->setLayout('ajax')
-                ->setTemplate('list');
-        }
-    }
+	/**
+	 * @return \Cake\Http\Response|null|void
+	 */
+	public function index() {
+		$query = $this->Recipients->find();
+		$q = $this->request->getQuery('q');
 
-    public function view(?string $id = null): void
-    {
-        $recipient = $this->Recipients->get($id, contain: ['Airdrops']);
+		if ($q) {
+			$q = trim($q);
+			$query = $query->where(['address LIKE' => "%{$q}%"]);
+		}
+		$recipients = $this->paginate($query);
+		$this->set(compact('recipients', 'q'));
 
-        $this->set(compact('recipient'));
-    }
+		if ($this->isHTMXRequest()) {
+			$this->viewBuilder()
+				->setLayout('ajax')
+				->setTemplate('list');
+		}
+	}
 
-    public function add()
-    {
-        $recipient = $this->Recipients->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $recipient = $this->Recipients->patchEntity($recipient, $this->request->getData());
-            if ($this->Recipients->save($recipient)) {
-                $this->Flash->success(__('The recipient has been saved.'));
+	/**
+	 * @param string|null $id
+	 * @return \Cake\Http\Response|null|void
+	 */
+	public function view($id = null) {
+		$recipient = $this->Recipients->get($id, contain: ['Airdrops']);
 
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The recipient could not be saved. Please, try again.'));
-        }
-        $airdrops = $this->Recipients->Airdrops->find('list', ['limit' => 200])->all();
-        $this->set(compact('recipient', 'airdrops'));
-    }
+		$this->set(compact('recipient'));
+	}
 
-    public function edit(?string $id = null)
-    {
-        $recipient = $this->Recipients->get($id, contain: ['Airdrops']);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $recipient = $this->Recipients->patchEntity($recipient, $this->request->getData());
-            if ($this->Recipients->save($recipient)) {
-                $this->Flash->success(__('The recipient has been saved.'));
+	/**
+	 * @return \Cake\Http\Response|null|void
+	 */
+	public function add() {
+		$recipient = $this->Recipients->newEmptyEntity();
+		if ($this->request->is('post')) {
+			$recipient = $this->Recipients->patchEntity($recipient, $this->request->getData());
+			if ($this->Recipients->save($recipient)) {
+				$this->Flash->success(__('The recipient has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The recipient could not be saved. Please, try again.'));
-        }
-        $airdrops = $this->Recipients->Airdrops->find('list', ['limit' => 200])->all();
-        $this->set(compact('recipient', 'airdrops'));
-    }
+				return $this->redirect(['action' => 'index']);
+			}
+			$this->Flash->error(__('The recipient could not be saved. Please, try again.'));
+		}
+		$airdrops = $this->Recipients->Airdrops->find('list', ['limit' => 200])->all();
+		$this->set(compact('recipient', 'airdrops'));
+	}
 
-    public function delete(?string $id = null)
-    {
-        $this->request->allowMethod('delete');
-        $todoItem = $this->Recipients->get($id);
-        if ($this->Recipients->delete($todoItem)) {
-            $this->Flash->success(__('The recipient has been deleted.'));
+	/**
+	 * @param string|null $id
+	 * @return \Cake\Http\Response|null|void
+	 */
+	public function edit($id = null) {
+		$recipient = $this->Recipients->get($id, contain: ['Airdrops']);
+		if ($this->request->is(['patch', 'post', 'put'])) {
+			$recipient = $this->Recipients->patchEntity($recipient, $this->request->getData());
+			if ($this->Recipients->save($recipient)) {
+				$this->Flash->success(__('The recipient has been saved.'));
 
-            return $this->redirect(['action' => 'index']);
-        }
-        $this->Flash->error(__('The recipient could not be deleted.'));
-    }
+				return $this->redirect(['action' => 'index']);
+			}
+			$this->Flash->error(__('The recipient could not be saved. Please, try again.'));
+		}
+		$airdrops = $this->Recipients->Airdrops->find('list', ['limit' => 200])->all();
+		$this->set(compact('recipient', 'airdrops'));
+	}
+
+	/**
+	 * @param string|null $id
+	 * @return \Cake\Http\Response|null|void
+	 */
+	public function delete($id = null) {
+		$this->request->allowMethod('delete');
+		$todoItem = $this->Recipients->get($id);
+		if ($this->Recipients->delete($todoItem)) {
+			$this->Flash->success(__('The recipient has been deleted.'));
+
+			return $this->redirect(['action' => 'index']);
+		}
+		$this->Flash->error(__('The recipient could not be deleted.'));
+	}
+
 }

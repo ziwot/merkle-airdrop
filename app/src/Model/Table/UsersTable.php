@@ -1,9 +1,7 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -27,54 +25,52 @@ use Cake\Validation\Validator;
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class UsersTable extends Table
-{
-    /**
-     * Initialize method
-     *
-     * @param array $config The configuration for the Table.
-     * @return void
-     */
-    public function initialize(array $config): void
-    {
-        parent::initialize($config);
+class UsersTable extends Table {
 
-        $this->setTable('users');
-        $this->setDisplayField('id');
-        $this->setPrimaryKey('id');
+	/**
+	 * Initialize method
+	 *
+	 * @param array $config The configuration for the Table.
+	 * @return void
+	 */
+	public function initialize(array $config): void {
+		parent::initialize($config);
 
-        $this->addBehavior('Timestamp');
-    }
+		$this->setTable('users');
+		$this->setDisplayField('id');
+		$this->setPrimaryKey('id');
 
-    /**
-     * Default validation rules.
-     *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
-     */
-    public function validationDefault(Validator $validator): Validator
-    {
-        $validator
-            ->scalar('address')
-            ->maxLength('address', 36)
-            ->requirePresence('address', 'create')
-            ->notEmptyString('address')
-            ->add('address', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+		$this->addBehavior('Timestamp');
+	}
 
-        return $validator;
-    }
+	/**
+	 * Default validation rules.
+	 *
+	 * @param \Cake\Validation\Validator $validator Validator instance.
+	 * @return \Cake\Validation\Validator
+	 */
+	public function validationDefault(Validator $validator): Validator {
+		$validator
+			->scalar('address')
+			->maxLength('address', 36)
+			->requirePresence('address', 'create')
+			->notEmptyString('address')
+			->add('address', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules): RulesChecker
-    {
-        $rules->add($rules->isUnique(['address']), ['errorField' => 'address']);
+		return $validator;
+	}
 
-        return $rules;
-    }
+	/**
+	 * Returns a rules checker object that will be used for validating
+	 * application integrity.
+	 *
+	 * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+	 * @return \Cake\ORM\RulesChecker
+	 */
+	public function buildRules(RulesChecker $rules): RulesChecker {
+		$rules->add($rules->isUnique(['address']), ['errorField' => 'address']);
+
+		return $rules;
+	}
+
 }

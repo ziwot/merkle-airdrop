@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
@@ -9,10 +8,11 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link      https://cakephp.org CakePHP(tm) Project
- * @since     3.0.0
- * @license   https://opensource.org/licenses/mit-license.php MIT License
+ * @link https://cakephp.org CakePHP(tm) Project
+ * @since 3.0.0
+ * @license https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\View;
 
 use Cake\View\View;
@@ -22,7 +22,7 @@ use Cake\View\View;
  *
  * Your application's default view class
  *
- * @link     https://book.cakephp.org/4/en/views.html#the-app-view
+ * @link https://book.cakephp.org/4/en/views.html#the-app-view
  * @property \Authentication\View\Helper\IdentityHelper $Identity
  * @property \AssetMix\View\Helper\AssetMixHelper $AssetMix
  * @property \App\View\Helper\TzHelper $Tz
@@ -33,32 +33,32 @@ use Cake\View\View;
  * @property \BootstrapUI\View\Helper\BreadcrumbsHelper $Breadcrumbs
  * @property \ViteHelper\View\Helper\ViteScriptsHelper $ViteScripts
  */
-class AppView extends View
-{
-    /**
-     * Initialization hook method.
-     *
-     * Use this method to add common initialization code like loading helpers.
-     *
-     * e.g. `$this->loadHelper('Html');`
-     *
-     * @return void
-     */
-    public function initialize(): void
-    {
-        parent::initialize();
+class AppView extends View {
 
-        $helpers = [
-            'Html' => ['className' => 'BootstrapUI.Html'],
-            'Form' => ['className' => 'BootstrapUI.Form'],
-            'Flash' => ['className' => 'BootstrapUI.Flash'],
-            'Paginator' => ['className' => 'BootstrapUI.Paginator'],
-            'Breadcrumbs' => ['className' => 'BootstrapUI.Breadcrumbs'],
-        ];
+	/**
+	 * Initialization hook method.
+	 *
+	 * Use this method to add common initialization code like loading helpers.
+	 *
+	 * e.g. `$this->loadHelper('Html');`
+	 *
+	 * @return void
+	 */
+	public function initialize(): void {
+		parent::initialize();
 
-        $this->helpers = array_merge($helpers, $this->helpers);
-        $this->loadHelper('ViteHelper.ViteScripts');
-        $this->addHelper('Authentication.Identity');
-        $this->addHelper('Tz');
-    }
+		$helpers = [
+			'Html' => ['className' => 'BootstrapUI.Html'],
+			'Form' => ['className' => 'BootstrapUI.Form'],
+			'Flash' => ['className' => 'BootstrapUI.Flash'],
+			'Paginator' => ['className' => 'BootstrapUI.Paginator'],
+			'Breadcrumbs' => ['className' => 'BootstrapUI.Breadcrumbs'],
+		];
+
+		$this->helpers = array_merge($helpers, $this->helpers);
+		$this->loadHelper('ViteHelper.ViteScripts');
+		$this->addHelper('Authentication.Identity');
+		$this->addHelper('Tz');
+	}
+
 }

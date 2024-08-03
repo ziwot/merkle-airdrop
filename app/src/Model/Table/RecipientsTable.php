@@ -1,10 +1,7 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
-use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -29,45 +26,44 @@ use Cake\Validation\Validator;
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class RecipientsTable extends Table
-{
-    /**
-     * Initialize method
-     *
-     * @param array $config The configuration for the Table.
-     * @return void
-     */
-    public function initialize(array $config): void
-    {
-        parent::initialize($config);
+class RecipientsTable extends Table {
 
-        $this->setTable('recipients');
-        $this->setDisplayField('id');
-        $this->setPrimaryKey('id');
+	/**
+	 * Initialize method
+	 *
+	 * @param array $config The configuration for the Table.
+	 * @return void
+	 */
+	public function initialize(array $config): void {
+		parent::initialize($config);
 
-        $this->addBehavior('Timestamp');
+		$this->setTable('recipients');
+		$this->setDisplayField('id');
+		$this->setPrimaryKey('id');
 
-        $this->belongsToMany('Airdrops', [
-            'foreignKey' => 'recipient_id',
-            'targetForeignKey' => 'airdrop_id',
-            'joinTable' => 'airdrops_recipients',
-        ]);
-    }
+		$this->addBehavior('Timestamp');
 
-    /**
-     * Default validation rules.
-     *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
-     */
-    public function validationDefault(Validator $validator): Validator
-    {
-        $validator
-            ->scalar('address')
-            ->maxLength('address', 36)
-            ->requirePresence('address', 'create')
-            ->notEmptyString('address');
+		$this->belongsToMany('Airdrops', [
+			'foreignKey' => 'recipient_id',
+			'targetForeignKey' => 'airdrop_id',
+			'joinTable' => 'airdrops_recipients',
+		]);
+	}
 
-        return $validator;
-    }
+	/**
+	 * Default validation rules.
+	 *
+	 * @param \Cake\Validation\Validator $validator Validator instance.
+	 * @return \Cake\Validation\Validator
+	 */
+	public function validationDefault(Validator $validator): Validator {
+		$validator
+			->scalar('address')
+			->maxLength('address', 36)
+			->requirePresence('address', 'create')
+			->notEmptyString('address');
+
+		return $validator;
+	}
+
 }

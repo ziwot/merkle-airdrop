@@ -2,19 +2,32 @@
 
 namespace App\Tezos;
 
-readonly class Mutez
-{
-    public function __construct(private int $mutez)
-    {
-    }
+/**
+ * Tez Value Object
+ */
+readonly class Mutez {
 
-    public function tez(): float
-    {
-        return $this->mutez / 1000_000;
-    }
+	/**
+	 * Initialization
+	 * @param int $mutez
+	 */
+	public function __construct(private int $mutez) {
+	}
 
-    public function mutez(): int
-    {
-        return $this->mutez;
-    }
+	/**
+	 * Returns tez
+	 * @return float
+	 */
+	public function tez(): float {
+		return $this->mutez / 1000_000;
+	}
+
+	/**
+	 * Returns mutez
+	 * @return int
+	 */
+	public function mutez(): int {
+		return $this->mutez;
+	}
+
 }

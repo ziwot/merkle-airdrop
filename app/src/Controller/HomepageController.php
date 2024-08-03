@@ -2,33 +2,41 @@
 
 namespace App\Controller;
 
-use Cake\Datasource\ResultSetInterface;
-use Cake\Log\Log;
+use Cake\Event\EventInterface;
 
-class HomepageController extends AppController
-{
-    public function beforeFilter(\Cake\Event\EventInterface $event)
-    {
-        parent::beforeFilter($event);
+class HomepageController extends AppController {
 
-        $this->Authentication->allowUnauthenticated(['index']);
-    }
+	/**
+	 * @param \Cake\Event\EventInterface $event
+	 * @return void
+	 */
+	public function beforeFilter(EventInterface $event) {
+		parent::beforeFilter($event);
 
-    public function index()
-    {
-        /** @var ResultSetInterface */
-        $recentAirdrops = $this->fetchTable('Airdrops')->recentAirdrops();
-        $totalAmounts = $recentAirdrops->reduce(
-            function ($acc, $airdrop) {
-                /** @var ResultSetInterface */
-                $recipients = $this->fetchTable('AirdropsRecipients')->byAirdrop($airdrop->id);
-                $totalAmount = $recipients->sumOf('amount');
-                return [...$acc, $airdrop->id => $totalAmount];
-            },
-            []
-        );
+		$this->Authentication->allowUnauthenticated(['index']);
+	}
 
-        $this->set('recentAirdrops', $recentAirdrops);
-        $this->set('totalAmounts', $totalAmounts);
-    }
+	/**
+	 * @return \Cake\Http\Response|null|void
+	 */
+	public function index() {
+		/** @var \App\Model\Table\AirdropsTable $airdropsTable */
+		$airdropsTable = $this->fetchTable('Airdrops');
+		$recentAirdrops = $airdropsTable->recentAirdrops()->all();
+		$totalAmounts = $recentAirdrops->reduce(
+			function ($acc, $airdrop) {
+				/** @var \App\Model\Table\AirdropsRecipientsTable $airdropsRecipientsTable */
+				$airdropsRecipientsTable = $this->fetchTable('AirdropsRecipients');
+				$recipients = $airdropsRecipientsTable->byAirdrop($airdrop->id)->all();
+				$totalAmount = $recipients->sumOf('amount');
+
+				return [...$acc, $airdrop->id => $totalAmount];
+			},
+			[],
+		);
+
+		$this->set('recentAirdrops', $recentAirdrops);
+		$this->set('totalAmounts', $totalAmounts);
+	}
+
 }

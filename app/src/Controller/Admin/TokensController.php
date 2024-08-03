@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
@@ -9,100 +8,90 @@ use App\Controller\AppController;
  * Tokens Controller
  *
  * @property \App\Model\Table\TokensTable $Tokens
- * @method   \App\Model\Entity\Token[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \App\Model\Entity\Token[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class TokensController extends AppController
-{
-    public function index(): void
-    {
-        $query = $this->Tokens->find();
-        if ($q = $this->request->getQuery('q')) {
-            $q = trim($q);
-            $query = $query->where(['address LIKE' => "%{$q}%"]);
-        }
-        $tokens = $this->paginate($query);
-        $this->set(compact('tokens', 'q'));
+class TokensController extends AppController {
 
-        if ($this->isHTMXRequest()) {
-            $this->viewBuilder()
-                ->setLayout('ajax')
-                ->setTemplate('list');
-        }
-    }
+	/**
+	 * @return \Cake\Http\Response|null|void
+	 */
+	public function index() {
+		$query = $this->Tokens->find();
+		$q = $this->request->getQuery('q');
 
-    /**
-     * View method
-     *
-     * @param  string|null $id Token id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $token = $this->Tokens->get($id, contain: ['Airdrops']);
+		if ($q) {
+			$q = trim($q);
+			$query = $query->where(['address LIKE' => "%{$q}%"]);
+		}
+		$tokens = $this->paginate($query);
+		$this->set(compact('tokens', 'q'));
 
-        $this->set(compact('token'));
-    }
+		if ($this->isHTMXRequest()) {
+			$this->viewBuilder()
+				->setLayout('ajax')
+				->setTemplate('list');
+		}
+	}
 
-    /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $token = $this->Tokens->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $token = $this->Tokens->patchEntity($token, $this->request->getData());
-            if ($this->Tokens->save($token)) {
-                $this->Flash->success(__('The token has been saved.'));
+	/**
+	 * @param string|null $id
+	 * @return \Cake\Http\Response|null|void
+	 */
+	public function view($id = null) {
+		$token = $this->Tokens->get($id, contain: ['Airdrops']);
 
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The token could not be saved. Please, try again.'));
-        }
-        $this->set(compact('token'));
-    }
+		$this->set(compact('token'));
+	}
 
-    /**
-     * Edit method
-     *
-     * @param  string|null $id Token id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $token = $this->Tokens->get($id, contain: []);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $token = $this->Tokens->patchEntity($token, $this->request->getData());
-            if ($this->Tokens->save($token)) {
-                $this->Flash->success(__('The token has been saved.'));
+	/**
+	 * @return \Cake\Http\Response|null|void
+	 */
+	public function add() {
+		$token = $this->Tokens->newEmptyEntity();
+		if ($this->request->is('post')) {
+			$token = $this->Tokens->patchEntity($token, $this->request->getData());
+			if ($this->Tokens->save($token)) {
+				$this->Flash->success(__('The token has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The token could not be saved. Please, try again.'));
-        }
-        $this->set(compact('token'));
-    }
+				return $this->redirect(['action' => 'index']);
+			}
+			$this->Flash->error(__('The token could not be saved. Please, try again.'));
+		}
+		$this->set(compact('token'));
+	}
 
-    /**
-     * Delete method
-     *
-     * @param  string|null $id Token id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $token = $this->Tokens->get($id);
-        if ($this->Tokens->delete($token)) {
-            $this->Flash->success(__('The token has been deleted.'));
-        } else {
-            $this->Flash->error(__('The token could not be deleted. Please, try again.'));
-        }
+	/**
+	 * @param string|null $id
+	 * @return \Cake\Http\Response|null|void
+	 */
+	public function edit($id = null) {
+		$token = $this->Tokens->get($id, contain: []);
+		if ($this->request->is(['patch', 'post', 'put'])) {
+			$token = $this->Tokens->patchEntity($token, $this->request->getData());
+			if ($this->Tokens->save($token)) {
+				$this->Flash->success(__('The token has been saved.'));
 
-        return $this->redirect(['action' => 'index']);
-    }
+				return $this->redirect(['action' => 'index']);
+			}
+			$this->Flash->error(__('The token could not be saved. Please, try again.'));
+		}
+		$this->set(compact('token'));
+	}
+
+	/**
+	 * @param string|null $id
+	 * @return \Cake\Http\Response|null|void
+	 */
+	public function delete($id = null) {
+		$this->request->allowMethod(['post', 'delete']);
+		$token = $this->Tokens->get($id);
+		if ($this->Tokens->delete($token)) {
+			$this->Flash->success(__('The token has been deleted.'));
+		} else {
+			$this->Flash->error(__('The token could not be deleted. Please, try again.'));
+		}
+
+		return $this->redirect(['action' => 'index']);
+	}
+
 }

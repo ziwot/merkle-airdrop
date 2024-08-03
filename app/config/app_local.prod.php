@@ -1,14 +1,15 @@
 <?php
+
 return [
-    'Security' => [
-        'salt' => env('SECURITY_SALT', '__SALT__'),
-    ],
+	'Security' => [
+		'salt' => env('SECURITY_SALT', '__SALT__'),
+	],
 
-    'Datasources' => [
-        'default' => [
-            'url' => 'mysql://my_app:secret@localhost:3307/my_app?persistent=false',
-        ],
-    ],
+	'Datasources' => [
+		'default' => [
+			'url' => 'mysql://my_app:secret@localhost:3307/my_app?persistent=false',
+		],
+	],
 
-    'ViteHelper.forceProductionMode' => true,
+	'ViteHelper.forceProductionMode' => true,
 ];

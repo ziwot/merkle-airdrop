@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
@@ -9,78 +8,94 @@ use App\Controller\AppController;
  * Airdrops Controller
  *
  * @property \App\Model\Table\AirdropsTable $Airdrops
- * @method   \App\Model\Entity\Airdrop[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \App\Model\Entity\Airdrop[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class AirdropsController extends AppController
-{
-    public function index(): void
-    {
-        $query = $this->Airdrops->find();
-        if ($q = $this->request->getQuery('q')) {
-            $q = trim($q);
-            $query = $query->where(['name LIKE' => "%{$q}%"]);
-        }
-        $airdrops = $this->paginate($query);
-        $this->set(compact('airdrops', 'q'));
+class AirdropsController extends AppController {
 
-        if ($this->isHTMXRequest()) {
-            $this->viewBuilder()
-                ->setLayout('ajax')
-                ->setTemplate('list');
-        }
-    }
+	/**
+	 * @return \Cake\Http\Response|null|void
+	 */
+	public function index() {
+		$query = $this->Airdrops->find();
+		$q = $this->request->getQuery('q');
 
-    public function view(?string $id = null): void
-    {
-        $airdrop = $this->Airdrops->get($id, contain: ['Tokens', 'Recipients']);
+		if ($q) {
+			$q = trim($q);
+			$query = $query->where(['name LIKE' => "%{$q}%"]);
+		}
+		$airdrops = $this->paginate($query);
+		$this->set(compact('airdrops', 'q'));
 
-        $this->set(compact('airdrop'));
-    }
+		if ($this->isHTMXRequest()) {
+			$this->viewBuilder()
+				->setLayout('ajax')
+				->setTemplate('list');
+		}
+	}
 
-    public function add()
-    {
-        $airdrop = $this->Airdrops->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $airdrop = $this->Airdrops->patchEntity($airdrop, $this->request->getData());
-            if ($this->Airdrops->save($airdrop)) {
-                $this->Flash->success(__('The airdrop has been saved.'));
+	/**
+	 * @param string|null $id
+	 * @return \Cake\Http\Response|null|void
+	 */
+	public function view($id = null) {
+		$airdrop = $this->Airdrops->get($id, contain: ['Tokens', 'Recipients']);
 
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The airdrop could not be saved. Please, try again.'));
-        }
-        $tokens = $this->Airdrops->Tokens->find('list', ['limit' => 200])->all();
-        $recipients = $this->Airdrops->Recipients->find('list', ['limit' => 200])->all();
-        $this->set(compact('airdrop', 'tokens', 'recipients'));
-    }
+		$this->set(compact('airdrop'));
+	}
 
-    public function edit(?string $id = null)
-    {
-        $airdrop = $this->Airdrops->get($id, contain: ['Recipients']);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $airdrop = $this->Airdrops->patchEntity($airdrop, $this->request->getData());
-            if ($this->Airdrops->save($airdrop)) {
-                $this->Flash->success(__('The airdrop has been saved.'));
+	/**
+	 * @return \Cake\Http\Response|null|void
+	 */
+	public function add() {
+		$airdrop = $this->Airdrops->newEmptyEntity();
+		if ($this->request->is('post')) {
+			$airdrop = $this->Airdrops->patchEntity($airdrop, $this->request->getData());
+			if ($this->Airdrops->save($airdrop)) {
+				$this->Flash->success(__('The airdrop has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The airdrop could not be saved. Please, try again.'));
-        }
-        $tokens = $this->Airdrops->Tokens->find('list', ['limit' => 200])->all();
-        $recipients = $this->Airdrops->Recipients->find('list', ['limit' => 200])->all();
-        $this->set(compact('airdrop', 'tokens', 'recipients'));
-    }
+				return $this->redirect(['action' => 'index']);
+			}
+			$this->Flash->error(__('The airdrop could not be saved. Please, try again.'));
+		}
+		$tokens = $this->Airdrops->Tokens->find('list', ['limit' => 200])->all();
+		$recipients = $this->Airdrops->Recipients->find('list', ['limit' => 200])->all();
+		$this->set(compact('airdrop', 'tokens', 'recipients'));
+	}
 
-    public function delete(?string $id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $airdrop = $this->Airdrops->get($id);
-        if ($this->Airdrops->delete($airdrop)) {
-            $this->Flash->success(__('The airdrop has been deleted.'));
-        } else {
-            $this->Flash->error(__('The airdrop could not be deleted. Please, try again.'));
-        }
+	/**
+	 * @param string|null $id
+	 * @return \Cake\Http\Response|null|void
+	 */
+	public function edit($id = null) {
+		$airdrop = $this->Airdrops->get($id, contain: ['Recipients']);
+		if ($this->request->is(['patch', 'post', 'put'])) {
+			$airdrop = $this->Airdrops->patchEntity($airdrop, $this->request->getData());
+			if ($this->Airdrops->save($airdrop)) {
+				$this->Flash->success(__('The airdrop has been saved.'));
 
-        return $this->redirect(['action' => 'index']);
-    }
+				return $this->redirect(['action' => 'index']);
+			}
+			$this->Flash->error(__('The airdrop could not be saved. Please, try again.'));
+		}
+		$tokens = $this->Airdrops->Tokens->find('list', ['limit' => 200])->all();
+		$recipients = $this->Airdrops->Recipients->find('list', ['limit' => 200])->all();
+		$this->set(compact('airdrop', 'tokens', 'recipients'));
+	}
+
+	/**
+	 * @param string|null $id
+	 * @return \Cake\Http\Response|null|void
+	 */
+	public function delete($id = null) {
+		$this->request->allowMethod(['post', 'delete']);
+		$airdrop = $this->Airdrops->get($id);
+		if ($this->Airdrops->delete($airdrop)) {
+			$this->Flash->success(__('The airdrop has been deleted.'));
+		} else {
+			$this->Flash->error(__('The airdrop could not be deleted. Please, try again.'));
+		}
+
+		return $this->redirect(['action' => 'index']);
+	}
+
 }

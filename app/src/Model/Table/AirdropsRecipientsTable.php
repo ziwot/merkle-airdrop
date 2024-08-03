@@ -1,10 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -29,77 +27,79 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\AirdropsRecipient[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
  * @method \App\Model\Entity\AirdropsRecipient[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
  */
-class AirdropsRecipientsTable extends Table
-{
-    /**
-     * Initialize method
-     *
-     * @param array $config The configuration for the Table.
-     * @return void
-     */
-    public function initialize(array $config): void
-    {
-        parent::initialize($config);
+class AirdropsRecipientsTable extends Table {
 
-        $this->setTable('airdrops_recipients');
-        $this->setDisplayField('id');
-        $this->setPrimaryKey('id');
+	/**
+	 * Initialize method
+	 *
+	 * @param array $config The configuration for the Table.
+	 * @return void
+	 */
+	public function initialize(array $config): void {
+		parent::initialize($config);
 
-        $this->belongsTo('Airdrops', [
-            'foreignKey' => 'airdrop_id',
-            'joinType' => 'INNER',
-        ]);
-        $this->belongsTo('Recipients', [
-            'foreignKey' => 'recipient_id',
-            'joinType' => 'INNER',
-        ]);
-    }
+		$this->setTable('airdrops_recipients');
+		$this->setDisplayField('id');
+		$this->setPrimaryKey('id');
 
-    /**
-     * Default validation rules.
-     *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
-     */
-    public function validationDefault(Validator $validator): Validator
-    {
-        $validator
-            ->integer('airdrop_id')
-            ->notEmptyString('airdrop_id');
+		$this->belongsTo('Airdrops', [
+			'foreignKey' => 'airdrop_id',
+			'joinType' => 'INNER',
+		]);
+		$this->belongsTo('Recipients', [
+			'foreignKey' => 'recipient_id',
+			'joinType' => 'INNER',
+		]);
+	}
 
-        $validator
-            ->integer('recipient_id')
-            ->notEmptyString('recipient_id');
+	/**
+	 * Default validation rules.
+	 *
+	 * @param \Cake\Validation\Validator $validator Validator instance.
+	 * @return \Cake\Validation\Validator
+	 */
+	public function validationDefault(Validator $validator): Validator {
+		$validator
+			->integer('airdrop_id')
+			->notEmptyString('airdrop_id');
 
-        $validator
-            ->integer('amount')
-            ->requirePresence('amount', 'create')
-            ->notEmptyString('amount');
+		$validator
+			->integer('recipient_id')
+			->notEmptyString('recipient_id');
 
-        $validator
-            ->dateTime('claimed')
-            ->allowEmptyDateTime('claimed');
+		$validator
+			->integer('amount')
+			->requirePresence('amount', 'create')
+			->notEmptyString('amount');
 
-        return $validator;
-    }
+		$validator
+			->dateTime('claimed')
+			->allowEmptyDateTime('claimed');
 
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules): RulesChecker
-    {
-        $rules->add($rules->existsIn('airdrop_id', 'Airdrops'), ['errorField' => 'airdrop_id']);
-        $rules->add($rules->existsIn('recipient_id', 'Recipients'), ['errorField' => 'recipient_id']);
+		return $validator;
+	}
 
-        return $rules;
-    }
+	/**
+	 * Returns a rules checker object that will be used for validating
+	 * application integrity.
+	 *
+	 * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+	 * @return \Cake\ORM\RulesChecker
+	 */
+	public function buildRules(RulesChecker $rules): RulesChecker {
+		$rules->add($rules->existsIn('airdrop_id', 'Airdrops'), ['errorField' => 'airdrop_id']);
+		$rules->add($rules->existsIn('recipient_id', 'Recipients'), ['errorField' => 'recipient_id']);
 
-    public function byAirdrop(int $airdropId)
-    {
-        return $this->find('all', conditions: ['airdrop_id' => $airdropId])->all();
-    }
+		return $rules;
+	}
+
+	/**
+	 * Returns list of airdrops recipients matching given airdrop
+	 * @param int $airdropId
+	 * @return \Cake\Database\Query\SelectQuery
+	 */
+	public function byAirdrop(int $airdropId): SelectQuery {
+		return $this->find('all', conditions: ['airdrop_id' => $airdropId]);
+	}
+
 }
