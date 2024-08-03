@@ -90,14 +90,23 @@ config: ##@App swap app config (ENV=dev make config)
 	sed -i "s/__SALT__/$(shell openssl rand -base64 32 | tr -d /=+)/" ./app/config/app_local.php ; \
 	echo "[OK] environment : $(ENV)"
 
-lint: ##@App lint code
+########################################
+#                 QA                   #
+########################################
+cs-check: ##@QA lint code
 	@cd ./app \
 		&& composer run-script cs-check \
 		&& npx prettier . -c \
 		&& cd ..
 
-fmt: ##@App format code
+cs-fix: ##@QA format code
 	@cd ./app \
 		&& composer run-script cs-fix \
 		&& npx prettier -w . \
 		&& cd ..
+
+static-check: ##@QA
+	@cd ./app \
+	 && composer run-script stan \
+	 && cd ..
+
