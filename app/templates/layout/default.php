@@ -9,10 +9,10 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link      https://cakephp.org CakePHP(tm) Project
- * @since     0.10.0
- * @license   https://opensource.org/licenses/mit-license.php MIT License
- * @var       \App\View\AppView $this
+ * @link https://cakephp.org CakePHP(tm) Project
+ * @since 0.10.0
+ * @license https://opensource.org/licenses/mit-license.php MIT License
+ * @var \App\View\AppView $this
  */
 
 use Cake\Routing\Router;
@@ -22,8 +22,8 @@ $this->extend('base');
 $this->append('title', ' – Tez Drops');
 
 $this->ViteScripts->css([
-    'files' => ['assets/styles/styles.scss'],
-    'block' => ConfigDefaults::VIEW_BLOCK_CSS,
+	'files' => ['assets/styles/styles.scss'],
+	'block' => ConfigDefaults::VIEW_BLOCK_CSS,
 ]);
 $this->ViteScripts->script('assets/main.ts');
 ?>
@@ -36,60 +36,58 @@ $this->ViteScripts->script('assets/main.ts');
             <ul class="navbar nav">
                 <li class="nav-item">
                     <?= $this->Html->link(
-                        'Airdrops',
-                        ['_name' => 'admin:airdrops:index'],
-                        ['class' => 'nav-link'],
-                    ) ?>
+						'Airdrops',
+						['_name' => 'admin:airdrops:index'],
+						['class' => 'nav-link'],
+					) ?>
                 </li>
                 <li class="nav-item">
                     <?= $this->Html->link(
-                        'Tokens',
-                        ['_name' => 'admin:tokens:index'],
-                        ['class' => 'nav-link'],
-                    ) ?>
+						'Tokens',
+						['_name' => 'admin:tokens:index'],
+						['class' => 'nav-link'],
+					) ?>
                 </li>
                 <li class="nav-item">
                     <?= $this->Html->link(
-                        'Recipients',
-                        ['_name' => 'admin:recipients:index'],
-                        ['class' => 'nav-link'],
-                    ) ?>
+						'Recipients',
+						['_name' => 'admin:recipients:index'],
+						['class' => 'nav-link'],
+					) ?>
                 </li>
             </ul>
             <?php endif; ?>
             <div x-data="beacon" class="d-flex flex-column items-center md:order-2">
                 <?php if (!$this->Identity->isLoggedIn()): ?>
-                    <button @click="login('<?= Router::fullbaseUrl() ?>','<?= $this->request->getAttribute(
-    'csrfToken',
-) ?>')">
-                        Connect
-                    </button>
+					<button
+						@click="login('<?= Router::fullbaseUrl() ?>','<?= $this->request->getAttribute('csrfToken') ?>')"
+					> Connect </button>
                     <span x-show="error" class="text-red-600 font-semibold"><span x-text="error"></span></span>
                 <?php else: ?>
                     <div>
                         Welcome, <?= $this->Identity->get('address') ?> !
                         <button @click="logout('<?= $this->Url->build([
-                            '_name' => 'users:logout',
-                        ]) ?>')">
+							'_name' => 'users:logout',
+						]) ?>')">
                             Disconnect
                         </button>
                     </div>
                     <div class="align-self-end">
                             <?= $this->cell(
-                                'Balance',
-                                [],
-                                [
-                                    'cache' => [
-                                        'config' => 'short',
-                                        'key' =>
-                                            'inbox_' .
-                                            $this->Identity->get('address'),
-                                    ],
-                                ],
-                            ) ?>
+								'Balance',
+								[],
+								[
+									'cache' => [
+										'config' => 'short',
+										'key' =>
+											'inbox_' .
+											$this->Identity->get('address'),
+									],
+								],
+							) ?>
                         (<?= $this->request
-                            ->getSession()
-                            ->read('network', 'local') ?>)
+							->getSession()
+							->read('network', 'local') ?>)
                     </div>
                 <?php endif; ?>
             </div>

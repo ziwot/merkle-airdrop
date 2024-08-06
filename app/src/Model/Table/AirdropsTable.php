@@ -34,7 +34,7 @@ class AirdropsTable extends Table {
 	/**
 	 * Initialize method
 	 *
-	 * @param array $config The configuration for the Table.
+	 * @param array<string,mixed> $config The configuration for the Table.
 	 * @return void
 	 */
 	public function initialize(array $config): void {
@@ -46,15 +46,21 @@ class AirdropsTable extends Table {
 
 		$this->addBehavior('Timestamp');
 
-		$this->belongsTo('Tokens', [
+		$this->belongsTo(
+			'Tokens',
+			[
 			'foreignKey' => 'token_id',
 			'joinType' => 'INNER',
-		]);
-		$this->belongsToMany('Recipients', [
+			],
+		);
+		$this->belongsToMany(
+			'Recipients',
+			[
 			'foreignKey' => 'airdrop_id',
 			'targetForeignKey' => 'recipient_id',
 			'joinTable' => 'airdrops_recipients',
-		]);
+			],
+		);
 	}
 
 	/**
@@ -106,7 +112,7 @@ class AirdropsTable extends Table {
 	}
 
 	/**
-	 * @return \Cake\Database\Query\SelectQuery
+	 * @return \Cake\ORM\Query\SelectQuery
 	 */
 	public function recentAirdrops(): SelectQuery {
 		return $this->find(

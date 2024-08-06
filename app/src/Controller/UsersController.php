@@ -112,14 +112,14 @@ class UsersController extends AppController {
 		$result = $this->Authentication->getResult();
 
 		// If the user is logged in send them away.
-		if ($result->isValid()) {
+		if ($result && $result->isValid()) {
 			return $this->response->withType('application/json')->withStatus(200)
-				->withStringBody(json_encode(['status' => 'OK.']));
+				->withStringBody('OK');
 		}
 
 		if ($this->request->is('post')) {
 			return $this->response->withType('application/json')->withStatus(400)
-				->withStringBody(json_encode(['error' => 'Backend Failure.']));
+				->withStringBody('Backend Failure.');
 		}
 	}
 

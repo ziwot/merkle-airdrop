@@ -31,7 +31,7 @@ class TokensTable extends Table {
 	/**
 	 * Initialize method
 	 *
-	 * @param array $config The configuration for the Table.
+	 * @param array<string,mixed> $config The configuration for the Table.
 	 * @return void
 	 */
 	public function initialize(array $config): void {
@@ -43,9 +43,12 @@ class TokensTable extends Table {
 
 		$this->addBehavior('Timestamp');
 
-		$this->hasMany('Airdrops', [
+		$this->hasMany(
+			'Airdrops',
+			[
 			'foreignKey' => 'token_id',
-		]);
+			],
+		);
 	}
 
 	/**

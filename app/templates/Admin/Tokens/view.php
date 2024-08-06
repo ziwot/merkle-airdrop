@@ -6,25 +6,25 @@
 ?>
 <div class="d-flex mb-3 gap-2">
     <?= $this->Html->link(
-        __('Edit Token'),
-        ['_name' => 'admin:tokens:edit', $token->id],
-        ['class' => 'btn btn-primary'],
-    ) ?>
+		__('Edit Token'),
+		['_name' => 'admin:tokens:edit', $token->id],
+		['class' => 'btn btn-primary'],
+	) ?>
     <?= $this->Form->postLink(
-        __('Delete'),
-        ['_name' => 'admin:tokens:delete', $token->id],
-        [
-            'method' => 'delete',
-            'confirm' => __(
-                'Are you sure you want to delete {0}?',
-                $token->address,
-            ),
-            'class' => 'btn btn-danger',
-        ],
-    ) ?>
+		__('Delete'),
+		['_name' => 'admin:tokens:delete', $token->id],
+		[
+			'method' => 'delete',
+			'confirm' => __(
+				'Are you sure you want to delete {0}?',
+				$token->address,
+			),
+			'class' => 'btn btn-danger',
+		],
+	) ?>
     <a class="btn btn-secondary" href="<?= $this->Url->build([
-        '_name' => 'admin:tokens:index',
-    ]) ?>">Back</a>
+		'_name' => 'admin:tokens:index',
+	]) ?>">Back</a>
 </div>
 
 <div class="row">
@@ -82,29 +82,29 @@
                     <td><?= h($airdrops->modified) ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('View'), [
-                            'controller' => 'Airdrops',
-                            'action' => 'view',
-                            $airdrops->id,
-                        ]) ?>
+							'controller' => 'Airdrops',
+							'action' => 'view',
+							$airdrops->id,
+						]) ?>
                         <?= $this->Html->link(__('Edit'), [
-                            'controller' => 'Airdrops',
-                            'action' => 'edit',
-                            $airdrops->id,
-                        ]) ?>
+							'controller' => 'Airdrops',
+							'action' => 'edit',
+							$airdrops->id,
+						]) ?>
                         <?= $this->Form->postLink(
-                            __('Delete'),
-                            [
-                                'controller' => 'Airdrops',
-                                'action' => 'delete',
-                                $airdrops->id,
-                            ],
-                            [
-                                'confirm' => __(
-                                    'Are you sure you want to delete # {0}?',
-                                    $airdrops->id,
-                                ),
-                            ],
-                        ) ?>
+							__('Delete'),
+							[
+								'controller' => 'Airdrops',
+								'action' => 'delete',
+								$airdrops->id,
+							],
+							[
+								'confirm' => __(
+									'Are you sure you want to delete # {0}?',
+									$airdrops->id,
+								),
+							],
+						) ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>

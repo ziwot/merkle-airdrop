@@ -36,6 +36,8 @@ class SignedMessageAuthenticator extends AbstractAuthenticator {
 	 * - `fields` The fields to use to identify a user by.
 	 * - `loginUrl` Login URL or an array of URLs.
 	 * - `urlChecker` Url checker config.
+	 *
+	 * @var array<string, mixed>
 	 */
 	protected array $_defaultConfig = [
 		'loginUrl' => null,
@@ -48,13 +50,11 @@ class SignedMessageAuthenticator extends AbstractAuthenticator {
 	 * Checks the fields to ensure they are supplied.
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request The request that contains login information.
-	 * @return array|null Username and password retrieved from a request body.
+	 * @return array<int|string, string>|null Username and password retrieved from a request body.
 	 */
 	protected function _getData(ServerRequestInterface $request): ?array {
 		$fields = $this->_config['fields'];
-		/**
- * @var array $body
-*/
+		/** @var array<string, string> $body */
 		$body = $request->getParsedBody();
 
 		$data = [];
@@ -95,11 +95,11 @@ class SignedMessageAuthenticator extends AbstractAuthenticator {
 		}
 
 		$errors = [
-			sprintf(
-				'Login URL `%s` did not match `%s`.',
-				$uri,
-				implode('` or `', (array)$this->getConfig('loginUrl')),
-			),
+		sprintf(
+			'Login URL `%s` did not match `%s`.',
+			$uri,
+			implode('` or `', (array)$this->getConfig('loginUrl')),
+		),
 		];
 
 		return new Result(null, Result::FAILURE_OTHER, $errors);

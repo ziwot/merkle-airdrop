@@ -32,7 +32,7 @@ class AirdropsRecipientsTable extends Table {
 	/**
 	 * Initialize method
 	 *
-	 * @param array $config The configuration for the Table.
+	 * @param array<string,mixed> $config The configuration for the Table.
 	 * @return void
 	 */
 	public function initialize(array $config): void {
@@ -42,14 +42,20 @@ class AirdropsRecipientsTable extends Table {
 		$this->setDisplayField('id');
 		$this->setPrimaryKey('id');
 
-		$this->belongsTo('Airdrops', [
+		$this->belongsTo(
+			'Airdrops',
+			[
 			'foreignKey' => 'airdrop_id',
 			'joinType' => 'INNER',
-		]);
-		$this->belongsTo('Recipients', [
+			],
+		);
+		$this->belongsTo(
+			'Recipients',
+			[
 			'foreignKey' => 'recipient_id',
 			'joinType' => 'INNER',
-		]);
+			],
+		);
 	}
 
 	/**
@@ -95,8 +101,9 @@ class AirdropsRecipientsTable extends Table {
 
 	/**
 	 * Returns list of airdrops recipients matching given airdrop
+	 *
 	 * @param int $airdropId
-	 * @return \Cake\Database\Query\SelectQuery
+	 * @return \Cake\ORM\Query\SelectQuery
 	 */
 	public function byAirdrop(int $airdropId): SelectQuery {
 		return $this->find('all', conditions: ['airdrop_id' => $airdropId]);

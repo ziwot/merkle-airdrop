@@ -2,7 +2,7 @@
 /**
  * @var \App\View\AppView $this
  * @var mixed $q
- * @var \Cake\Collection\CollectionInterface|array<\App\Model\Entity\Airdrop> $airdrops
+ * @var \App\Model\Entity\Airdrop[]|\Cake\Collection\CollectionInterface $airdrops
  */
 ?>
 <?php foreach ($airdrops as $airdrop): ?>
@@ -14,15 +14,15 @@
     <td><?= $airdrop->modified ?></td>
     <td>
         <a class="text-decoration-none p-1" href="<?= $this->Url->build([
-            '_name' => 'admin:airdrops:edit',
-            $airdrop->id,
-        ]) ?>">
+			'_name' => 'admin:airdrops:edit',
+			$airdrop->id,
+		]) ?>">
             <?= $this->Html->icon('pencil-square') ?>
         </a>
         <a class="text-decoration-none p-1" href="<?= $this->Url->build([
-            '_name' => 'admin:airdrops:view',
-            $airdrop->id,
-        ]) ?>">
+			'_name' => 'admin:airdrops:view',
+			$airdrop->id,
+		]) ?>">
             <?= $this->Html->icon('eye-fill') ?>
         </a>
     </td>
@@ -34,12 +34,12 @@
         <div>
             <span
                 hx-get="<?= $this->Url->build([
-                    '_name' => 'admin:airdrops:index',
-                    '?' => [
-                        'page' => $this->Paginator->current() + 1,
-                        'q' => $q,
-                    ],
-                ]) ?>"
+					'_name' => 'admin:airdrops:index',
+					'?' => [
+						'page' => $this->Paginator->current() + 1,
+						'q' => $q,
+					],
+				]) ?>"
                 hx-trigger="revealed"
                 hx-select="tr"
                 hx-target="closest tr"
@@ -49,6 +49,4 @@
         </div>
     </td>
 </tr>
-<?php endif; ?>
-
-
+<?php endif;

@@ -47,7 +47,7 @@
 		],
 		"cs-check": "phpcs --colors -p",
 		"cs-fix": "phpcbf --colors -p",
-		"stan": "DB_URL=sqlite:///:memory: phpstan analyse -vvvvv",
+		"stan": "phpstan analyse",
 		"test": "phpunit --colors=always"
 	},
 	"prefer-stable": true,

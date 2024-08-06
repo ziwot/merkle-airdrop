@@ -9,35 +9,35 @@ use Cake\Core\Configure;
  * Default `html` block.
  */
 if (!$this->fetch('html')) {
-    $this->start('html');
-    if (Configure::check('App.language')) {
-        printf('<html lang="%s">', Configure::read('App.language'));
-    } else {
-        echo '<html>';
-    }
-    $this->end();
+	$this->start('html');
+	if (Configure::check('App.language')) {
+		printf('<html lang="%s">', Configure::read('App.language'));
+	} else {
+		echo '<html>';
+	}
+	$this->end();
 }
 
 /**
  * Default `title` block.
  */
 if (!$this->fetch('title')) {
-    $this->start('title');
-    echo Configure::read('App.title');
-    $this->end();
+	$this->start('title');
+	echo Configure::read('App.title');
+	$this->end();
 }
 
 /**
  * Default `footer` block.
  */
 if (!$this->fetch('tb_footer')) {
-    $this->start('tb_footer');
-    if (Configure::check('App.title')) {
-        printf('&copy;%s %s', date('Y'), Configure::read('App.title'));
-    } else {
-        printf('&copy;%s', date('Y'));
-    }
-    $this->end();
+	$this->start('tb_footer');
+	if (Configure::check('App.title')) {
+		printf('&copy;%s %s', date('Y'), Configure::read('App.title'));
+	} else {
+		printf('&copy;%s', date('Y'));
+	}
+	$this->end();
 }
 
 /**
@@ -45,39 +45,39 @@ if (!$this->fetch('tb_footer')) {
  */
 $this->prepend('tb_body_attrs', ' class="d-flex flex-column h-100"');
 if (!$this->fetch('tb_body_start')) {
-    $this->start('tb_body_start');
-    echo '<body' . $this->fetch('tb_body_attrs') . '>';
-    $this->end();
+	$this->start('tb_body_start');
+	echo '<body' . $this->fetch('tb_body_attrs') . '>';
+	$this->end();
 }
 /**
  * Default `flash` block.
  */
 if (!$this->fetch('tb_flash')) {
-    $this->start('tb_flash');
-    echo $this->Flash->render();
-    $this->end();
+	$this->start('tb_flash');
+	echo $this->Flash->render();
+	$this->end();
 }
 if (!$this->fetch('tb_body_end')) {
-    $this->start('tb_body_end');
-    echo '</body>';
-    $this->end();
+	$this->start('tb_body_end');
+	echo '</body>';
+	$this->end();
 }
 
 /**
  * Prepend `meta` block with `author` and `favicon`.
  */
 if (Configure::check('App.author')) {
-    $this->prepend(
-        'meta',
-        $this->Html->meta('author', null, [
-            'name' => 'author',
-            'content' => Configure::read('App.author'),
-        ]),
-    );
+	$this->prepend(
+		'meta',
+		$this->Html->meta('author', null, [
+			'name' => 'author',
+			'content' => Configure::read('App.author'),
+		]),
+	);
 }
 $this->prepend(
-    'meta',
-    $this->Html->meta('favicon.ico', '/favicon.ico', ['type' => 'icon']),
+	'meta',
+	$this->Html->meta('favicon.ico', '/favicon.ico', ['type' => 'icon']),
 );
 ?>
 <!doctype html>
@@ -91,18 +91,18 @@ $this->prepend(
     </head>
 
     <?php
-    echo $this->fetch('tb_body_start');
-    echo $this->fetch('tb_flash');
-    echo $this->fetch('content');
-    ?>
+	echo $this->fetch('tb_body_start');
+	echo $this->fetch('tb_flash');
+	echo $this->fetch('content');
+	?>
 <footer class="footer fixed-bottom py-3 bg-light">
   <div class="container">
     <span class="text-muted"><?= $this->fetch('tb_footer') ?></span>
   </div>
 </footer>
     <?php
-    echo $this->fetch('script');
-    echo $this->fetch('tb_body_end');
-    ?>
+	echo $this->fetch('script');
+	echo $this->fetch('tb_body_end');
+	?>
 
 </html>

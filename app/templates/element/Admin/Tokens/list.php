@@ -2,7 +2,7 @@
 /**
  * @var \App\View\AppView $this
  * @var mixed $q
- * @var \Cake\Collection\CollectionInterface|array<\App\Model\Entity\Token> $tokens
+ * @var \App\Model\Entity\Token[]|\Cake\Collection\CollectionInterface $tokens
  */
 ?>
 <?php foreach ($tokens as $token): ?>
@@ -14,15 +14,15 @@
     <td><?= $this->Number->format($token->identifier) ?></td>
     <td>
         <a class="text-decoration-none p-1" href="<?= $this->Url->build([
-            '_name' => 'admin:tokens:edit',
-            $token->id,
-        ]) ?>">
+			'_name' => 'admin:tokens:edit',
+			$token->id,
+		]) ?>">
             <?= $this->Html->icon('pencil-square') ?>
         </a>
         <a class="text-decoration-none p-1" href="<?= $this->Url->build([
-            '_name' => 'admin:tokens:view',
-            $token->id,
-        ]) ?>">
+			'_name' => 'admin:tokens:view',
+			$token->id,
+		]) ?>">
             <?= $this->Html->icon('eye-fill') ?>
         </a>
     </td>
@@ -34,12 +34,12 @@
         <div>
             <span
                 hx-get="<?= $this->Url->build([
-                    '_name' => 'admin:tokens:index',
-                    '?' => [
-                        'page' => $this->Paginator->current() + 1,
-                        'q' => $q,
-                    ],
-                ]) ?>"
+					'_name' => 'admin:tokens:index',
+					'?' => [
+						'page' => $this->Paginator->current() + 1,
+						'q' => $q,
+					],
+				]) ?>"
                 hx-trigger="revealed"
                 hx-select="tr"
                 hx-target="closest tr"
@@ -49,5 +49,4 @@
         </div>
     </td>
 </tr>
-<?php endif; ?>
-
+<?php endif;

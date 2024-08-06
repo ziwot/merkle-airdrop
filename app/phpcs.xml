@@ -4,12 +4,12 @@
 
 	<file>src/</file>
 	<file>config/</file>
+	<file>templates/</file>
 	<file>webroot/</file>
 
 	<exclude-pattern>\.git/</exclude-pattern>
 	<exclude-pattern>/*/tmp/</exclude-pattern>
 	<exclude-pattern>/webroot/dist/</exclude-pattern>
-	<exclude-pattern>/templates/</exclude-pattern>
 
 	<rule ref="PSR2R"/>
 

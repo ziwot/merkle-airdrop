@@ -39,6 +39,8 @@ class TezosIdentifier extends AbstractIdentifier {
 	 *   - `message` the payload
 	 *   - `signature` the signed payload
 	 * - `resolver` The resolver implementation to use.
+	 *
+	 * @var array<string, mixed>
 	 */
 	protected array $_defaultConfig = [
 		'fields' => [
@@ -52,6 +54,8 @@ class TezosIdentifier extends AbstractIdentifier {
 
 	/**
 	 * @inheritDoc
+	 * @param array<string, mixed> $credentials
+	 * @return \ArrayAccess|array<string, mixed>|null
 	 */
 	public function identify(array $credentials): ArrayAccess|array|null {
 		if (!isset($credentials[static::CREDENTIAL_PKH])) {
@@ -99,7 +103,7 @@ class TezosIdentifier extends AbstractIdentifier {
 	 * Find a user record using the username/identifier provided.
 	 *
 	 * @param string $identifier The username/identifier.
-	 * @return \ArrayAccess|array|null
+	 * @return \ArrayAccess|array<string, mixed>|null
 	 */
 	protected function _findIdentity(string $identifier) {
 		return $this->getResolver()->find(['address' => $identifier]);

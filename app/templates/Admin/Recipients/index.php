@@ -13,32 +13,32 @@
         </div>
         <div>
             <?= $this->Html->link(
-                'Add Recipient',
-                ['action' => 'add'],
-                ['class' => 'btn btn-outline-primary mt-2'],
-            ) ?>
+				'Add Recipient',
+				['action' => 'add'],
+				['class' => 'btn btn-outline-primary mt-2'],
+			) ?>
         </div>
     </div>
     <div class="d-flex justify-content-between">
         <?= $this->Form->create(null, [
-            'type' => 'get',
-            'class' => 'd-flex gap-3',
-        ]) ?>
+			'type' => 'get',
+			'class' => 'd-flex gap-3',
+		]) ?>
             <?= $this->Form->input('q', [
-                'type' => 'search',
-                'label' => 'Search',
-                'id' => 'search',
-                'value' => $q,
-                'hx-get' => $this->Url->build(['action' => 'index']),
-                'hx-trigger' => 'search, keyup delay:200ms changed',
-                'hx-target' => 'tbody',
-                'hx-swap' => 'outerhtml',
-                'hx-push-url' => 'true',
-                'hx-indicator' => '#spinner',
-            ]) ?>
+				'type' => 'search',
+				'label' => 'Search',
+				'id' => 'search',
+				'value' => $q,
+				'hx-get' => $this->Url->build(['action' => 'index']),
+				'hx-trigger' => 'search, keyup delay:200ms changed',
+				'hx-target' => 'tbody',
+				'hx-swap' => 'outerhtml',
+				'hx-push-url' => 'true',
+				'hx-indicator' => '#spinner',
+			]) ?>
             <?= $this->Form->submit('Search', [
-                'class' => 'btn btn-outline-primary',
-            ]) ?>
+				'class' => 'btn btn-outline-primary',
+			]) ?>
         <?= $this->Form->end() ?>
         <div id="spinner" class="spinner-border htmx-indicator" role="status">
           <span class="visually-hidden">Loading...</span>

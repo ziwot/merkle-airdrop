@@ -2,7 +2,7 @@
 /**
  * @var \App\View\AppView $this
  * @var mixed $q
- * @var \Cake\Collection\CollectionInterface|array<\App\Model\Entity\Recipient> $recipients
+ * @var \App\Model\Entity\Recipient[]|\Cake\Collection\CollectionInterface $recipients
  */
 ?>
 <?php foreach ($recipients as $recipient): ?>
@@ -14,15 +14,15 @@
     <td><?= $recipient->modified ?></td>
     <td>
         <a class="text-decoration-none p-1" href="<?= $this->Url->build([
-            '_name' => 'admin:recipients:edit',
-            $recipient->id,
-        ]) ?>">
+			'_name' => 'admin:recipients:edit',
+			$recipient->id,
+		]) ?>">
             <?= $this->Html->icon('pencil-square') ?>
         </a>
         <a class="text-decoration-none p-1" href="<?= $this->Url->build([
-            '_name' => 'admin:recipients:view',
-            $recipient->id,
-        ]) ?>">
+			'_name' => 'admin:recipients:view',
+			$recipient->id,
+		]) ?>">
             <?= $this->Html->icon('eye-fill') ?>
         </a>
     </td>
@@ -34,12 +34,12 @@
         <div>
             <span
                 hx-get="<?= $this->Url->build([
-                    '_name' => 'admin:recipients:index',
-                    '?' => [
-                        'page' => $this->Paginator->current() + 1,
-                        'q' => $q,
-                    ],
-                ]) ?>"
+					'_name' => 'admin:recipients:index',
+					'?' => [
+						'page' => $this->Paginator->current() + 1,
+						'q' => $q,
+					],
+				]) ?>"
                 hx-trigger="revealed"
                 hx-select="tr"
                 hx-target="closest tr"
@@ -49,5 +49,4 @@
         </div>
     </td>
 </tr>
-<?php endif; ?>
-
+<?php endif;

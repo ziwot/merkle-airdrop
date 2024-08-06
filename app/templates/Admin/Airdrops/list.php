@@ -3,4 +3,4 @@
  * @var \App\View\AppView $this
  */
 ?>
-<?= $this->element('Admin/Airdrops/list') ?>
+<?= $this->element('Admin/Airdrops/list')
