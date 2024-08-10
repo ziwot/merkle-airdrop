@@ -96,13 +96,11 @@ config: ##@App swap app config (ENV=dev make config)
 cs-check: ##@QA lint code
 	@cd ./app \
 		&& composer run-script cs-check \
-		&& npx prettier . -c \
 		&& cd ..
 
 cs-fix: ##@QA format code
 	@cd ./app \
 		&& composer run-script cs-fix \
-		&& npx prettier -w . \
 		&& cd ..
 
 static-check: ##@QA

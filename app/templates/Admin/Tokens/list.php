@@ -2,5 +2,5 @@
 /**
  * @var \App\View\AppView $this
  */
-?>
-<?= $this->element('Admin/Tokens/list')
+
+echo $this->element('Admin/Tokens/list');
