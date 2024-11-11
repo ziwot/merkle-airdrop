@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 use Cake\Collection\Collection;
 use Migrations\AbstractSeed;
 

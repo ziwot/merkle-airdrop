@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 return [
 	'Security' => [
 		'salt' => env('SECURITY_SALT', '__SALT__'),

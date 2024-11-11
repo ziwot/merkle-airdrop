@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -23,7 +25,6 @@ use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
 use Authentication\Middleware\AuthenticationMiddleware;
 use Cake\Core\Configure;
-use Cake\Core\ContainerInterface;
 use Cake\Datasource\FactoryLocator;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
@@ -64,6 +65,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 	 * Setup the middleware queue your application will use.
 	 *
 	 * @param \Cake\Http\MiddlewareQueue $middlewareQueue The middleware queue to setup.
+	 *
 	 * @return \Cake\Http\MiddlewareQueue The updated middleware queue.
 	 */
 	public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue {
@@ -112,19 +114,10 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 	}
 
 	/**
-	 * Register application container services.
-	 *
-	 * @link https://book.cakephp.org/4/en/development/dependency-injection.html#dependency-injection
-	 * @param \Cake\Core\ContainerInterface $container The Container to update.
-	 * @return void
-	 */
-	public function services(ContainerInterface $container): void {
-	}
-
-	/**
 	 * Returns a service provider instance.
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request
+	 *
 	 * @return \Authentication\AuthenticationServiceInterface
 	 */
 	public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface {

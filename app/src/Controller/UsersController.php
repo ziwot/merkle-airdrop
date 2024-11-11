@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Controller;
 
 use Cake\Event\EventInterface;
@@ -14,6 +16,7 @@ class UsersController extends AppController {
 
 	/**
 	 * @param \Cake\Event\EventInterface $event
+	 *
 	 * @return void
 	 */
 	public function beforeFilter(EventInterface $event) {
@@ -37,7 +40,7 @@ class UsersController extends AppController {
 	 * View method
 	 *
 	 * @param string|null $id User id.
-	 * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+	 *
 	 * @return \Cake\Http\Response|null|void Renders view
 	 */
 	public function view($id = null) {
@@ -69,7 +72,7 @@ class UsersController extends AppController {
 	 * Edit method
 	 *
 	 * @param string|null $id User id.
-	 * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+	 *
 	 * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
 	 */
 	public function edit($id = null) {
@@ -90,7 +93,7 @@ class UsersController extends AppController {
 	 * Delete method
 	 *
 	 * @param string|null $id User id.
-	 * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+	 *
 	 * @return \Cake\Http\Response|null|void Redirects to index.
 	 */
 	public function delete($id = null) {

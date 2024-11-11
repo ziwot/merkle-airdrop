@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -53,6 +55,7 @@ class AppController extends Controller {
 
 	/**
 	 * Returns true if 'HX-Request' header is present, false otherwise
+	 *
 	 * @return bool
 	 */
 	protected function isHTMXRequest(): bool {

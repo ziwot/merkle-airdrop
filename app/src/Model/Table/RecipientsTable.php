@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Model\Table;
 
 use Cake\ORM\Table;
@@ -32,6 +34,7 @@ class RecipientsTable extends Table {
 	 * Initialize method
 	 *
 	 * @param array<string,mixed> $config The configuration for the Table.
+	 *
 	 * @return void
 	 */
 	public function initialize(array $config): void {
@@ -57,6 +60,7 @@ class RecipientsTable extends Table {
 	 * Default validation rules.
 	 *
 	 * @param \Cake\Validation\Validator $validator Validator instance.
+	 *
 	 * @return \Cake\Validation\Validator
 	 */
 	public function validationDefault(Validator $validator): Validator {

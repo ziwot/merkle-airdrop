@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "## What is this?",
   "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,11 +13,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@taqueria/plugin-contract-types": "^0.54.0",
-    "@taqueria/plugin-core": "^0.54.0",
-    "@taqueria/plugin-flextesa": "^0.54.0",
-    "@taqueria/plugin-ligo": "^0.54.0",
-    "@taqueria/plugin-taquito": "^0.54.0",
-    "@taqueria/plugin-tezos-client": "^0.39.0"
+    "@taqueria/plugin-core": "^0.64.0",
+    "@taqueria/plugin-flextesa": "^0.64.0",
+    "@taqueria/plugin-ligo": "^0.64.0",
+    "@taqueria/plugin-taquito": "^0.64.0"
   }
 }

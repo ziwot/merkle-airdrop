@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Controller;
 
 use Cake\Event\EventInterface;
@@ -8,6 +10,7 @@ class HomepageController extends AppController {
 
 	/**
 	 * @param \Cake\Event\EventInterface $event
+	 *
 	 * @return void
 	 */
 	public function beforeFilter(EventInterface $event) {

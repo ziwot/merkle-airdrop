@@ -41,8 +41,8 @@ fs.writeFileSync(`${TESTDATA_PATH}/merkleRoot.json`, JSON.stringify(merkleRoot))
 fs.writeFileSync(
     `${TESTDATA_PATH}/airdrop_storage.mligo`,
     `
-    let token = ("${tokenAddr}": address), 0n
-    let merkle_root = ${merkleRoot}
+let token = ("${tokenAddr}": address), 0n
+let merkle_root = ${merkleRoot}
 `
 );
 

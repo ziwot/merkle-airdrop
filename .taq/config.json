@@ -6,31 +6,31 @@
     "accounts": {
         "bob": {
             "balance": {
-                "amount": "3_000_000_000",
+                "amount": "30_000_000",
                 "units": "mutez"
             }
         },
         "alice": {
             "balance": {
-                "amount": "3_000_000_000",
+                "amount": "30_000_000",
                 "units": "mutez"
             }
         },
         "john": {
             "balance": {
-                "amount": "3_000_000_000",
+                "amount": "30_000_000",
                 "units": "mutez"
             }
         },
         "jane": {
             "balance": {
-                "amount": "3_000_000_000",
+                "amount": "30_000_000",
                 "units": "mutez"
             }
         },
         "joe": {
             "balance": {
-                "amount": "3_000_000_000",
+                "amount": "30_000_000",
                 "units": "mutez"
             }
         }
@@ -59,23 +59,15 @@
         },
         {
             "type": "npm",
+            "name": "@taqueria/plugin-ligo"
+        },
+        {
+            "type": "npm",
             "name": "@taqueria/plugin-flextesa"
         },
         {
             "type": "npm",
             "name": "@taqueria/plugin-taquito"
-        },
-        {
-            "type": "npm",
-            "name": "@taqueria/plugin-tezos-client"
-        },
-        {
-            "type": "npm",
-            "name": "@taqueria/plugin-contract-types"
-        },
-        {
-            "type": "npm",
-            "name": "@taqueria/plugin-ligo"
         }
     ]
 }

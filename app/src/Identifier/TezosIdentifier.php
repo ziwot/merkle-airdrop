@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Identifier;
 
 use ArrayAccess;
@@ -54,7 +56,9 @@ class TezosIdentifier extends AbstractIdentifier {
 
 	/**
 	 * @inheritDoc
+	 *
 	 * @param array<string, mixed> $credentials
+	 *
 	 * @return \ArrayAccess|array<string, mixed>|null
 	 */
 	public function identify(array $credentials): ArrayAccess|array|null {
@@ -103,6 +107,7 @@ class TezosIdentifier extends AbstractIdentifier {
 	 * Find a user record using the username/identifier provided.
 	 *
 	 * @param string $identifier The username/identifier.
+	 *
 	 * @return \ArrayAccess|array<string, mixed>|null
 	 */
 	protected function _findIdentity(string $identifier) {

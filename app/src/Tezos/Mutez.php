@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Tezos;
 
 /**
@@ -9,6 +11,7 @@ readonly class Mutez {
 
 	/**
 	 * Initialization
+	 *
 	 * @param int $mutez
 	 */
 	public function __construct(private int $mutez) {
@@ -16,6 +19,7 @@ readonly class Mutez {
 
 	/**
 	 * Returns tez
+	 *
 	 * @return float
 	 */
 	public function tez(): float {
@@ -24,6 +28,7 @@ readonly class Mutez {
 
 	/**
 	 * Returns mutez
+	 *
 	 * @return int
 	 */
 	public function mutez(): int {

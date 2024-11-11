@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -50,6 +52,7 @@ class SignedMessageAuthenticator extends AbstractAuthenticator {
 	 * Checks the fields to ensure they are supplied.
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request The request that contains login information.
+	 *
 	 * @return array<int|string, string>|null Username and password retrieved from a request body.
 	 */
 	protected function _getData(ServerRequestInterface $request): ?array {
@@ -78,6 +81,7 @@ class SignedMessageAuthenticator extends AbstractAuthenticator {
 	 * Prepares the error object for a login URL error
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request The request that contains login information.
+	 *
 	 * @return \Authentication\Authenticator\ResultInterface
 	 */
 	protected function _buildLoginUrlErrorResult(ServerRequestInterface $request): ResultInterface {
@@ -111,6 +115,7 @@ class SignedMessageAuthenticator extends AbstractAuthenticator {
 	 * there is no post data, either username or password is missing, or if the scope conditions have not been met.
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request The request that contains login information.
+	 *
 	 * @return \Authentication\Authenticator\ResultInterface
 	 */
 	public function authenticate(ServerRequestInterface $request): ResultInterface {

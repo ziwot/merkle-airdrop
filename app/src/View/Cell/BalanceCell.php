@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\View\Cell;
 
 use App\Tezos\Mutez;
@@ -12,6 +14,7 @@ class BalanceCell extends Cell {
 
 	/**
 	 * @param string $network
+	 *
 	 * @return void
 	 */
 	public function display(string $network = 'local') {

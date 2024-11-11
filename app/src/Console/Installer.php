@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -33,6 +35,7 @@ class Installer {
 
 	/**
 	 * An array of directories to be made writable
+	 *
 	 * @var array
 	 */
 	public const WRITABLE_DIRS = [
@@ -50,7 +53,7 @@ class Installer {
 	 * Does some routine installation tasks so people don't have to.
 	 *
 	 * @param \Composer\Script\Event $event The composer event object.
-	 * @throws \Exception Exception raised by validator.
+	 *
 	 * @return void
 	 */
 	public static function postInstall(Event $event) {
@@ -74,6 +77,7 @@ class Installer {
 	 *
 	 * @param string $dir The application's root directory.
 	 * @param \Composer\IO\IOInterface $io IO interface to write to console.
+	 *
 	 * @return void
 	 */
 	public static function createAppLocalConfig($dir, $io) {
@@ -90,6 +94,7 @@ class Installer {
 	 *
 	 * @param string $dir The application's root directory.
 	 * @param \Composer\IO\IOInterface $io IO interface to write to console.
+	 *
 	 * @return void
 	 */
 	public static function createWritableDirectories($dir, $io) {
@@ -109,6 +114,7 @@ class Installer {
 	 *
 	 * @param string $dir The application's root directory.
 	 * @param \Composer\IO\IOInterface $io IO interface to write to console.
+	 *
 	 * @return void
 	 */
 	public static function setFolderPermissions($dir, $io) {
@@ -173,6 +179,7 @@ class Installer {
 	 *
 	 * @param string $dir The application's root directory.
 	 * @param \Composer\IO\IOInterface $io IO interface to write to console.
+	 *
 	 * @return void
 	 */
 	public static function setSecuritySalt($dir, $io) {
@@ -187,6 +194,7 @@ class Installer {
 	 * @param \Composer\IO\IOInterface $io IO interface to write to console.
 	 * @param string $newKey key to set in the file
 	 * @param string $file A path to a file relative to the application's root
+	 *
 	 * @return void
 	 */
 	public static function setSecuritySaltInFile($dir, $io, $newKey, $file) {
@@ -217,6 +225,7 @@ class Installer {
 	 * @param \Composer\IO\IOInterface $io IO interface to write to console.
 	 * @param string $appName app name to set in the file
 	 * @param string $file A path to a file relative to the application's root
+	 *
 	 * @return void
 	 */
 	public static function setAppNameInFile($dir, $io, $appName, $file) {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
@@ -11,6 +13,8 @@ use Cake\ORM\Entity;
  * @property string $network
  * @property string $address
  * @property int $identifier
+ * @property string $metadata
+ * @property string $token_metadata
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime|null $modified
  *
@@ -31,6 +35,8 @@ class Token extends Entity {
 		'network' => true,
 		'address' => true,
 		'identifier' => true,
+		'metadata' => true,
+		'token_metadata' => true,
 		'created' => true,
 		'modified' => true,
 		'airdrops' => true,

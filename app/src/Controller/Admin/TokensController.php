@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Controller\Admin;
 
 use App\Controller\AppController;
@@ -35,6 +37,7 @@ class TokensController extends AppController {
 
 	/**
 	 * @param string|null $id
+	 *
 	 * @return \Cake\Http\Response|null|void
 	 */
 	public function view($id = null) {
@@ -62,6 +65,7 @@ class TokensController extends AppController {
 
 	/**
 	 * @param string|null $id
+	 *
 	 * @return \Cake\Http\Response|null|void
 	 */
 	public function edit($id = null) {
@@ -80,6 +84,7 @@ class TokensController extends AppController {
 
 	/**
 	 * @param string|null $id
+	 *
 	 * @return \Cake\Http\Response|null|void
 	 */
 	public function delete($id = null) {

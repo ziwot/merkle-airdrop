@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query\SelectQuery;
@@ -33,6 +35,7 @@ class AirdropsRecipientsTable extends Table {
 	 * Initialize method
 	 *
 	 * @param array<string,mixed> $config The configuration for the Table.
+	 *
 	 * @return void
 	 */
 	public function initialize(array $config): void {
@@ -62,6 +65,7 @@ class AirdropsRecipientsTable extends Table {
 	 * Default validation rules.
 	 *
 	 * @param \Cake\Validation\Validator $validator Validator instance.
+	 *
 	 * @return \Cake\Validation\Validator
 	 */
 	public function validationDefault(Validator $validator): Validator {
@@ -90,6 +94,7 @@ class AirdropsRecipientsTable extends Table {
 	 * application integrity.
 	 *
 	 * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+	 *
 	 * @return \Cake\ORM\RulesChecker
 	 */
 	public function buildRules(RulesChecker $rules): RulesChecker {
@@ -103,6 +108,7 @@ class AirdropsRecipientsTable extends Table {
 	 * Returns list of airdrops recipients matching given airdrop
 	 *
 	 * @param int $airdropId
+	 *
 	 * @return \Cake\ORM\Query\SelectQuery
 	 */
 	public function byAirdrop(int $airdropId): SelectQuery {
