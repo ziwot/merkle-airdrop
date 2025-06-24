@@ -19,11 +19,10 @@
 	"require-dev": {
 		"cakedc/cakephp-phpstan": "^3.1",
 		"cakephp/bake": "^3.0.0",
-		"cakephp/cakephp-codesniffer": "^5.1",
 		"cakephp/debug_kit": "^5.0.0",
 		"dereuromark/cakephp-ide-helper": "^2.2",
-		"fig-r/psr2r-sniffer": "^2.1",
 		"josegonzalez/dotenv": "^4.0",
+		"php-collective/code-sniffer": "^0.2.16",
 		"phpstan/extension-installer": "^1.4",
 		"phpstan/phpstan": "^1.11",
 		"phpunit/phpunit": "^10.1.0",

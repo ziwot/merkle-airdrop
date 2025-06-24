@@ -10,9 +10,9 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link      https://cakephp.org CakePHP(tm) Project
- * @since     3.0.0
- * @license   https://opensource.org/licenses/mit-license.php MIT License
+ * @link https://cakephp.org CakePHP(tm) Project
+ * @since 3.0.0
+ * @license https://opensource.org/licenses/mit-license.php MIT License
  */
 
 use Cake\Chronos\Chronos;
@@ -38,14 +38,15 @@ if (empty($_SERVER['HTTP_HOST']) && !Configure::read('App.fullBaseUrl')) {
 // But since PagesControllerTest is run with debug enabled and DebugKit is loaded
 // in application, without setting up these config DebugKit errors out.
 ConnectionManager::setConfig(
-    'test_debug_kit', [
+    'test_debug_kit',
+    [
     'className' => 'Cake\Database\Connection',
     'driver' => 'Cake\Database\Driver\Sqlite',
     'database' => TMP . 'debug_kit.sqlite',
     'encoding' => 'utf8',
     'cacheMetadata' => true,
     'quoteIdentifiers' => false,
-    ]
+    ],
 );
 
 ConnectionManager::alias('test_debug_kit', 'debug_kit');
@@ -71,7 +72,8 @@ session_id('cli');
 
 ConnectionManager::drop('test');
 ConnectionManager::setConfig(
-    'test', [
+    'test',
+    [
     'className' => 'Cake\Database\Connection',
     'driver' => getenv('DB_CLASS') ?: 'Cake\Database\Driver\Sqlite',
     'database' => getenv('DB_DATABASE') ?: TMP . 'debug_kit.sqlite',
@@ -80,8 +82,7 @@ ConnectionManager::setConfig(
     'encoding' => 'utf8',
     'quoteIdentifiers' => true,
     'cacheMetadata' => true,
-    ]
+    ],
 );
-
 
 (new Migrator())->run();

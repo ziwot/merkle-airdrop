@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
@@ -29,38 +29,39 @@ use Cake\Controller\Controller;
  * @link https://book.cakephp.org/4/en/controllers.html#the-app-controller
  * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication
  */
-class AppController extends Controller {
+class AppController extends Controller
+{
+    /**
+     * Initialization hook method.
+     *
+     * Use this method to add common initialization code like loading components.
+     *
+     * e.g. `$this->loadComponent('FormProtection');`
+     *
+     * @return void
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
 
-	/**
-	 * Initialization hook method.
-	 *
-	 * Use this method to add common initialization code like loading components.
-	 *
-	 * e.g. `$this->loadComponent('FormProtection');`
-	 *
-	 * @return void
-	 */
-	public function initialize(): void {
-		parent::initialize();
+        $this->loadComponent('Flash');
+        $this->loadComponent('Authentication.Authentication');
 
-		$this->loadComponent('Flash');
-		$this->loadComponent('Authentication.Authentication');
-
-		/*
+        /*
          * Enable the following component for recommended CakePHP form protection settings.
          * see https://book.cakephp.org/4/en/controllers/components/form-protection.html
          */
-		//$this->loadComponent('FormProtection');
-	}
+        //$this->loadComponent('FormProtection');
+    }
 
-	/**
-	 * Returns true if 'HX-Request' header is present, false otherwise
-	 *
-	 * @return bool
-	 */
-	protected function isHTMXRequest(): bool {
-		return $this->request->hasHeader('HX-Request') &&
-			$this->request->getHeaderLine('HX-Request') === 'true';
-	}
-
+    /**
+     * Returns true if 'HX-Request' header is present, false otherwise
+     *
+     * @return bool
+     */
+    protected function isHTMXRequest(): bool
+    {
+        return $this->request->hasHeader('HX-Request') &&
+            $this->request->getHeaderLine('HX-Request') === 'true';
+    }
 }

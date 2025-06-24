@@ -1,17 +1,17 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 return [
-	'Security' => [
-		'salt' => env('SECURITY_SALT', '__SALT__'),
-	],
+    'Security' => [
+        'salt' => '__SALT__',
+    ],
 
-	'Datasources' => [
-		'default' => [
-			'url' => 'mysql://my_app:secret@localhost:3307/my_app?persistent=false',
-		],
-	],
+    'ViteHelper.forceProductionMode' => true,
 
-	'ViteHelper.forceProductionMode' => true,
+    'Datasources' => [
+        'default' => [
+            'url' => 'mysql://__DB_USER__:__DB_PASS__@__DB_USER__.mysql.db/__DB_USER__?persistent=false',
+        ],
+    ],
 ];

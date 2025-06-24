@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
@@ -35,32 +35,32 @@ use Cake\View\View;
  * @property \BootstrapUI\View\Helper\BreadcrumbsHelper $Breadcrumbs
  * @property \ViteHelper\View\Helper\ViteScriptsHelper $ViteScripts
  */
-class AppView extends View {
+class AppView extends View
+{
+    /**
+     * Initialization hook method.
+     *
+     * Use this method to add common initialization code like loading helpers.
+     *
+     * e.g. `$this->loadHelper('Html');`
+     *
+     * @return void
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
 
-	/**
-	 * Initialization hook method.
-	 *
-	 * Use this method to add common initialization code like loading helpers.
-	 *
-	 * e.g. `$this->loadHelper('Html');`
-	 *
-	 * @return void
-	 */
-	public function initialize(): void {
-		parent::initialize();
+        $helpers = [
+            'Html' => ['className' => 'BootstrapUI.Html'],
+            'Form' => ['className' => 'BootstrapUI.Form'],
+            'Flash' => ['className' => 'BootstrapUI.Flash'],
+            'Paginator' => ['className' => 'BootstrapUI.Paginator'],
+            'Breadcrumbs' => ['className' => 'BootstrapUI.Breadcrumbs'],
+        ];
 
-		$helpers = [
-			'Html' => ['className' => 'BootstrapUI.Html'],
-			'Form' => ['className' => 'BootstrapUI.Form'],
-			'Flash' => ['className' => 'BootstrapUI.Flash'],
-			'Paginator' => ['className' => 'BootstrapUI.Paginator'],
-			'Breadcrumbs' => ['className' => 'BootstrapUI.Breadcrumbs'],
-		];
-
-		$this->helpers = array_merge($helpers, $this->helpers);
-		$this->loadHelper('ViteHelper.ViteScripts');
-		$this->addHelper('Authentication.Identity');
-		$this->addHelper('Tz');
-	}
-
+        $this->helpers = array_merge($helpers, $this->helpers);
+        $this->loadHelper('ViteHelper.ViteScripts');
+        $this->addHelper('Authentication.Identity');
+        $this->addHelper('Tz');
+    }
 }

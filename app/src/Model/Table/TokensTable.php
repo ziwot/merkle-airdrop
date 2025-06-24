@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Model\Table;
 
@@ -28,65 +28,66 @@ use Cake\Validation\Validator;
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class TokensTable extends Table {
+class TokensTable extends Table
+{
+    /**
+     * Initialize method
+     *
+     * @param array<string, mixed> $config The configuration for the Table.
+     *
+     * @return void
+     */
+    public function initialize(array $config): void
+    {
+        parent::initialize($config);
 
-	/**
-	 * Initialize method
-	 *
-	 * @param array<string, mixed> $config The configuration for the Table.
-	 *
-	 * @return void
-	 */
-	public function initialize(array $config): void {
-		parent::initialize($config);
+        $this->setTable('tokens');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
-		$this->setTable('tokens');
-		$this->setDisplayField('id');
-		$this->setPrimaryKey('id');
+        $this->addBehavior('Timestamp');
 
-		$this->addBehavior('Timestamp');
+        $this->hasMany('Airdrops', [
+            'foreignKey' => 'token_id',
+        ]);
+    }
 
-		$this->hasMany('Airdrops', [
-			'foreignKey' => 'token_id',
-		]);
-	}
+    /**
+     * Default validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     *
+     * @return \Cake\Validation\Validator
+     */
+    public function validationDefault(Validator $validator): Validator
+    {
+        $validator
+            ->scalar('network')
+            ->maxLength('network', 15)
+            ->requirePresence('network', 'create')
+            ->notEmptyString('network');
 
-	/**
-	 * Default validation rules.
-	 *
-	 * @param \Cake\Validation\Validator $validator Validator instance.
-	 *
-	 * @return \Cake\Validation\Validator
-	 */
-	public function validationDefault(Validator $validator): Validator {
-		$validator
-			->scalar('network')
-			->maxLength('network', 15)
-			->requirePresence('network', 'create')
-			->notEmptyString('network');
+        $validator
+            ->scalar('address')
+            ->maxLength('address', 36)
+            ->requirePresence('address', 'create')
+            ->notEmptyString('address');
 
-		$validator
-			->scalar('address')
-			->maxLength('address', 36)
-			->requirePresence('address', 'create')
-			->notEmptyString('address');
+        $validator
+            ->integer('identifier')
+            ->requirePresence('identifier', 'create')
+            ->notEmptyString('identifier');
 
-		$validator
-			->integer('identifier')
-			->requirePresence('identifier', 'create')
-			->notEmptyString('identifier');
+        $validator
+            ->scalar('metadata')
+            ->maxLength('metadata', 4294967295)
+            ->allowEmptyString('metadata');
 
-		$validator
-			->scalar('metadata')
-			->maxLength('metadata', 4294967295)
-			->allowEmptyString('metadata');
+        $validator
+            ->scalar('token_metadata')
+            ->maxLength('token_metadata', 4294967295)
+            ->allowEmptyString('token_metadata');
 
-		$validator
-			->scalar('token_metadata')
-			->maxLength('token_metadata', 4294967295)
-			->allowEmptyString('token_metadata');
-
-		return $validator;
-	}
-
+        return $validator;
+    }
 }

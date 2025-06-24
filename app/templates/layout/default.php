@@ -62,7 +62,9 @@ $this->ViteScripts->script('assets/main.ts');
 					<button
 						@click="login('<?= Router::fullbaseUrl() ?>','<?= $this->request->getAttribute('csrfToken') ?>')"
 					> Connect </button>
-                    <span x-show="error" class="text-red-600 font-semibold"><span x-text="error"></span></span>
+					<span x-show="error" class="text-red-600 font-semibold">
+						<span x-text="error"></span>
+					</span>
                 <?php else: ?>
                     <div>
                         Welcome, <?= $this->Identity->get('address') ?> !

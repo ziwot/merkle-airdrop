@@ -1,26 +1,28 @@
 <?xml version="1.0"?>
-<ruleset name="app">
-	<rule ref="PSR2R"/>
-	<rule ref="PhpCollective.Commenting.DocBlockThrows" />
-	<rule ref="PhpCollective.Commenting.DocBlockTagGrouping" />
-	<rule ref="SlevomatCodingStandard.Functions.DisallowEmptyFunction" />
-	<rule ref="SlevomatCodingStandard.PHP.UselessParentheses" />
-	<rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes" />
+<ruleset name="App">
+    <config name="installed_paths" value="../../php-collective/code-sniffer"/>
 
-	<file>src/</file>
-	<file>config/</file>
-	<file>webroot/</file>
+    <arg name="tab-width" value="4"/>
+    <arg value="nps"/>
 
-	<exclude-pattern>\.git/</exclude-pattern>
-	<exclude-pattern>/*/tmp/</exclude-pattern>
-	<exclude-pattern>/webroot/dist/</exclude-pattern>
-	<exclude-pattern>/templates/</exclude-pattern>
+    <file>src/</file>
+    <file>tests/</file>
+    <file>config/</file>
 
-	<rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
-		<exclude-pattern>*/config/Migrations/*</exclude-pattern>
-		<exclude-pattern>*/config/Seeds/*</exclude-pattern>
-	</rule>
-	<rule ref="PhpCollective.Classes.ClassFileName.NoMatch">
-		<exclude-pattern>*/config/Migrations/*</exclude-pattern>
-	</rule>
+    <exclude-pattern>/config/Seeds/</exclude-pattern>
+    <exclude-pattern>/config/Migrations/</exclude-pattern>
+    <exclude-pattern>/templates/</exclude-pattern>
+
+    <rule ref="PhpCollective"/>
+
+    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration"/>
+    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInClosureUse"/>
+
+    <rule ref="PSR2.Classes.PropertyDeclaration.Underscore">
+        <severity>0</severity>
+    </rule>
+    <rule ref="SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.NoAssignment">
+        <severity>0</severity>
+    </rule>
+
 </ruleset>

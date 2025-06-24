@@ -1,11 +1,12 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Tezos\Airdrop;
 
-enum ClaimStatus {
-	case CLAIMED;
-	case UNCLAIMED;
-	case INELIGIBLE;
+enum ClaimStatus
+{
+    case Claimed;
+    case Unclaimed;
+    case Ineligible;
 }

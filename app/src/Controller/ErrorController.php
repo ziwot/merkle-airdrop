@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
@@ -25,19 +25,19 @@ use Cake\Event\EventInterface;
  *
  * Controller used by ExceptionRenderer to render error responses.
  */
-class ErrorController extends AppController {
+class ErrorController extends AppController
+{
+    /**
+     * beforeRender callback.
+     *
+     * @param \Cake\Event\EventInterface<\Cake\Controller\Controller> $event Event.
+     *
+     * @return \Cake\Http\Response|null|void
+     */
+    public function beforeRender(EventInterface $event)
+    {
+        parent::beforeRender($event);
 
-	/**
-	 * beforeRender callback.
-	 *
-	 * @param \Cake\Event\EventInterface<\Cake\Controller\Controller> $event Event.
-	 *
-	 * @return \Cake\Http\Response|null|void
-	 */
-	public function beforeRender(EventInterface $event) {
-		parent::beforeRender($event);
-
-		$this->viewBuilder()->setTemplatePath('Error');
-	}
-
+        $this->viewBuilder()->setTemplatePath('Error');
+    }
 }
