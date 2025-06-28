@@ -41,10 +41,10 @@ return [
      *   CakePHP generates required value based on `HTTP_HOST` environment variable.
      *   However, you can define it manually to optimize performance or if you
      *   are concerned about people manipulating the `Host` header.
-     * - imageBaseUrl - Web path to the public images directory under webroot.
-     * - cssBaseUrl - Web path to the public css directory under webroot.
-     * - jsBaseUrl - Web path to the public js directory under webroot.
-     * - paths - Configure paths for non class based resources. Supports the
+     * - imageBaseUrl - Web path to the public images/ directory under webroot.
+     * - cssBaseUrl - Web path to the public css/ directory under webroot.
+     * - jsBaseUrl - Web path to the public js/ directory under webroot.
+     * - paths - Configure paths for non class-based resources. Supports the
      *   `plugins`, `templates`, `locales` subkeys, which allow the definition of
      *   paths for plugins, view templates and locale files respectively.
      */
@@ -103,23 +103,15 @@ return [
             'url' => env('CACHE_DEFAULT_URL', null),
         ],
 
-        'short' => [
-            'className' => FileEngine::class,
-            'prefix' => 'cake_short_',
-            'path' => CACHE,
-            'duration' => '+5 minutes',
-            'url' => env('CACHE_DEFAULT_URL', null),
-        ],
-
         /*
          * Configure the cache used for general framework caching.
          * Translation cache files are stored with this configuration.
          * Duration will be set to '+2 minutes' in bootstrap.php when debug = true
          * If you set 'className' => 'Null' core cache will be disabled.
          */
-        '_cake_core_' => [
+        '_cake_translations_' => [
             'className' => FileEngine::class,
-            'prefix' => 'myapp_cake_core_',
+            'prefix' => 'myapp_cake_translations_',
             'path' => CACHE . 'persistent' . DS,
             'serialize' => true,
             'duration' => '+1 years',
@@ -175,7 +167,7 @@ return [
      * - `extraFatalErrorMemory` - int - The number of megabytes to increase the memory limit by
      *   when a fatal error is encountered. This allows
      *   breathing room to complete logging or error handling.
-     * - `ignoredDeprecationPaths` - array - A list of glob compatible file paths that deprecations
+     * - `ignoredDeprecationPaths` - array - A list of glob-compatible file paths that deprecations
      *   should be ignored in. Use this to ignore deprecations for plugins or parts of
      *   your application that still emit deprecations.
      */
@@ -249,7 +241,7 @@ return [
      * Delivery profiles allow you to predefine various properties about email
      * messages from your application and give the settings a name. This saves
      * duplication across your application and makes maintenance and development
-     * easier. Each profile accepts a number of keys. See `Cake\Mailer\Email`
+     * easier. Each profile accepts a number of keys. See `Cake\Mailer\Mailer`
      * for more information.
      */
     'Email' => [
@@ -270,8 +262,8 @@ return [
      *
      * ### Notes
      * - Drivers include Mysql Postgres Sqlite Sqlserver
-     *   See vendor\cakephp\cakephp\src\Database\Driver for complete list
-     * - Do not use periods in database name - it may lead to error.
+     *   See vendor\cakephp\cakephp\src\Database\Driver for the complete list
+     * - Do not use periods in database name - it may lead to errors.
      *   See https://github.com/cakephp/cakephp/issues/6471 for details.
      * - 'encoding' is recommended to be set to full UTF-8 4-Byte support.
      *   E.g set it to 'utf8mb4' in MariaDB and MySQL and 'utf8' for any
@@ -285,8 +277,8 @@ return [
          * The values in app_local.php will override any values set here
          * and should be used for local and per-environment configurations.
          *
-         * Environment variable based configurations can be loaded here or
-         * in app_local.php depending on the applications needs.
+         * Environment variable-based configurations can be loaded here or
+         * in app_local.php depending on the application's needs.
          */
         'default' => [
             'className' => Connection::class,
@@ -295,9 +287,9 @@ return [
             'timezone' => 'UTC',
 
             /*
-             * For MariaDB/MySQL the internal default changed from utf8 to utf8mb4, aka full utf-8 support, in CakePHP 3.6
+             * For MariaDB/MySQL the internal default changed from utf8 to utf8mb4, aka full utf-8 support
              */
-            //'encoding' => 'utf8mb4',
+            'encoding' => 'utf8mb4',
 
             /*
              * If your MySQL server is configured with `skip-character-set-client-handshake`
@@ -349,7 +341,7 @@ return [
             'scopes' => null,
             'levels' => ['warning', 'error', 'critical', 'alert', 'emergency'],
         ],
-        // To enable this dedicated query log, you need set your datasource's log flag to true
+        // To enable this dedicated query log, you need to set your datasource's log flag to true
         'queries' => [
             'className' => FileLog::class,
             'path' => LOGS,
@@ -400,5 +392,34 @@ return [
      */
     'Session' => [
         'defaults' => 'php',
+    ],
+
+    /**
+     * DebugKit configuration.
+     *
+     * Contains an array of configurations to apply to the DebugKit plugin, if loaded.
+     * Documentation: https://book.cakephp.org/debugkit/5/en/index.html#configuration
+     *
+     * ## Options
+     *
+     *  - `panels` - Enable or disable panels. The key is the panel name, and the value is true to enable,
+     *     or false to disable.
+     *  - `includeSchemaReflection` - Set to true to enable logging of schema reflection queries. Disabled by default.
+     *  - `safeTld` - Set an array of whitelisted TLDs for local development.
+     *  - `forceEnable` - Force DebugKit to display. Careful with this, it is usually safer to simply whitelist
+     *     your local TLDs.
+     *  - `ignorePathsPattern` - Regex pattern (including delimiter) to ignore paths.
+     *     DebugKit won’t save data for request URLs that match this regex.
+     *  - `ignoreAuthorization` - Set to true to ignore Cake Authorization plugin for DebugKit requests.
+     *     Disabled by default.
+     *  - `maxDepth` - Defines how many levels of nested data should be shown in general for debug output.
+     *     Default is 5. WARNING: Increasing the max depth level can lead to an out of memory error.
+     *  - `variablesPanelMaxDepth` - Defines how many levels of nested data should be shown in the variables tab.
+     *     Default is 5. WARNING: Increasing the max depth level can lead to an out of memory error.
+     */
+    'DebugKit' => [
+        'forceEnable' => filter_var(env('DEBUG_KIT_FORCE_ENABLE', false), FILTER_VALIDATE_BOOLEAN),
+        'safeTld' => env('DEBUG_KIT_SAFE_TLD', null),
+        'ignoreAuthorization' => env('DEBUG_KIT_IGNORE_AUTHORIZATION', false),
     ],
 ];
