@@ -1,32 +1,41 @@
 <?php
-
 /**
- * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link https://cakephp.org CakePHP(tm) Project
- * @since 0.10.0
- * @license https://opensource.org/licenses/mit-license.php MIT License
  * @var \App\View\AppView $this
  */
 
+use Cake\I18n\Time;
 use Cake\Routing\Router;
-use ViteHelper\Utilities\ConfigDefaults;
 
 $this->extend('base');
 $this->append('title', ' – Tez Drops');
-
-$this->ViteScripts->css([
-	'files' => ['assets/styles/styles.scss'],
-	'block' => ConfigDefaults::VIEW_BLOCK_CSS,
-]);
-$this->ViteScripts->script('assets/main.ts');
 ?>
+
+<script type="importmap">
+    {
+        "imports": {
+            "CakeTezos": "/cake_tezos/dist/cake-tezos.js?v=ff"
+        }
+    }
+</script>
+
+<script type="module">
+    import {
+        connect
+    } from "CakeTezos";
+
+    const connectBtn = document.getElementById("connect");
+    connectBtn?.addEventListener(
+        "click",
+        () => connect(
+            "<?= Router::fullBaseUrl() ?>/cake-tezos",
+            "<?= $this->request->getAttribute('csrfToken') ?>",
+            "NetXdQprcVkpaWU",
+            "<?= $statement ?? 'I accept the Terms of Service' ?>",
+            "<?= random_int(1, 100000000) ?>",
+            "<?= Time::now()->format(DateTimeImmutable::ATOM) ?>",
+        )
+    );
+</script>
 
 <header>
     <nav class="navbar" style="background-color: #e3f2fd;">
@@ -57,23 +66,17 @@ $this->ViteScripts->script('assets/main.ts');
                 </li>
             </ul>
             <?php endif; ?>
-            <div x-data="beacon" class="d-flex flex-column items-center md:order-2">
-                <?php if (!$this->Identity->isLoggedIn()): ?>
-					<button
-						@click="login('<?= Router::fullbaseUrl() ?>','<?= $this->request->getAttribute('csrfToken') ?>')"
-					> Connect </button>
-					<span x-show="error" class="text-red-600 font-semibold">
-						<span x-text="error"></span>
-					</span>
-                <?php else: ?>
-                    <div>
-                        Welcome, <?= $this->Identity->get('address') ?> !
-                        <button @click="logout('<?= $this->Url->build([
-							'_name' => 'users:logout',
-						]) ?>')">
-                            Disconnect
-                        </button>
-                    </div>
+            <div class="d-flex flex-column items-center md:order-2">
+                <?php if ($this->Identity->isLoggedIn()) : ?>
+                    Welcome, <?= $this->Identity->get('address') ?>
+                    <?= $this->Html->link(
+                        $this->Html->icon('power'),
+                        ['plugin' => 'CakeTezos', 'controller' => 'Users', 'action' => 'logout'],
+                        [
+                            'class' => 'btn',
+                            'escape' => false,
+                        ],
+                    ) ?>
                     <div class="align-self-end">
                             <?= $this->cell(
 								'Balance',
@@ -91,6 +94,10 @@ $this->ViteScripts->script('assets/main.ts');
 							->getSession()
 							->read('network', 'local') ?>)
                     </div>
+                <?php else : ?>
+                    <button id="connect" class="btn">
+                        <?= $this->Html->icon('key-fill') ?>
+                    </button>
                 <?php endif; ?>
             </div>
         </div>

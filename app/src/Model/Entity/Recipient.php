@@ -14,7 +14,8 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime|null $modified
  *
- * @property array<\App\Model\Entity\Airdrop> $airdrops
+ * @property \App\Model\Entity\Airdrop[] $airdrops
+ * @property \Cake\ORM\Entity $_joinData
  */
 class Recipient extends Entity
 {

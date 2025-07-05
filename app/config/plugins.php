@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 return [
     'DebugKit' => [
         'onlyDebug' => true,
@@ -13,7 +11,15 @@ return [
     'Migrations' => [
         'onlyCli' => true,
     ],
+    'IdeHelper' => [
+        'onlyDebug' => true,
+        'onlyCli' => true,
+    ],
     'BootstrapUI' => [],
-    'IdeHelper' => [],
-    'ViteHelper' => [],
+    'CakeHtmx' => [],
+    'Cake/Repl' => [
+        'onlyDebug' => true,
+        'onlyCli' => true,
+    ],
+    'CakeTezos' => [],
 ];

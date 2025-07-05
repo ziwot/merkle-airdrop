@@ -19,9 +19,9 @@ enum Network: string
     public function rpcUrl(): string
     {
         return match ($this) {
-            Network::MAINNET => 'https://rpc.tzbeta.net',
-            Network::GHOSTNET => 'https://ghostnet.tezos.marigold.dev',
-            Network::LOCAL => 'http://localhost:20000',
+            Network::Mainnet => 'https://rpc.tzbeta.net',
+            Network::Ghostnet => 'https://ghostnet.tezos.marigold.dev',
+            Network::Local => 'http://localhost:20000',
         };
     }
 
@@ -31,9 +31,9 @@ enum Network: string
     public function tzktUrl(): string
     {
         return match ($this) {
-            Network::MAINNET => 'https://api.tzkt.io',
-            Network::GHOSTNET => 'https://api.ghostnet.tzkt.io',
-            Network::LOCAL => 'http://localhost:5000',
+            Network::Mainnet => 'https://api.tzkt.io',
+            Network::Ghostnet => 'https://api.ghostnet.tzkt.io',
+            Network::Local => 'http://localhost:5000',
         };
     }
 }

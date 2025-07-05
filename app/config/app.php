@@ -103,6 +103,13 @@ return [
             'url' => env('CACHE_DEFAULT_URL', null),
         ],
 
+        'short' => [
+            'className' => 'File',
+            'duration' => '+1 hours',
+            'path' => CACHE,
+            'prefix' => 'cake_short_',
+        ],
+
         /*
          * Configure the cache used for general framework caching.
          * Translation cache files are stored with this configuration.

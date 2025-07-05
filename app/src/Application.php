@@ -126,40 +126,12 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     {
         $service = new AuthenticationService();
 
-        // Define where users should be redirected to when they are not authenticated
-        $service->setConfig(
-            [
-            'unauthenticatedRedirect' => Router::url(
-                [
-                'prefix' => false,
-                'plugin' => null,
-                'controller' => 'Users',
-                'action' => 'login',
-                ],
-            ),
-            'queryParam' => 'redirect',
-            ],
-        );
-
         // Load the authenticators. Session should be first.
         $service->loadAuthenticator('Authentication.Session');
-
-        $fields = [
-            TezosIdentifier::CREDENTIAL_PK => 'pk',
-            TezosIdentifier::CREDENTIAL_PKH => 'pkh',
-            TezosIdentifier::CREDENTIAL_MESSAGE => 'message',
-            TezosIdentifier::CREDENTIAL_SIGNATURE => 'signature',
-        ];
-
-        $service->loadAuthenticator(
-            'SignedMessage',
-            [
-            'fields' => $fields,
-            ],
-        );
+        $service->loadAuthenticator('CakeTezos.SignedMessage');
 
         // Load identifiers
-        $service->loadIdentifier('Tezos', compact('fields'));
+        $service->loadIdentifier('CakeTezos.TezosBase');
 
         return $service;
     }

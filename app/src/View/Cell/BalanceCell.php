@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace App\View\Cell;
 
 use App\Tezos\Mutez;
-use App\Tezos\Network;
-use Bzzhh\Tzkt\Api\AccountsApi;
-use Bzzhh\Tzkt\Configuration;
 use Cake\View\Cell;
+use Tzkt\Api\AccountsApi;
+use function Tzkt\get_client;
 
 class BalanceCell extends Cell
 {
@@ -19,9 +18,10 @@ class BalanceCell extends Cell
      */
     public function display(string $network = 'local')
     {
+        $AccountsApi = new AccountsApi(get_client());
+
         $identity = $this->request->getAttribute('identity')->getOriginalData();
-        $host = Network::from($network)->tzktUrl();
-        $mutez = (new AccountsApi(null, (new Configuration())->setHost($host)))->accountsGetBalance($identity->get('address'));
+        $mutez = $AccountsApi->accountsGetBalance($identity['address']);
         $balance = (new Mutez($mutez))->tez();
 
         $this->set('balance', $balance);
