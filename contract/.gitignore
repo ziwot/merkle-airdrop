@@ -1,7 +1,7 @@
 # ligo
 _ligo/
 .ligo/
-.ligo.esy.lock/
+ligo.esy.lock/
 
 # build
 build/
