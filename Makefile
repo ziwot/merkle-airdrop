@@ -34,13 +34,15 @@ SANDBOX_SCRIPT=riobox
 TOKEN_ADDR=$(shell cat ./infra/testdata/token.json | jq -r)
 MERKLE_ROOT=$(shell cat ./infra/testdata/merkleRoot.json | jq -r)
 AIRDROP_STORAGE=$(shell cat ./infra/testdata/airdrop_storage.tz)
+CONTRACT_ALIAS=airdrop_dev
+# ^ the alias used by octez-client
 
 ########################################
 #            DEPENDENCIES              #
 ########################################
 install: ##@Dependencies install dependencies
-	@ligo install --project-root $(LIGO_PROJECT_ROOT)
-		&& cd ../infra && npm ci \
+	@ligo install --project-root $(LIGO_PROJECT_ROOT) \
+		&& cd ./infra && npm ci \
 		&& cd ../app  && composer install \
 		&& cd ..
 
@@ -54,6 +56,7 @@ up: testaccounts ##@Infra start local infra
 
 down: ##@Infra stop local infra
 	@docker stop $(SANDBOX_NAME)
+	@tc forget contract $(CONTRACT_ALIAS)
 
 testaccounts:
 	@npm --prefix ./infra -s run make:accounts
@@ -88,7 +91,7 @@ test: ##@Contract test contract
 	@ligo run test contract/tests/all.mligo --project-root $(LIGO_PROJECT_ROOT)
 
 deploy: ##@Contract deploy contract
-	octez-client originate contract airdrop_dev transferring 0 from alice running $(LIGO_PROJECT_ROOT)/build/airdrop.tz \
+	@octez-client originate contract $(CONTRACT_ALIAS) transferring 0 from alice running $(LIGO_PROJECT_ROOT)/build/airdrop.tz \
 		--init '$(AIRDROP_STORAGE)' \
 		--burn-cap 2
 

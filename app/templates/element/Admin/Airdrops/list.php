@@ -2,7 +2,7 @@
 /**
  * @var \App\View\AppView $this
  * @var mixed $q
- * @var \App\Model\Entity\Airdrop[]|\Cake\Collection\CollectionInterface $airdrops
+ * @var iterable<\App\Model\Entity\Airdrop> $airdrops
  */
 ?>
 <?php foreach ($airdrops as $airdrop): ?>

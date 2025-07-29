@@ -8,6 +8,7 @@
 <div class="recent-airdrops">
     <h2>Recent Airdrops</h2>
     <?php foreach ($recentAirdrops as $airdrop): ?>
+        <?php dump($airdrop->recipients); ?>
         <div class="airdrop">
             <h3><?= $airdrop->name ?></h3>
                     <!-- todo: fetch metadata -->

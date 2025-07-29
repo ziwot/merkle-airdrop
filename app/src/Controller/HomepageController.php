@@ -26,8 +26,8 @@ class HomepageController extends AppController
     public function index()
     {
         /** @var \App\Model\Table\AirdropsTable $airdropsTable */
-        $airdropsTable = $this->fetchTable('Airdrops');
-        $recentAirdrops = $airdropsTable->recentAirdrops()->all();
+        $Airdrops = $this->fetchTable('Airdrops');
+        $recentAirdrops = $Airdrops->recentAirdrops()->all();
         $totalAmounts = $recentAirdrops->reduce(
             function ($acc, $airdrop) {
                 /** @var \App\Model\Table\AirdropsRecipientsTable $airdropsRecipientsTable */

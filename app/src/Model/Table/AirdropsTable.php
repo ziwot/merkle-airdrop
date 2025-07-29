@@ -17,17 +17,17 @@ use Cake\Validation\Validator;
  *
  * @method \App\Model\Entity\Airdrop newEmptyEntity()
  * @method \App\Model\Entity\Airdrop newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Airdrop[] newEntities(array $data, array $options = [])
+ * @method array<\App\Model\Entity\Airdrop> newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Airdrop get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Airdrop findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array $options = [])
  * @method \App\Model\Entity\Airdrop patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Airdrop[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method array<\App\Model\Entity\Airdrop> patchEntities(iterable $entities, array $data, array $options = [])
  * @method \App\Model\Entity\Airdrop|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \App\Model\Entity\Airdrop saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\Airdrop[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Airdrop>|false saveMany(iterable $entities, array $options = [])
- * @method \App\Model\Entity\Airdrop[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Airdrop> saveManyOrFail(iterable $entities, array $options = [])
- * @method \App\Model\Entity\Airdrop[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Airdrop>|false deleteMany(iterable $entities, array $options = [])
- * @method \App\Model\Entity\Airdrop[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Airdrop> deleteManyOrFail(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Airdrop>|false saveMany(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Airdrop> saveManyOrFail(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Airdrop>|false deleteMany(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Airdrop> deleteManyOrFail(iterable $entities, array $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}>

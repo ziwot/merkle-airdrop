@@ -10,7 +10,7 @@ use Cake\Event\EventInterface;
  * Users Controller
  *
  * @property \App\Model\Table\UsersTable $Users
- * @method   \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\User> paginate(\Cake\Datasource\RepositoryInterface|\Cake\Datasource\QueryInterface|string|null $object = null, array $settings = [])
+ * @method   \Cake\Datasource\ResultSetInterface<\App\Model\Entity\User> paginate(\Cake\Datasource\RepositoryInterface|\Cake\Datasource\QueryInterface|string|null $object = null, array $settings = [])
  */
 class UsersController extends AppController
 {

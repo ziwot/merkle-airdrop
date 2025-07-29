@@ -8,6 +8,9 @@ use Cake\Controller\Controller;
 
 /**
  * Application Controller
+ *
+ * @property \CakeTezos\Controller\Component\NetworkComponent $Network
+ * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication
  */
 class AppController extends Controller
 {

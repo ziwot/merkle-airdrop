@@ -17,17 +17,17 @@ use Cake\Validation\Validator;
  *
  * @method \App\Model\Entity\AirdropsRecipient newEmptyEntity()
  * @method \App\Model\Entity\AirdropsRecipient newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\AirdropsRecipient[] newEntities(array $data, array $options = [])
+ * @method array<\App\Model\Entity\AirdropsRecipient> newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\AirdropsRecipient get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\AirdropsRecipient findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array $options = [])
  * @method \App\Model\Entity\AirdropsRecipient patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\AirdropsRecipient[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method array<\App\Model\Entity\AirdropsRecipient> patchEntities(iterable $entities, array $data, array $options = [])
  * @method \App\Model\Entity\AirdropsRecipient|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \App\Model\Entity\AirdropsRecipient saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\AirdropsRecipient[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\AirdropsRecipient>|false saveMany(iterable $entities, array $options = [])
- * @method \App\Model\Entity\AirdropsRecipient[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\AirdropsRecipient> saveManyOrFail(iterable $entities, array $options = [])
- * @method \App\Model\Entity\AirdropsRecipient[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\AirdropsRecipient>|false deleteMany(iterable $entities, array $options = [])
- * @method \App\Model\Entity\AirdropsRecipient[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\AirdropsRecipient> deleteManyOrFail(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\AirdropsRecipient>|false saveMany(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\AirdropsRecipient> saveManyOrFail(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\AirdropsRecipient>|false deleteMany(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\AirdropsRecipient> deleteManyOrFail(iterable $entities, array $options = [])
  */
 class AirdropsRecipientsTable extends Table
 {

@@ -13,12 +13,12 @@ use Cake\ORM\Entity;
  * @property string $network
  * @property string $address
  * @property int $identifier
- * @property string $metadata
- * @property string $token_metadata
+ * @property string|null $metadata
+ * @property string|null $token_metadata
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime|null $modified
  *
- * @property \App\Model\Entity\Airdrop[] $airdrops
+ * @property array<\App\Model\Entity\Airdrop> $airdrops
  */
 class Token extends Entity
 {

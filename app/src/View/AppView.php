@@ -19,6 +19,7 @@ use Cake\View\View;
  * @property \BootstrapUI\View\Helper\FlashHelper $Flash
  * @property \BootstrapUI\View\Helper\PaginatorHelper $Paginator
  * @property \BootstrapUI\View\Helper\BreadcrumbsHelper $Breadcrumbs
+ * @property \CakeTezos\View\Helper\TzHelper $Tz
  */
 class AppView extends View
 {

@@ -2,7 +2,7 @@
 /**
  * @var \App\View\AppView $this
  * @var mixed $q
- * @var \App\Model\Entity\Token[]|\Cake\Collection\CollectionInterface $tokens
+ * @var iterable<\App\Model\Entity\Token> $tokens
  */
 ?>
 <?php foreach ($tokens as $token): ?>

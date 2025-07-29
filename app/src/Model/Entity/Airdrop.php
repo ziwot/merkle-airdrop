@@ -19,7 +19,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\DateTime|null $modified
  *
  * @property \App\Model\Entity\Token $token
- * @property \App\Model\Entity\Recipient[] $recipients
+ * @property array<\App\Model\Entity\Recipient> $recipients
  * @property \Cake\ORM\Entity $_joinData
  */
 class Airdrop extends Entity

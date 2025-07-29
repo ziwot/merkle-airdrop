@@ -2,7 +2,7 @@
 /**
  * @var \App\View\AppView $this
  * @var mixed $q
- * @var \App\Model\Entity\Recipient[]|\Cake\Collection\CollectionInterface $recipients
+ * @var iterable<\App\Model\Entity\Recipient> $recipients
  */
 ?>
 <?php foreach ($recipients as $recipient): ?>
