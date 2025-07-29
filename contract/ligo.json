@@ -1,0 +1,10 @@
+{
+    "name": "merkle-airdrop",
+    "version": "0.0.1",
+    "author": "Stéven J. <hi@sjehan.net>",
+    "description": "A merkle airdrop contract",
+    "dependencies": {
+        "@ligo/fa": "1.4.2",
+        "ligo-breathalyzer": "1.7.0"
+    }
+}

@@ -1,32 +1,31 @@
-import { execSync, spawnSync } from "node:child_process";
+import { exec } from "child_process";
 
-// check that sandbox is bootsrapped
+// wait for sandbox to be bootstrapped
 
-(() => {
-    if (!isSandboxRunning() || !isSandboxBootstrapped())
-        console.error("Please check sandbox is running and bootstapped.");
+(async () => {
+    let isBootstrapped = await isSandboxBootstrapped();
 
-    function isSandboxRunning() {
-        return (
-            0 ===
-            spawnSync("sh", [
-                "-c",
-                `docker ps --format '{{.Names}}' | grep flextesa`,
-            ]).status
-        );
+    console.log("Waiting for the sandbox to be bootstrapped...");
+    while (!isBootstrapped) {
+        console.log("Not yet.");
+        await sleep(5000);
+        isBootstrapped = await isSandboxBootstrapped();
     }
 
-    function isSandboxBootstrapped() {
-        return (
-            "Node is bootstrapped." ===
-            execSync("octez-client bootstrapped").toString().trim()
-        );
-    }
+    console.log("[OK] sandbox is bootstrapped");
 })();
 
-const name = spawnSync("sh", [
-    "-c",
-    `docker ps --format '{{.Names}}' | grep flextesa`,
-]).stdout;
+async function isSandboxBootstrapped(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+        exec("octez-client bootstrapped", (_, stdout) => {
+            resolve(stdout ? "Node is bootstrapped." === stdout.trim() : false);
+            reject(false);
+        });
+    });
+}
 
-export default name.toString().trim();
+function sleep(ms: number) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}

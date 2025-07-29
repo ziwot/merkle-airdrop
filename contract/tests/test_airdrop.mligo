@@ -1,6 +1,6 @@
 #import "ligo-breathalyzer/lib/lib.mligo" "Breath"
 #import "./util.mligo" "Util"
-#import "../airdrop.mligo" "Airdrop"
+#import "../src/airdrop.mligo" "Airdrop"
 
 let dummy_metadata = 0x01
 

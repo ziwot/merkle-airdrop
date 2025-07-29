@@ -1,7 +1,7 @@
 #import "@ligo/fa/lib/fa2/common/tzip12.datatypes.jsligo" "TZIP12"
 #import "@ligo/fa/lib/main.mligo" "FA2"
 #import "ligo-breathalyzer/lib/lib.mligo" "Breath"
-#import "../airdrop.mligo" "Airdrop"
+#import "../src/airdrop.mligo" "Airdrop"
 
 type originated = Breath.Contract.originated
 

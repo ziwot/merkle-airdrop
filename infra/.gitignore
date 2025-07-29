@@ -1,0 +1,5 @@
+node_modules
+testdata/*
+!testdata/accounts.hjson.dist
+!testdata/token.tz
+!testdata/token_storage.tz

@@ -25,9 +25,11 @@ An off-chain app also is helping on the merkle tree generation and validation be
 
 ## Prerequisites
 
-- [taqueria](https://taqueria.io/docs/getting-started/installation) is used for the contracts stack
-- PHP8 is used for the dApp
-- docker for infra (MySQL, adminer, flextesa..)
+- octez-client must be installed and configured with local sandbox, see https://octez.tezos.com/docs/introduction/howtoget.html 
+    (run `octez-client --endpoint http://localhost:20000 config update`)
+- You need eli and ami installed (see https://github.com/tez-capital/tea?tab=readme-ov-file#tea)
+- PHP8 is used for the dApp (no front build at this time)
+- docker or podman for local infra (tezos sandbox)
 
 ## Why PHP?
 
@@ -40,24 +42,17 @@ An off-chain app also is helping on the merkle tree generation and validation be
 
 1. Install dependencies: `make install`
 2. Launch infra: `make up` (Stop it: `make down`)
-4. Compile contracts: `make compile`
+3. Compile contracts: `make compile`
+4. Generate test data: `make testdata`
 5. Deploy contracts: `make deploy`
 6. Start app: `make start`
 
-Then, you'll have :
-
-- adminer available at <http://localhost:7000>
-- local sandbox at <http://localhost:20000>
-- tzkt api at <http://localhost:5000>
-
-## Dapp
+## Testdata
 
 Use [flextesa](https://gitlab.com/tezos/flextesa)'s bob or alice for dev purpose, you can also add
 choosen deterministic keys in the [testdata script](./infra/testdata.ts).
 
 Otherwise, you can add your address in same script.
-
-The Dapp will check for the address existence in the [Identifier](./app/src/Identifier/TezosIdentifier.php).
 
 ## Resources
 

@@ -8,7 +8,7 @@ While handing on TEA, putting here some way to generate used Sample Data.
 
 Sample Data may be generated with this kind of scripts:
 
-<h5 a><strong><code>helpers.ts</code></strong></h5>
+<h5><strong><code>helpers.ts</code></strong></h5>
 
 ```typescript
 import { outputFile } from "fs-extra";
@@ -21,7 +21,7 @@ export const between = (min: number, max: number) =>
   Math.floor(Math.random() * (max - min) + min);
 ```
 
-<h5 a><strong><code>drops.ts</code></strong></h5>
+<h5><strong><code>drops.ts</code></strong></h5>
 
 ```typescript
 import { execSync } from "node:child_process";
@@ -60,7 +60,7 @@ do {
 saveJson("./scripts/drops", JSON.stringify(drops));
 ```
 
-<h5 a><strong><code>drops.json</code></strong></h5>
+<h5><strong><code>drops.json</code></strong></h5>
 
 ```json
 [
@@ -89,7 +89,7 @@ saveJson("./scripts/drops", JSON.stringify(drops));
 
 ## Merkle tree
 
-<h5 a><strong><code>merkle_tree.ts</code></strong></h5>
+<h5><strong><code>merkle_tree.ts</code></strong></h5>
 
 ```typescript
 import { MerkleTree } from "merkletreejs";

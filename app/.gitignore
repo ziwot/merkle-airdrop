@@ -61,4 +61,4 @@ php_errors.log
 # Plugins
 /webroot/bootstrap_u_i
 /webroot/cake_tezos
-
+/webroot/cake_htmx

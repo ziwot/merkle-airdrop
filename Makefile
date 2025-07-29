@@ -25,70 +25,85 @@ help:
 	@perl -e '$(HELP_FUN)' $(MAKEFILE_LIST)
 
 SHELL=/bin/bash
-DOCKER_COMPOSE = docker compose -f ./infra/docker-compose.yml
+
+LIGO_PROJECT_ROOT=./contract
+SANDBOX_IMAGE=ghcr.io/tez-capital/tezbox:tezos-v22.1
+SANDBOX_NAME=sandbox-airdrop
+SANDBOX_RPC_PORT=20000
+SANDBOX_SCRIPT=riobox
+TOKEN_ADDR=$(shell cat ./infra/testdata/token.json | jq -r)
+MERKLE_ROOT=$(shell cat ./infra/testdata/merkleRoot.json | jq -r)
+AIRDROP_STORAGE=$(shell cat ./infra/testdata/airdrop_storage.tz)
 
 ########################################
 #            DEPENDENCIES              #
 ########################################
 install: ##@Dependencies install dependencies
-	@npm ci
-	@cd ./infra && npm ci && cd ..
-	@taq ligo -c "install"
-	@cd app/ \
-		&& composer install \
-		&& npm ci \
-		&& cp config/app_local.example.php config/app_local.php \
+	@ligo install --project-root $(LIGO_PROJECT_ROOT)
+		&& cd ../infra && npm ci \
+		&& cd ../app  && composer install \
 		&& cd ..
 
 ########################################
 #               INFRA                  #
 ########################################
-up: ##@Infra start local infra
-	@taq start sandbox
-	@$(DOCKER_COMPOSE) up -d --remove-orphans
+up: testaccounts ##@Infra start local infra
+	@docker run --rm --name $(SANDBOX_NAME) --detach -p $(SANDBOX_RPC_PORT):20000 -e block_time=5 \
+		-v $(pwd)/infra/testdata/accounts.hjson:/tezbox/overrides/accounts.hjson \
+		$(SANDBOX_IMAGE) $(SANDBOX_SCRIPT) start
 
 down: ##@Infra stop local infra
-	@taq stop sandbox
-	@$(DOCKER_COMPOSE) down
+	@docker stop $(SANDBOX_NAME)
+
+testaccounts:
+	@npm --prefix ./infra -s run make:accounts
 
 testdata: bootstrapped ##@Infra generate testdata
-	@npm --prefix ./infra -s run testdata
-	@cd ./app && ./bin/cake migrations migrate \
-	&& ./bin/cake migrations seed \
-	&& cd ..
-
-data-reset: down ##@Infra reset data
-	@docker volume rm infra_db_data
+	@npm --prefix ./infra -s run make:drops
+	@npm --prefix ./infra -s run make:token
+	@npm --prefix ./infra -s run make:proof
 
 bootstrapped: ##@Infra check sandbox is bootstrapped
 	@npm --prefix ./infra -s run bootstrapped
 
-deploy: testdata ##@Infra deploy contracts
-	@taq deploy airdrop.tz
-
 ########################################
-#             CONTRACTS                #
+#             CONTRACT                 #
 ########################################
-compile: ##@Contracts compile contracts
-	taq compile-all
+compile: ##@Contract compile contract
+	@if [[ -d "$(LIGO_PROJECT_ROOT)/build" ]]; then rm -rf $(LIGO_PROJECT_ROOT)/build ; fi
+	@mkdir $(LIGO_PROJECT_ROOT)/build
+	@ligo compile contract ./contract/src/airdrop.mligo \
+		--project-root $(LIGO_PROJECT_ROOT) \
+		--michelson-format text --output-file $(LIGO_PROJECT_ROOT)/build/airdrop.tz
 
-test: ##@Contracts test contracts
-	taq ligo -c "run test contracts/test/all.mligo"
+compile-storage: ##@Contract compile contract storage
+	@cd ./contract \
+		&& ligo compile storage src/airdrop.mligo \
+		'generate_initial_storage(0x01, (("$(TOKEN_ADDR)": address), 0n), $(MERKLE_ROOT), (Big_map.empty : Storage.claimed))'\
+		--michelson-format 'text' \
+		-o ../infra/testdata/airdrop_storage.tz \
+		&& cd ..
 
-generate-types: compile ##@Contracts generate types
-	@taq generate types artifacts/nft.tz artifacts/delegation.tz --typescriptDir ./app/src/types
+test: ##@Contract test contract
+	@ligo run test contract/tests/all.mligo --project-root $(LIGO_PROJECT_ROOT)
+
+deploy: ##@Contract deploy contract
+	octez-client originate contract airdrop_dev transferring 0 from alice running $(LIGO_PROJECT_ROOT)/build/airdrop.tz \
+		--init '$(AIRDROP_STORAGE)' \
+		--burn-cap 2
 
 ########################################
 #                 APP                  #
 ########################################
-start: ##@App start app
-	@./app/bin/cake server \
-		& npm --prefix ./app -s run dev
-
 config: ##@App swap app config (ENV=dev make config)
 	@cp "./app/config/app_local.$(ENV).php" ./app/config/app_local.php ; \
 	sed -i "s/__SALT__/$(shell openssl rand -base64 32 | tr -d /=+)/" ./app/config/app_local.php ; \
 	echo "[OK] environment : $(ENV)"
+
+data-reset:
+	@cd ./app && ./bin/cake migrations migrate \
+		&& ./bin/cake migrations seed \
+		&& cd ..
 
 ########################################
 #                 QA                   #
@@ -107,4 +122,3 @@ static-check: ##@QA
 	@cd ./app \
 	 && composer run-script stan \
 	 && cd ..
-
