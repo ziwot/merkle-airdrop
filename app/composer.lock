@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "595ecc61217ac6bf9b1a029ae2a5c39c",
+    "content-hash": "dc6a61d2426cebbd46cad1bdde363054",
     "packages": [
         {
             "name": "cakephp/authentication",
@@ -3978,16 +3978,16 @@
         },
         {
             "name": "ziwot/cake-tezos",
-            "version": "v0.0.2",
+            "version": "v0.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ziwot/cake-tezos.git",
-                "reference": "8621aa1d2bca0e669dd2a3dd6de22be5a936344c"
+                "reference": "fca66f436342b68c65c6781334b26e94a63ce248"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ziwot/cake-tezos/zipball/8621aa1d2bca0e669dd2a3dd6de22be5a936344c",
-                "reference": "8621aa1d2bca0e669dd2a3dd6de22be5a936344c",
+                "url": "https://api.github.com/repos/ziwot/cake-tezos/zipball/fca66f436342b68c65c6781334b26e94a63ce248",
+                "reference": "fca66f436342b68c65c6781334b26e94a63ce248",
                 "shasum": ""
             },
             "require": {
@@ -4020,9 +4020,9 @@
             "description": "Tezos plugin for CakePHP",
             "support": {
                 "issues": "https://github.com/ziwot/cake-tezos/issues",
-                "source": "https://github.com/ziwot/cake-tezos/tree/v0.0.2"
+                "source": "https://github.com/ziwot/cake-tezos/tree/v0.0.3"
             },
-            "time": "2025-07-23T15:36:12+00:00"
+            "time": "2025-07-30T13:41:08+00:00"
         },
         {
             "name": "ziwot/pezos",

@@ -11,7 +11,7 @@ use Cake\View\View;
  *
  * Your application's default view class
  *
- * @link     https://book.cakephp.org/4/en/views.html#the-app-view
+ * @link https://book.cakephp.org/4/en/views.html#the-app-view
  * @property \Authentication\View\Helper\IdentityHelper $Identity
  * @property \AssetMix\View\Helper\AssetMixHelper $AssetMix
  * @property \BootstrapUI\View\Helper\HtmlHelper $Html

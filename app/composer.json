@@ -11,7 +11,7 @@
         "cakephp/plugin-installer": "^2.0",
         "friendsofcake/bootstrap-ui": "^5.0",
         "mobiledetect/mobiledetectlib": "^4.8.03",
-        "ziwot/cake-tezos": "^0.0.2",
+        "ziwot/cake-tezos": "^0.0.3",
         "zunnu/cake-htmx": "^1.0"
     },
     "require-dev": {
@@ -48,7 +48,6 @@
         "stan": "phpstan analyse",
         "test": "phpunit --colors=always"
     },
-    "prefer-stable": true,
     "config": {
         "sort-packages": true,
         "allow-plugins": {
@@ -57,5 +56,6 @@
             "php-http/discovery": true,
             "phpstan/extension-installer": true
         }
-    }
+    },
+    "prefer-stable": true
 }

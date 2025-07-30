@@ -107,12 +107,10 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     {
         $service = new AuthenticationService();
 
-        // Load the authenticators. Session should be first.
         $service->loadAuthenticator('Authentication.Session');
-        $service->loadAuthenticator('CakeTezos.SignedMessage');
-
-        // Load identifiers
-        $service->loadIdentifier('CakeTezos.TezosBase');
+        $service->loadAuthenticator('CakeTezos.SignedMessage', [
+            'identifier' => 'CakeTezos.TezosBase',
+        ]);
 
         return $service;
     }

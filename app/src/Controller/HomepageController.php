@@ -25,22 +25,14 @@ class HomepageController extends AppController
      */
     public function index()
     {
-        /** @var \App\Model\Table\AirdropsTable $airdropsTable */
-        $Airdrops = $this->fetchTable('Airdrops');
-        $recentAirdrops = $Airdrops->recentAirdrops()->all();
-        $totalAmounts = $recentAirdrops->reduce(
-            function ($acc, $airdrop) {
-                /** @var \App\Model\Table\AirdropsRecipientsTable $airdropsRecipientsTable */
-                $airdropsRecipientsTable = $this->fetchTable('AirdropsRecipients');
-                $recipients = $airdropsRecipientsTable->byAirdrop($airdrop->id)->all();
-                $totalAmount = $recipients->sumOf('amount');
+        $network = $this->Network->get();
 
-                return [...$acc, $airdrop->id => $totalAmount];
-            },
-            [],
-        );
+        /**
+         * @var \App\Model\Table\AirdropsTable $Airdrops
+         */
+        $Airdrops = $this->fetchTable('Airdrops');
+        $recentAirdrops = $Airdrops->recentAirdrops($network)->all();
 
         $this->set('recentAirdrops', $recentAirdrops);
-        $this->set('totalAmounts', $totalAmounts);
     }
 }

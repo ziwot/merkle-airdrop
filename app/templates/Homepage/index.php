@@ -8,13 +8,12 @@
 <div class="recent-airdrops">
     <h2>Recent Airdrops</h2>
     <?php foreach ($recentAirdrops as $airdrop): ?>
-        <?php dump($airdrop->recipients); ?>
         <div class="airdrop">
             <h3><?= $airdrop->name ?></h3>
                     <!-- todo: fetch metadata -->
                     <h4><?= $airdrop->token->address ?></h4>
                     <!-- todo: decimal conversion from metadata -->
-                    <p><?= $totalAmounts[$airdrop->id] ?> tokens</p>
+                    <p><?= $airdrop->sum_amount ?> tokens for <?= $airdrop->recipient_count ?> recipients</p>
                     <p><?= $airdrop->description ?></p>
         </div>
         <?php if ($this->Identity->isLoggedIn()): ?>

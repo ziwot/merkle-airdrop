@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\Database\Expression\CommonTableExpression;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -34,6 +36,8 @@ use Cake\Validation\Validator;
  */
 class AirdropsTable extends Table
 {
+    use LocatorAwareTrait;
+
     /**
      * Initialize method
      *
@@ -121,15 +125,53 @@ class AirdropsTable extends Table
     }
 
     /**
+     * @param string $network
+     *
      * @return \Cake\ORM\Query\SelectQuery
      */
-    public function recentAirdrops(): SelectQuery
+    public function recentAirdrops(string $network): SelectQuery
     {
+        /**
+         * @var \App\Model\Table\AirdropsRecipientsTable $AirdropsRecipients
+         */
+        $AirdropsRecipients = $this->fetchTable('AirdropsRecipients');
+
         return $this->find(
-            'all',
+            fields: [
+                'name', 'address', 'description', 'token_id',
+                'recipient_count' => 'recipients_per_airdrop.recipient_count',
+                'sum_amount' => 'recipients_per_airdrop.sum_amount',
+            ],
             limit: 5,
             order: 'Airdrops.created DESC',
             contain: ['Tokens'],
+        )->with(
+            function (CommonTableExpression $cte) use ($AirdropsRecipients) {
+                $q = $AirdropsRecipients->subquery();
+                $q->select(
+                    [
+                    'recipient_count' => $q->func()->count('*'),
+                    'sum_amount' => $q->func()->sum('amount'),
+                    'airdrop_id',
+                    ],
+                )->groupBy('airdrop_id');
+
+                return $cte
+                    ->name('recipients_per_airdrop')
+                    ->query($q);
+            },
+        )
+        ->leftJoinWith(
+            'Tokens',
+            fn ($q) => $q->where(['Tokens.network' => $network]),
+        )->join(
+            [
+            'recipients_per_airdrop' => [
+                'table' => 'recipients_per_airdrop',
+                'type' => 'LEFT',
+                'conditions' => ['recipients_per_airdrop.airdrop_id = Airdrops.id'],
+            ],
+             ],
         );
     }
 }
