@@ -12,8 +12,6 @@ import {
 import { TESTDATA_PATH } from "./config";
 import { between } from "./utils";
 
-console.log(TESTDATA_PATH);
-
 // For test purpose,
 // generate an acounts.hjson to be used with the tezbox sandbox
 // (see ../contract/__tea/tools/sandbox/start.lua)
@@ -28,7 +26,7 @@ async function makeAccounts(nb: number) {
     );
 
     for (const [alias, data] of Object.entries(accounts)) {
-        const account = data as { sk?: string };
+        const account = data as { sk?: string; };
         const cmd = `octez-client import secret key ${alias} ${account.sk} --force`;
         execSync(cmd);
     }
