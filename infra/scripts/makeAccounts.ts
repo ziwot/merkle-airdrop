@@ -1,15 +1,18 @@
-import fs from "fs";
-import { generateKeys, generateMnemonic } from "sotez";
+import { execSync } from "node:child_process";
+import { readFileSync, writeFileSync } from "node:fs";
 import Hjson from "hjson";
+import { generateKeys, generateMnemonic } from "sotez";
 import {
     adjectives,
     animals,
+    type Config,
     colors,
-    Config,
     uniqueNamesGenerator,
 } from "unique-names-generator";
-import { between } from "./utils";
 import { TESTDATA_PATH } from "./config";
+import { between } from "./utils";
+
+console.log(TESTDATA_PATH);
 
 // For test purpose,
 // generate an acounts.hjson to be used with the tezbox sandbox
@@ -21,8 +24,14 @@ makeAccounts(NB_ACCOUNTS);
 
 async function makeAccounts(nb: number) {
     const accounts = Hjson.parse(
-        fs.readFileSync(`${TESTDATA_PATH}/accounts.hjson.dist`).toString()
+        readFileSync(`${TESTDATA_PATH}/accounts.hjson.dist`).toString()
     );
+
+    for (const [alias, data] of Object.entries(accounts)) {
+        const account = data as { sk?: string };
+        const cmd = `octez-client import secret key ${alias} ${account.sk} --force`;
+        execSync(cmd);
+    }
 
     for (let i = 0; i <= nb; i++) {
         const key = await generateKeys(generateMnemonic());
@@ -41,7 +50,7 @@ async function makeAccounts(nb: number) {
     }
 
     const fpath = `${TESTDATA_PATH}/accounts.hjson`;
-    fs.writeFileSync(fpath, Hjson.stringify(accounts));
+    writeFileSync(fpath, Hjson.stringify(accounts));
     // + alice and bob
     console.info(`[OK] ${fpath} created with ${NB_ACCOUNTS + 2} accounts`);
 }

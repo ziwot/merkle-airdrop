@@ -1,5 +1,5 @@
-import fs from "fs";
 import { execSync } from "node:child_process";
+import { writeFileSync } from "node:fs";
 import { TESTDATA_PATH } from "./config";
 
 // For test purpose,
@@ -7,7 +7,7 @@ import { TESTDATA_PATH } from "./config";
 
 const tokenAddr = makeToken();
 console.log(`[OK] ${tokenAddr} deployed`);
-fs.writeFileSync(`${TESTDATA_PATH}/token.json`, JSON.stringify(tokenAddr));
+writeFileSync(`${TESTDATA_PATH}/token.json`, JSON.stringify(tokenAddr));
 
 function makeToken() {
     execSync(`octez-client originate contract token \

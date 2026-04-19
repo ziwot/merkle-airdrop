@@ -1,36 +1,30 @@
 {
-    "name": "testdata",
-    "version": "1.0.0",
-    "description": "Testdata Scripts",
-    "scripts": {
-        "lint": "eslint .",
-        "lint:fix": "eslint . --fix",
-        "bootstrapped": "tsx ./bootstrapped.ts",
-        "make:accounts": "tsx ./makeAccounts.ts",
-        "make:drops": "tsx ./makeDrops.ts",
-        "make:token": "tsx ./makeToken.ts",
-        "make:proof": "tsx ./makeProof.ts"
-    },
-    "devDependencies": {
-        "@eslint/eslintrc": "^3.3.1",
-        "@eslint/js": "^9.32.0",
-        "@taquito/michel-codec": "^22.0.0",
-        "@types/crypto-js": "^4.2.2",
-        "@types/hjson": "^2.4.6",
-        "@types/node": "^24.1.0",
-        "@typescript-eslint/eslint-plugin": "^8.38.0",
-        "@typescript-eslint/parser": "^8.38.0",
-        "crypto-js": "^4.2.0",
-        "eslint-config-prettier": "^10.1.8",
-        "eslint-plugin-prettier": "^5.5.3",
-        "globals": "^16.3.0",
-        "hjson": "^3.2.2",
-        "merkletreejs": "^0.5.2",
-        "npm-check-updates": "^18.0.2",
-        "prettier": "^3.6.2",
-        "sotez": "^11.0.0",
-        "tsx": "^4.20.3",
-        "typescript": "^5.8.3",
-        "unique-names-generator": "^4.7.1"
-    }
+	"name": "testdata",
+	"version": "1.0.0",
+	"description": "Testdata Scripts",
+	"scripts": {
+		"check": "biome check",
+		"ci": "biome ci",
+		"bootstrapped": "tsx ./scripts/bootstrapped.ts",
+		"make:accounts": "tsx ./scripts/makeAccounts.ts",
+		"make:drops": "tsx ./scripts/makeDrops.ts",
+		"make:token": "tsx ./scripts/makeToken.ts",
+		"make:proof": "tsx ./scripts/makeProof.ts"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.4.12",
+		"@taquito/michel-codec": "^24.2.0",
+		"@types/crypto-js": "^4.2.2",
+		"@types/hjson": "^2.4.6",
+		"@types/node": "^25.6.0",
+		"crypto-js": "^4.2.0",
+		"globals": "^17.5.0",
+		"hjson": "^3.2.2",
+		"merkletreejs": "^0.6.0",
+		"npm-check-updates": "^21.0.2",
+		"sotez": "^13.0.1",
+		"tsx": "^4.21.0",
+		"typescript": "^6.0.3",
+		"unique-names-generator": "^4.7.1"
+	}
 }

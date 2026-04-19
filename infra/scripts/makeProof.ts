@@ -1,21 +1,22 @@
-import fs from "fs";
-import { MerkleTree } from "merkletreejs";
+import { readFileSync, writeFileSync } from "node:fs";
+import {
+    type MichelsonType,
+    Parser,
+    packDataBytes,
+} from "@taquito/michel-codec";
 import SHA256 from "crypto-js/sha256.js";
-import { MichelsonType, packDataBytes, Parser } from "@taquito/michel-codec";
+import { MerkleTree } from "merkletreejs";
 import { TESTDATA_PATH } from "./config";
 
 // For test purpose, generate merkle tree
 
 const tree = buildTree();
 const merkleRoot = tree.getHexRoot();
-fs.writeFileSync(
-    `${TESTDATA_PATH}/merkleRoot.json`,
-    JSON.stringify(merkleRoot)
-);
+writeFileSync(`${TESTDATA_PATH}/merkleRoot.json`, JSON.stringify(merkleRoot));
 
-const tokenAddr = fs.readFileSync(`${TESTDATA_PATH}/token.json`).toString();
+const tokenAddr = readFileSync(`${TESTDATA_PATH}/token.json`).toString();
 
-fs.writeFileSync(
+writeFileSync(
     `${TESTDATA_PATH}/airdrop_storage.mligo`,
     `
 let token = (${tokenAddr}: address), 0n
@@ -37,9 +38,14 @@ function getLeaf(pkh: string, amount: number) {
     );
 }
 
+interface Drop {
+    pkh: string;
+    amount: number;
+}
+
 function buildTree() {
-    const dropsJson = fs.readFileSync(`${TESTDATA_PATH}/drops.json`).toString();
-    const leaves = JSON.parse(dropsJson).map((drop: any) =>
+    const dropsJson = readFileSync(`${TESTDATA_PATH}/drops.json`).toString();
+    const leaves = JSON.parse(dropsJson).map((drop: Drop) =>
         getLeaf(drop.pkh, drop.amount)
     );
 

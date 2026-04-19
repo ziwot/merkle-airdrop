@@ -25,8 +25,9 @@ An off-chain app also is helping on the merkle tree generation and validation be
 
 ## Prerequisites
 
-- octez-client must be installed and configured with local sandbox, see https://octez.tezos.com/docs/introduction/howtoget.html 
-    (run `octez-client --endpoint http://localhost:20000 config update`)
+- ligo, install from [here](https://ligolang.org/docs/intro/installation?lang=jsligo)
+- octez-client must be installed and configured with local sandbox, see [howtoget](https://octez.tezos.com/docs/introduction/howtoget.html)
+    (then run `octez-client --endpoint http://localhost:20000 config update`)
 - You need eli and ami installed (see https://github.com/tez-capital/tea?tab=readme-ov-file#tea)
 - PHP8 is used for the dApp (no front build at this time)
 - docker or podman for local infra (tezos sandbox)
@@ -41,6 +42,7 @@ An off-chain app also is helping on the merkle tree generation and validation be
 ## Dev
 
 1. Install dependencies: `make install`
+2. Create config: `ENV=dev make config`
 2. Launch infra: `make up` (Stop it: `make down`)
 3. Compile contracts: `make compile`
 4. Generate test data: `make testdata`

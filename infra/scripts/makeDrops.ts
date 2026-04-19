@@ -1,4 +1,4 @@
-import fs from "fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import Hjson from "hjson";
 import { TESTDATA_PATH } from "./config";
 import { between } from "./utils";
@@ -11,16 +11,16 @@ const MAX_AMOUNT = 200;
 
 makeDrops(MIN_AMOUNT, MAX_AMOUNT).then((drops) => {
     const fpath = `${TESTDATA_PATH}/drops.json`;
-    fs.writeFileSync(fpath, JSON.stringify(drops));
+    writeFileSync(fpath, JSON.stringify(drops));
     console.info(`[OK] ${fpath} created`);
 });
 
 async function makeDrops(minAmount: number, maxAmount: number) {
     const accounts = Hjson.parse(
-        fs.readFileSync(`${TESTDATA_PATH}/accounts.hjson`).toString()
+        readFileSync(`${TESTDATA_PATH}/accounts.hjson`).toString()
     );
 
-    const drops: any = [];
+    const drops: { pkh: string; amount: number }[] = [];
 
     for (const name in accounts) {
         drops.push({
