@@ -55,8 +55,8 @@ up: testaccounts ##@Infra start local infra
 		$(SANDBOX_IMAGE) $(SANDBOX_SCRIPT)
 
 down: ##@Infra stop local infra
+	@$(TEZOS_CLIENT) forget all keys --force
 	@docker stop $(SANDBOX_NAME)
-	@$(TEZOS_CLIENT) forget contract $(CONTRACT_ALIAS)
 
 testaccounts:
 	@npm --prefix ./infra -s run make:accounts
@@ -88,7 +88,7 @@ compile-storage: ##@Contract compile contract storage
 		&& cd ..
 
 test: ##@Contract test contract
-	@ligo run test contract/tests/all.mligo --project-root $(LIGO_PROJECT_ROOT)
+	@ligo run test --no-warn contract/tests/all.mligo --project-root $(LIGO_PROJECT_ROOT)
 
 deploy: ##@Contract deploy contract
 	@$(TEZOS_CLIENT) originate contract $(CONTRACT_ALIAS) transferring 0 from alice running $(LIGO_PROJECT_ROOT)/build/airdrop.tz \
