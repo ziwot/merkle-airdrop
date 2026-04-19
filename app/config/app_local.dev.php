@@ -11,7 +11,7 @@ return [
 
     'Datasources' => [
         'default' => [
-            'url' => 'mysql://my_app:secret@localhost:3307/my_app?persistent=false',
+            'url' => 'mysql://root:secret@localhost/airdrop?persistent=false',
         ],
     ],
 ];

@@ -9,10 +9,10 @@ $this->append('title', ' – Tez Drops');
 
 <header>
     <nav class="navbar" style="background-color: #e3f2fd;">
-        <div class="container">
+        <div class="container position-relative">
             <a class="navbar-brand" href="/">Tez Drops</a>
             <?php if ($this->Identity->isLoggedIn()) : ?>
-            <ul class="navbar nav">
+            <ul class="navbar nav mt-5">
                 <li class="nav-item">
                     <?php echo $this->Html->link(
                         'Airdrops',
@@ -36,12 +36,12 @@ $this->append('title', ' – Tez Drops');
                 </li>
             </ul>
             <?php endif; ?>
-            <div class="d-flex md:order-2">
-                <?php echo $this->element('CakeTezos.connect') ?>
-                <div>
-                    <?php echo $this->element('CakeTezos.network_selector') ?>
+                <div class="d-flex position-absolute top-0 end-0">
+                    <?php echo $this->element('CakeTezos.connect') ?>
+                    <div>
+                        <?php echo $this->element('CakeTezos.network_selector') ?>
+                    </div>
                 </div>
-            </div>
         </div>
     </nav>
 </header>

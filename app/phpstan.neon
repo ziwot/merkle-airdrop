@@ -1,16 +1,9 @@
 parameters:
-	level: 8
-
-	treatPhpDocTypesAsCertain: false
-
-	paths:
-		- src/
-
-	bootstrapFiles:
-		- %rootDir%/../../../tests/bootstrap.php
-
-	excludePaths:
-		- %rootDir%/../../../src/Console/Installer.php
-
-	ignoreErrors:
-		- identifier: missingType.generics
+    level: 8
+    bootstrapFiles:
+        - config/bootstrap.php
+    paths:
+        - src/
+    ignoreErrors:
+        - identifier: missingType.generics
+        - identifier: missingType.iterableValue
