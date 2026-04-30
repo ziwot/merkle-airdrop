@@ -111,6 +111,7 @@ $this->prepend('script', $this->Html->script([
         <title><?php echo h($this->fetch('title')); ?></title>
         <?php echo $this->fetch('meta'); ?>
         <?php echo $this->fetch('css'); ?>
+        <?php echo $this->fetch('script'); ?>
     </head>
 
     <?php
@@ -124,8 +125,6 @@ $this->prepend('script', $this->Html->script([
   </div>
 </footer>
     <?php
-    echo $this->fetch('script');
     echo $this->fetch('tb_body_end');
     ?>
-
 </html>

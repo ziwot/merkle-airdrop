@@ -27,7 +27,7 @@ help:
 SHELL=/bin/bash
 
 LIGO_PROJECT_ROOT=./contract
-SANDBOX_IMAGE=ghcr.io/tez-capital/tezbox:tezos-v24.0
+SANDBOX_IMAGE=ghcr.io/tez-capital/tezbox:tezos-v24.4
 SANDBOX_NAME=sandbox-airdrop
 SANDBOX_RPC_PORT=8732
 SANDBOX_SCRIPT=T
@@ -49,13 +49,13 @@ install: ##@Dependencies install dependencies
 ########################################
 #               INFRA                  #
 ########################################
-up: testaccounts ##@Infra start local infra
-	@docker run --rm --name $(SANDBOX_NAME) -d -p $(SANDBOX_RPC_PORT):8732 -e block_time=5 \
-		-v $(pwd)/infra/testdata/accounts.hjson:/tezbox/overrides/accounts.hjson \
+up: ##@Infra start local infra
+	docker run --rm --name $(SANDBOX_NAME) -d -p $(SANDBOX_RPC_PORT):8732 \
+		-v $(PWD)/infra/init-config-args.hjson:/tezbox/configuration/init-config-args.hjson \
+		-v $(PWD)/infra/testdata/accounts.hjson:/tezbox/overrides/accounts.hjson \
 		$(SANDBOX_IMAGE) $(SANDBOX_SCRIPT)
 
 down: ##@Infra stop local infra
-	@$(TEZOS_CLIENT) forget all keys --force
 	@docker stop $(SANDBOX_NAME)
 
 testaccounts:
@@ -80,12 +80,21 @@ compile: ##@Contract compile contract
 		--michelson-format text --output-file $(LIGO_PROJECT_ROOT)/build/airdrop.tz
 
 compile-storage: ##@Contract compile contract storage
+	@about=$(shell ./contract/src/generate_metadata_bytes.sh) \
+	&& ligo compile storage ./contract/src/airdrop.mligo \
+	"generate_initial_storage($$about, ((\"$(TOKEN_ADDR)\": address), 0n), $(MERKLE_ROOT), (Big_map.empty : Storage.claimed))" \
+	--michelson-format 'text' \
+	-o ./infra/testdata/airdrop_storage.tz
+
+dudu:
+	about=$(shell ./contract/src/generate_packed_metadata.sh) \
+	&& echo $$about
+
+
+compile-view: ##@Contract compile the offchain view
 	@cd ./contract \
-		&& ligo compile storage src/airdrop.mligo \
-		'generate_initial_storage(0x01, (("$(TOKEN_ADDR)": address), 0n), $(MERKLE_ROOT), (Big_map.empty : Storage.claimed))'\
-		--michelson-format 'text' \
-		-o ../infra/testdata/airdrop_storage.tz \
-		&& cd ..
+		&& ligo compile expression cameligo "claimed" \
+		--init-file src/airdrop.mligo --function-body
 
 test: ##@Contract test contract
 	@ligo run test --no-warn contract/tests/all.mligo --project-root $(LIGO_PROJECT_ROOT)
@@ -93,7 +102,8 @@ test: ##@Contract test contract
 deploy: ##@Contract deploy contract
 	@$(TEZOS_CLIENT) originate contract $(CONTRACT_ALIAS) transferring 0 from alice running $(LIGO_PROJECT_ROOT)/build/airdrop.tz \
 		--init '$(AIRDROP_STORAGE)' \
-		--burn-cap 2
+		--burn-cap 2 \
+		--force
 
 ########################################
 #                 APP                  #
@@ -105,7 +115,7 @@ config: ##@App swap app config (ENV=dev make config)
 
 data-reset: ##@App reset data
 	@cd ./app && ./bin/cake migrations migrate \
-		&& ./bin/cake seeds run \
+		&& ./bin/cake seeds run --force \
 		&& cd ..
 
 show-logs: ##@App show logs

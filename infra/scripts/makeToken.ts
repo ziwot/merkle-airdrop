@@ -12,7 +12,7 @@ writeFileSync(`${TESTDATA_PATH}/token.json`, JSON.stringify(tokenAddr));
 function makeToken() {
     execSync(`octez-client originate contract token \
     transferring 0 from alice running "$(cat ${TESTDATA_PATH}/token.tz)" \
-    --init "$(cat ${TESTDATA_PATH}/token_storage.tz)" --burn-cap 0.62175 --force`);
+    --init "$(cat ${TESTDATA_PATH}/token_storage.tz)" --burn-cap 0.704 --force`);
 
     return execSync(`octez-client show known contract token`).toString().trim();
 }

@@ -13,8 +13,8 @@ import { TESTDATA_PATH } from "./config";
 import { between } from "./utils";
 
 // For test purpose,
-// generate an acounts.hjson to be used with the tezbox sandbox
-// (see ../contract/__tea/tools/sandbox/start.lua)
+// generate an accounts.hjson to be used with the tezbox sandbox
+// (see https://github.com/tez-capital/tezbox#accounts)
 
 const NB_ACCOUNTS = 24;
 

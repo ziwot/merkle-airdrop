@@ -1,0 +1,7 @@
+{
+    "name": "Airdrop",
+    "description": "Aidrop Smart Contract",
+    "authors": ["Steven J. <hi@sjehan.net>"],
+    "homepage": "https://github.com/ziwot/merkle-airdrop",
+    "interfaces": ["TZIP-16-21fb73fe"]
+}

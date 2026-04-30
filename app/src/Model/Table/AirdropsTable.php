@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -42,7 +41,6 @@ class AirdropsTable extends Table
      * Initialize method
      *
      * @param array<string, mixed> $config The configuration for the Table.
-     *
      * @return void
      */
     public function initialize(array $config): void
@@ -55,28 +53,22 @@ class AirdropsTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo(
-            'Tokens',
-            [
+        $this->belongsTo('Tokens', [
             'foreignKey' => 'token_id',
             'joinType' => 'INNER',
-            ],
-        );
-        $this->belongsToMany(
-            'Recipients',
-            [
+        ]);
+
+        $this->belongsToMany('Recipients', [
             'foreignKey' => 'airdrop_id',
             'targetForeignKey' => 'recipient_id',
             'joinTable' => 'airdrops_recipients',
-            ],
-        );
+        ]);
     }
 
     /**
      * Default validation rules.
      *
      * @param \Cake\Validation\Validator $validator Validator instance.
-     *
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
@@ -106,6 +98,11 @@ class AirdropsTable extends Table
             ->maxLength('description', 4294967295)
             ->allowEmptyString('description');
 
+        $validator
+            ->scalar('metadata')
+            ->maxLength('metadata', 4294967295)
+            ->allowEmptyString('metadata');
+
         return $validator;
     }
 
@@ -114,12 +111,11 @@ class AirdropsTable extends Table
      * application integrity.
      *
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     *
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn('token_id', 'Tokens'), ['errorField' => 'token_id']);
+        $rules->add($rules->existsIn(['token_id'], 'Tokens'), ['errorField' => 'token_id']);
 
         return $rules;
     }

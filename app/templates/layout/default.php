@@ -5,6 +5,9 @@
 
 $this->extend('base');
 $this->append('title', ' – Tez Drops');
+$this->append('script', $this->Html->importmap([
+    'CakeTezos' => '/cake_tezos/dist/cake-tezos.js'
+]));
 ?>
 
 <header>
@@ -14,21 +17,21 @@ $this->append('title', ' – Tez Drops');
             <?php if ($this->Identity->isLoggedIn()) : ?>
             <ul class="navbar nav mt-5">
                 <li class="nav-item">
-                    <?php echo $this->Html->link(
+                    <?= $this->Html->link(
                         'Airdrops',
                         ['_name' => 'admin:airdrops:index'],
                         ['class' => 'nav-link'],
                     ) ?>
                 </li>
                 <li class="nav-item">
-                    <?php echo $this->Html->link(
+                    <?= $this->Html->link(
                         'Tokens',
                         ['_name' => 'admin:tokens:index'],
                         ['class' => 'nav-link'],
                     ) ?>
                 </li>
                 <li class="nav-item">
-                    <?php echo $this->Html->link(
+                    <?= $this->Html->link(
                         'Recipients',
                         ['_name' => 'admin:recipients:index'],
                         ['class' => 'nav-link'],
@@ -37,9 +40,9 @@ $this->append('title', ' – Tez Drops');
             </ul>
             <?php endif; ?>
                 <div class="d-flex position-absolute top-0 end-0">
-                    <?php echo $this->element('CakeTezos.connect') ?>
+                    <?= $this->element('CakeTezos.connect') ?>
                     <div>
-                        <?php echo $this->element('CakeTezos.network_selector') ?>
+                        <?= $this->element('CakeTezos.network_selector') ?>
                     </div>
                 </div>
         </div>
@@ -48,7 +51,7 @@ $this->append('title', ' – Tez Drops');
 
 <main class="flex-shrink-0">
     <div class="container py-3">
-        <?php echo $this->Flash->render(); ?>
-        <?php echo $this->fetch('content'); ?>
+        <?= $this->Flash->render() ?>
+        <?= $this->fetch('content') ?>
     </div>
 </main>

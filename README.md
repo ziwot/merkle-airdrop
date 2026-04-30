@@ -12,7 +12,7 @@ The advantages are of 2 kinds:
 
 Status is experimental / side-project.
 
-If you are looking for real airdrops, take a look at [organicgrowth.wtf](https://www.organicgrowth.wtf) 
+If you are looking for real airdrops, take a look at [organicgrowth.wtf](https://www.organicgrowth.wtf)
 (on etherlink)
 
 ## How it works?
@@ -26,11 +26,10 @@ An off-chain app also is helping on the merkle tree generation and validation be
 ## Prerequisites
 
 - ligo, install from [here](https://ligolang.org/docs/intro/installation?lang=jsligo)
-- octez-client must be installed and configured with local sandbox, see [howtoget](https://octez.tezos.com/docs/introduction/howtoget.html)
-    (then run `octez-client --endpoint http://localhost:20000 config update`)
-- You need eli and ami installed (see https://github.com/tez-capital/tea?tab=readme-ov-file#tea)
+- octez-client, see [howtoget](https://octez.tezos.com/docs/introduction/howtoget.html)
 - PHP8 is used for the dApp (no front build at this time)
-- docker or podman for local infra (tezos sandbox)
+- nodejs for the test data generation scripts.
+- docker for local infra (tezos sandbox)
 
 ## Why PHP?
 
@@ -52,8 +51,8 @@ An off-chain app also is helping on the merkle tree generation and validation be
 
 ## Testdata
 
-Use [flextesa](https://gitlab.com/tezos/flextesa)'s bob or alice for dev purpose, you can also add
-choosen deterministic keys in the [testdata script](./infra/testdata.ts).
+Use [tezbox](https://github.com/tez-capital/tezbox#accounts)'s bob or alice for dev purpose, you can also add
+choosen deterministic keys in the [`makeAccount` script](./infra/scripts/makeAccounts.ts).
 
 Otherwise, you can add your address in same script.
 

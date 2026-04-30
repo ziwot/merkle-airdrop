@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -15,6 +14,7 @@ use Cake\ORM\Entity;
  * @property string|null $address
  * @property string $name
  * @property string|null $description
+ * @property string|null $metadata
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime|null $modified
  *
@@ -39,6 +39,7 @@ class Airdrop extends Entity
         'address' => true,
         'name' => true,
         'description' => true,
+        'metadata' => true,
         'created' => true,
         'modified' => true,
         'token' => true,

@@ -1,0 +1,10 @@
+[
+    --network=/tezbox/context/genesis.json
+    --net-addr=0.0.0.0:9732
+    --rpc-addr=0.0.0.0:8732
+    --expected-pow=0.0
+    --connections=0
+    --history-mode=archive
+    --cors-origin=*
+    --cors-header=Content-Type
+]
