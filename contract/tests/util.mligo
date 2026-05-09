@@ -5,10 +5,11 @@
 
 type originated = Breath.Contract.originated
 
-let get_token_initial_storage (owner, token_id, amount_ : address * nat * nat) =
+let get_token_initial_storage
+  (about, owner, token_id, amount_ : bytes * address * nat * nat) =
   let metadata =
     Big_map.literal
-      [("", Bytes.pack ("tezos-storage:contents")); ("contents", ("" : bytes))] in
+      [("", [%bytes "tezos-storage:contents"]); ("contents", about)] in
   let ledger = Big_map.literal ([((owner, token_id), amount_)]) in
   let operators = (Big_map.empty : FA2.MultiAsset.operators) in
   let token_metadata =
@@ -37,7 +38,7 @@ let originate_token
     level
     "token_sc"
     (contract_of  FA2.MultiAsset)
-    (get_token_initial_storage (owner, token_id, amount_))
+    (get_token_initial_storage (0x, owner, token_id, amount_))
     0mutez
 
 let originate_airdrop

@@ -14,7 +14,7 @@ use Cake\ORM\Entity;
  * @property string|null $address
  * @property string $name
  * @property string|null $description
- * @property string|null $metadata
+ * @property array|null $metadata
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime|null $modified
  *
@@ -45,4 +45,20 @@ class Airdrop extends Entity
         'token' => true,
         'recipients' => true,
     ];
+
+    protected function _getMetadata($value)
+    {
+        if (is_string($value)) {
+            return json_decode($value, true);
+        }
+        return $value;
+    }
+
+    protected function _setMetadata($value)
+    {
+        if (is_string($value)) {
+            return json_decode($value, true);
+        }
+        return $value;
+    }
 }

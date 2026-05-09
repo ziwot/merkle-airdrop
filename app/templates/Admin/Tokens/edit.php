@@ -24,7 +24,8 @@
             'callBackUrl' => $this->Url->build([
                 '_name' => 'admin:tokens:edit',
                 $token->id
-            ])
+            ]),
+            'csrfToken' => $this->request->getAttribute('csrfToken'),
     ]) ?>
 </div>
 

@@ -1,0 +1,6 @@
+/* Bootstrap customization */
+/* @see https://getbootstrap.com/docs/5.3/customize/css-variables/#root-variables */
+
+:root {
+    --bs-body-font-size: .875rem;
+}

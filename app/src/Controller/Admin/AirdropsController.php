@@ -63,8 +63,8 @@ class AirdropsController extends AppController
             }
             $this->Flash->error(__('The airdrop could not be saved. Please, try again.'));
         }
-        $tokens = $this->Airdrops->Tokens->find('list', ['limit' => 200])->all();
-        $recipients = $this->Airdrops->Recipients->find('list', ['limit' => 200])->all();
+        $tokens = $this->Airdrops->Tokens->find('list', limit: 200)->all();
+        $recipients = $this->Airdrops->Recipients->find('list', limit: 200)->all();
         $this->set(compact('airdrop', 'tokens', 'recipients'));
     }
 
@@ -85,8 +85,8 @@ class AirdropsController extends AppController
             }
             $this->Flash->error(__('The airdrop could not be saved. Please, try again.'));
         }
-        $tokens = $this->Airdrops->Tokens->find('list', ['limit' => 200])->all();
-        $recipients = $this->Airdrops->Recipients->find('list', ['limit' => 200])->all();
+        $tokens = $this->Airdrops->Tokens->find('list', limit: 200)->all();
+        $recipients = $this->Airdrops->Recipients->find('list', limit: 200)->all();
         $this->set(compact('airdrop', 'tokens', 'recipients'));
     }
 

@@ -13,8 +13,8 @@ use Cake\ORM\Entity;
  * @property string $network
  * @property string $address
  * @property int $identifier
- * @property string|null $metadata
- * @property string|null $token_metadata
+ * @property array|null $metadata
+ * @property array|null $token_metadata
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime|null $modified
  *

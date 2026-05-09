@@ -50,7 +50,7 @@ install: ##@Dependencies install dependencies
 #               INFRA                  #
 ########################################
 up: ##@Infra start local infra
-	docker run --rm --name $(SANDBOX_NAME) -d -p $(SANDBOX_RPC_PORT):8732 \
+	@docker run --rm --name $(SANDBOX_NAME) -d -p $(SANDBOX_RPC_PORT):8732 \
 		-v $(PWD)/infra/init-config-args.hjson:/tezbox/configuration/init-config-args.hjson \
 		-v $(PWD)/infra/testdata/accounts.hjson:/tezbox/overrides/accounts.hjson \
 		$(SANDBOX_IMAGE) $(SANDBOX_SCRIPT)
@@ -58,7 +58,7 @@ up: ##@Infra start local infra
 down: ##@Infra stop local infra
 	@docker stop $(SANDBOX_NAME)
 
-testaccounts:
+testaccounts: ##@Infra generate test accounts
 	@npm --prefix ./infra -s run make:accounts
 
 testdata: bootstrapped ##@Infra generate testdata

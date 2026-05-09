@@ -86,8 +86,9 @@ $this->prepend(
  */
 $this->prepend('css', $this->Html->css([
     'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css',
-    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css',
+    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css',
     'BootstrapUI./font/bootstrap-icon-sizes',
+    'custom',
     'app'
 ]));
 
@@ -96,11 +97,11 @@ $this->prepend('css', $this->Html->css([
  * Change popper.min and bootstrap.min to use the compressed version
  */
 $this->prepend( 'script', $this->Html->script(
-    'https://unpkg.com/alpinejs@3.14.3/dist/cdn.min.js', ['defer' => true]
+    'https://unpkg.com/alpinejs@3.15.12/dist/cdn.min.js', ['defer' => true]
 ));
 $this->prepend('script', $this->Html->script([
-    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js',
-    'https://unpkg.com/htmx.org@2.0.3/dist/htmx.min.js',
+    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js',
+    'https://unpkg.com/htmx.org@2.0.10/dist/htmx.min.js',
 ]));
 ?>
 <!doctype html>

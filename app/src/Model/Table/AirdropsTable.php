@@ -50,6 +50,7 @@ class AirdropsTable extends Table
         $this->setTable('airdrops');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
+        $this->getSchema()->setColumnType('metadata', 'json');
 
         $this->addBehavior('Timestamp');
 

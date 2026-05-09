@@ -45,6 +45,8 @@ class TokensTable extends Table
         $this->setTable('tokens');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+        $this->getSchema()->setColumnType('metadata', 'json');
+        $this->getSchema()->setColumnType('token_metadata', 'json');
 
         $this->addBehavior('Timestamp');
 

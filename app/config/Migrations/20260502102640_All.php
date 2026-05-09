@@ -9,7 +9,8 @@ class All extends BaseMigration
      * Up Method.
      *
      * More information on this method is available here:
-     * https://book.cakephp.org/phinx/0/en/migrations.html#the-up-method
+     * https://book.cakephp.org/migrations/5/en/migrations.html#the-up-method
+     *
      * @return void
      */
     public function up(): void
@@ -19,7 +20,6 @@ class All extends BaseMigration
                 'default' => null,
                 'limit' => null,
                 'null' => false,
-                'signed' => true,
             ])
             ->addColumn('merkle_root', 'string', [
                 'default' => null,
@@ -38,11 +38,17 @@ class All extends BaseMigration
             ])
             ->addColumn('description', 'text', [
                 'default' => null,
-                'limit' => 4294967295,
+                'limit' => 2147483647,
+                'null' => true,
+            ])
+            ->addColumn('metadata', 'json', [
+                'collation' => 'utf8mb4_bin',
+                'default' => null,
+                'limit' => 2147483647,
                 'null' => true,
             ])
             ->addColumn('created', 'timestamp', [
-                'default' => 'current_timestamp()',
+                'default' => 'CURRENT_TIMESTAMP',
                 'limit' => null,
                 'null' => false,
             ])
@@ -52,12 +58,8 @@ class All extends BaseMigration
                 'null' => true,
             ])
             ->addIndex(
-                [
-                    'token_id',
-                ],
-                [
-                    'name' => 'airdrops_ibfk_1',
-                ]
+                $this->index('token_id')
+                    ->setName('airdrops_ibfk_1')
             )
             ->create();
 
@@ -66,19 +68,16 @@ class All extends BaseMigration
                 'default' => null,
                 'limit' => null,
                 'null' => false,
-                'signed' => true,
             ])
             ->addColumn('recipient_id', 'integer', [
                 'default' => null,
                 'limit' => null,
                 'null' => false,
-                'signed' => true,
             ])
             ->addColumn('amount', 'integer', [
                 'default' => null,
                 'limit' => null,
                 'null' => false,
-                'signed' => true,
             ])
             ->addColumn('claimed', 'timestamp', [
                 'default' => null,
@@ -86,21 +85,31 @@ class All extends BaseMigration
                 'null' => true,
             ])
             ->addIndex(
-                [
-                    'recipient_id',
-                ],
-                [
-                    'name' => 'FK_9EB53DD7A76ED395',
-                ]
+                $this->index('recipient_id')
+                    ->setName('FK_9EB53DD7A76ED395')
             )
             ->addIndex(
-                [
-                    'airdrop_id',
-                ],
-                [
-                    'name' => 'FK_9EB53DD713543E34',
-                ]
+                $this->index('airdrop_id')
+                    ->setName('FK_9EB53DD713543E34')
             )
+            ->create();
+
+        $this->table('cake_seeds')
+            ->addColumn('plugin', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('seed_name', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => false,
+            ])
+            ->addColumn('executed_at', 'timestamp', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
             ->create();
 
         $this->table('recipients')
@@ -110,7 +119,7 @@ class All extends BaseMigration
                 'null' => false,
             ])
             ->addColumn('created', 'timestamp', [
-                'default' => 'current_timestamp()',
+                'default' => 'CURRENT_TIMESTAMP',
                 'limit' => null,
                 'null' => false,
             ])
@@ -136,22 +145,21 @@ class All extends BaseMigration
                 'default' => null,
                 'limit' => null,
                 'null' => false,
-                'signed' => true,
             ])
-            ->addColumn('metadata', 'text', [
+            ->addColumn('metadata', 'json', [
                 'collation' => 'utf8mb4_bin',
                 'default' => null,
-                'limit' => 4294967295,
+                'limit' => 2147483647,
                 'null' => true,
             ])
-            ->addColumn('token_metadata', 'text', [
+            ->addColumn('token_metadata', 'json', [
                 'collation' => 'utf8mb4_bin',
                 'default' => null,
-                'limit' => 4294967295,
+                'limit' => 2147483647,
                 'null' => true,
             ])
             ->addColumn('created', 'timestamp', [
-                'default' => 'current_timestamp()',
+                'default' => 'CURRENT_TIMESTAMP',
                 'limit' => null,
                 'null' => false,
             ])
@@ -169,7 +177,7 @@ class All extends BaseMigration
                 'null' => false,
             ])
             ->addColumn('created', 'timestamp', [
-                'default' => 'current_timestamp()',
+                'default' => 'CURRENT_TIMESTAMP',
                 'limit' => null,
                 'null' => false,
             ])
@@ -179,49 +187,39 @@ class All extends BaseMigration
                 'null' => true,
             ])
             ->addIndex(
-                [
-                    'address',
-                ],
-                [
-                    'name' => 'pkh',
-                    'unique' => true,
-                ]
+                $this->index('address')
+                    ->setName('pkh')
+                    ->setType('unique')
             )
             ->create();
 
         $this->table('airdrops')
             ->addForeignKey(
-                'token_id',
-                'tokens',
-                'id',
-                [
-                    'update' => 'RESTRICT',
-                    'delete' => 'RESTRICT',
-                    'constraint' => 'airdrops_ibfk_1'
-                ]
+                $this->foreignKey('token_id')
+                    ->setReferencedTable('tokens')
+                    ->setReferencedColumns('id')
+                    ->setDelete('RESTRICT')
+                    ->setUpdate('RESTRICT')
+                    ->setName('airdrops_ibfk_1')
             )
             ->update();
 
         $this->table('airdrops_recipients')
             ->addForeignKey(
-                'recipient_id',
-                'recipients',
-                'id',
-                [
-                    'update' => 'RESTRICT',
-                    'delete' => 'RESTRICT',
-                    'constraint' => 'FK_9EB53DD7A76ED395'
-                ]
+                $this->foreignKey('recipient_id')
+                    ->setReferencedTable('recipients')
+                    ->setReferencedColumns('id')
+                    ->setDelete('RESTRICT')
+                    ->setUpdate('RESTRICT')
+                    ->setName('FK_9EB53DD7A76ED395')
             )
             ->addForeignKey(
-                'airdrop_id',
-                'airdrops',
-                'id',
-                [
-                    'update' => 'RESTRICT',
-                    'delete' => 'RESTRICT',
-                    'constraint' => 'FK_9EB53DD713543E34'
-                ]
+                $this->foreignKey('airdrop_id')
+                    ->setReferencedTable('airdrops')
+                    ->setReferencedColumns('id')
+                    ->setDelete('RESTRICT')
+                    ->setUpdate('RESTRICT')
+                    ->setName('FK_9EB53DD713543E34')
             )
             ->update();
     }
@@ -230,7 +228,8 @@ class All extends BaseMigration
      * Down Method.
      *
      * More information on this method is available here:
-     * https://book.cakephp.org/phinx/0/en/migrations.html#the-down-method
+     * https://book.cakephp.org/migrations/5/en/migrations.html#the-down-method
+     *
      * @return void
      */
     public function down(): void
@@ -250,6 +249,7 @@ class All extends BaseMigration
 
         $this->table('airdrops')->drop()->save();
         $this->table('airdrops_recipients')->drop()->save();
+        $this->table('cake_seeds')->drop()->save();
         $this->table('recipients')->drop()->save();
         $this->table('tokens')->drop()->save();
         $this->table('users')->drop()->save();

@@ -31,23 +31,30 @@
 </div>
 
 <div class="row">
-    <?= $this->Form->create($airdrop) ?>
-    <fieldset>
-        <legend><?= __('Edit Airdrop') ?></legend>
-        <?php
-        echo $this->Form->control('token_id', ['options' => $tokens]);
-        echo $this->Form->control('merkle_root');
-        echo $this->Form->control('address');
-        echo $this->Form->control('name');
-        echo $this->Form->control('description');
-        echo $this->Form->control('recipients._ids', [
-            'options' => $recipients,
-        ]);
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <a class="btn btn-secondary" href="<?= $this->Url->build([
-        '_name' => 'admin:airdrops:index',
-    ]) ?>">Back</a>
-    <?= $this->Form->end() ?>
+    <div class="w-50">
+        <?= $this->Form->create($airdrop) ?>
+        <fieldset>
+            <legend><?= __('Edit Airdrop') ?></legend>
+            <?php
+            echo $this->Form->control('token_id', ['options' => $tokens]);
+            echo $this->Form->control('merkle_root');
+            echo $this->Form->control('address');
+            echo $this->Form->control('name');
+            echo $this->Form->control('description');
+            echo $this->Form->control('recipients._ids', [
+                'options' => $recipients,
+            ]);
+            ?>
+        </fieldset>
+        <?= $this->Form->button(__('Submit')) ?>
+        <a class="btn btn-secondary" href="<?= $this->Url->build([
+            '_name' => 'admin:airdrops:index',
+        ]) ?>">Back</a>
+        <?= $this->Form->end() ?>
+    </div>
+    <div class="w-50">
+        <pre>
+<?= json_encode($airdrop->metadata, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES) ?>
+        </pre>
+    </div>
 </div>
