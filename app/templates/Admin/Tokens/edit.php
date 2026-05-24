@@ -3,6 +3,16 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Token $token
  */
+
+$this->prepend('script', $this->Html->scriptBlock(<<<SCRIPT
+function markMetadataError(error) {
+    const el = document.querySelector('.metadata');
+    el.style.borderColor = '#dc3545';
+    el.style.boxShadow = '0 0 0 0.2rem rgba(220,53,69,0.25)';
+    el.nextElementSibling?.remove?.();
+    el.insertAdjacentHTML("afterend", `<div class="text-danger mt-2"><i class="bi bi-exclamation-triangle-fill"></i> \${error.message}</div>`);
+}
+SCRIPT));
 ?>
 
 <div class="mb-3 d-flex justify-content-between">
@@ -26,21 +36,30 @@
                 $token->id
             ]),
             'csrfToken' => $this->request->getAttribute('csrfToken'),
+            'metadataErrorHandler' => 'markMetadataError',
     ]) ?>
 </div>
 
 <div class="row">
-    <?= $this->Form->create($token) ?>
-    <fieldset>
-        <?php
-        echo $this->Form->control('network');
-        echo $this->Form->control('address');
-        echo $this->Form->control('identifier');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary']) ?>
-    <a class="btn btn-secondary" href="<?= $this->Url->build([
-        '_name' => 'admin:tokens:index',
-    ]) ?>">Back</a>
-    <?= $this->Form->end() ?>
+    <div class="w-50">
+        <?= $this->Form->create($token) ?>
+        <fieldset>
+            <legend><?= __('Edit Token') ?></legend>
+            <?php
+                echo $this->Form->control('network');
+                echo $this->Form->control('address');
+                echo $this->Form->control('identifier');
+            ?>
+        </fieldset>
+        <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary']) ?>
+        <a class="btn btn-secondary" href="<?= $this->Url->build([
+            '_name' => 'admin:tokens:index',
+        ]) ?>">Back</a>
+        <?= $this->Form->end() ?>
+    </div>
+    <div class="w-50">
+        <pre class="metadata">
+<?= json_encode($token->metadata, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES) ?>
+        </pre>
+    </div>
 </div>

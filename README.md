@@ -42,8 +42,8 @@ An off-chain app also is helping on the merkle tree generation and validation be
 
 1. Install dependencies: `make install`
 2. Create config: `ENV=dev make config`
-3. Create test accounts: `make testaccounts`
-4. Launch infra: `make up` (Stop it: `make down`)
+3. Launch infra: `make up` (Stop it: `make down`)
+4. Create test accounts: `make testaccounts`
 5. Compile contracts: `make compile`
 6. Generate test data: `make testdata`
 7. Compile storage: `make compile-storage`

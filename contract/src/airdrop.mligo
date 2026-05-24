@@ -5,8 +5,6 @@ module Errors = struct
   let invalid_proof = "INVALID_PROOF"
 
   let fa_not_found = "FA_NOT_FOUND"
-
-  let not_admin = "NOT_ADMIN"
   end
 
 (* TZIP-16 metadata storage: map from string keys to bytes values *)

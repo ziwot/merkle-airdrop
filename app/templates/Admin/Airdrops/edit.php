@@ -5,6 +5,17 @@
  * @var \Cake\Collection\CollectionInterface|array<string> $tokens
  * @var \Cake\Collection\CollectionInterface|array<string> $recipients
  */
+
+$this->prepend('script', $this->Html->scriptBlock(<<<SCRIPT
+function markMetadataError(error) {
+    const el = document.querySelector('.metadata');
+    el.style.borderColor = '#dc3545';
+    el.style.boxShadow = '0 0 0 0.2rem rgba(220,53,69,0.25)';
+    el.nextElementSibling?.remove?.();
+    el.insertAdjacentHTML("afterend", `<div class="text-danger mt-2"><i class="bi bi-exclamation-triangle-fill"></i> \${error.message}</div>`);
+}
+SCRIPT));
+
 ?>
 
 <div class="mb-3 d-flex justify-content-between">
@@ -27,6 +38,7 @@
                 $airdrop->id,
             ]),
             'csrfToken' => $this->request->getAttribute('csrfToken'),
+            'metadataErrorHandler' => 'markMetadataError',
     ]) ?>
 </div>
 
@@ -46,14 +58,14 @@
             ]);
             ?>
         </fieldset>
-        <?= $this->Form->button(__('Submit')) ?>
+        <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary']) ?>
         <a class="btn btn-secondary" href="<?= $this->Url->build([
             '_name' => 'admin:airdrops:index',
         ]) ?>">Back</a>
         <?= $this->Form->end() ?>
     </div>
     <div class="w-50">
-        <pre>
+        <pre class="metadata">
 <?= json_encode($airdrop->metadata, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES) ?>
         </pre>
     </div>

@@ -75,14 +75,30 @@ class AirdropsController extends AppController
      */
     public function edit($id = null)
     {
+        $async = $this->getRequest()->is('ajax');
+        if ($async) {
+            $this->disableAutoRender();
+        }
+
         $airdrop = $this->Airdrops->get($id, contain: ['Recipients']);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $airdrop = $this->Airdrops->patchEntity($airdrop, $this->request->getData());
             if ($this->Airdrops->save($airdrop)) {
-                $this->Flash->success(__('The airdrop has been saved.'));
+                if (!$async) {
+                    $this->Flash->success(__('The airdrop has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                    return $this->redirect(['action' => 'index']);
+                } else {
+                    return $this->getResponse()->withStringBody(json_encode($airdrop));
+                }
             }
+
+            if (!$async) {
+                return $this->getResponse()->withStringBody(json_encode([
+                    'error' => $airdrop->getErrors()
+                ]));
+            }
+
             $this->Flash->error(__('The airdrop could not be saved. Please, try again.'));
         }
         $tokens = $this->Airdrops->Tokens->find('list', limit: 200)->all();

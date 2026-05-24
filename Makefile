@@ -26,9 +26,10 @@ help:
 
 SHELL=/bin/bash
 
+PROJECT=$(notdir $(CURDIR))
 LIGO_PROJECT_ROOT=./contract
 SANDBOX_IMAGE=ghcr.io/tez-capital/tezbox:tezos-v24.4
-SANDBOX_NAME=sandbox-airdrop
+SANDBOX_NAME=sandbox-$(PROJECT)
 SANDBOX_RPC_PORT=8732
 SANDBOX_SCRIPT=T
 TOKEN_ADDR=$(shell cat ./infra/testdata/token.json | jq -r)
@@ -36,6 +37,9 @@ MERKLE_ROOT=$(shell cat ./infra/testdata/merkleRoot.json | jq -r)
 AIRDROP_STORAGE=$(shell cat ./infra/testdata/airdrop_storage.tz)
 CONTRACT_ALIAS=airdrop_dev
 TEZOS_CLIENT=octez-client
+MYSQL_IMAGE=mysql:8.0.45
+MYSQL_PORT=3307
+MYSQL_NAME=$(PROJECT)-mysql-persistent
 
 ########################################
 #            DEPENDENCIES              #
@@ -44,6 +48,7 @@ install: ##@Dependencies install dependencies
 	@ligo install --project-root $(LIGO_PROJECT_ROOT) \
 		&& cd ./infra && npm ci \
 		&& cd ../app  && composer install \
+		&& bin/cake plugin assets symlink \
 		&& cd ..
 
 ########################################
@@ -54,9 +59,12 @@ up: ##@Infra start local infra
 		-v $(PWD)/infra/init-config-args.hjson:/tezbox/configuration/init-config-args.hjson \
 		-v $(PWD)/infra/testdata/accounts.hjson:/tezbox/overrides/accounts.hjson \
 		$(SANDBOX_IMAGE) $(SANDBOX_SCRIPT)
+	@docker run --rm --name $(MYSQL_NAME) -e MYSQL_ROOT_PASSWORD=secret \
+		-p $(MYSQL_PORT):3306 -v mysql-data:/var/lib/mysql -d $(MYSQL_IMAGE)
 
 down: ##@Infra stop local infra
 	@docker stop $(SANDBOX_NAME)
+	@docker stop $(MYSQL_NAME)
 
 testaccounts: ##@Infra generate test accounts
 	@npm --prefix ./infra -s run make:accounts
@@ -86,11 +94,6 @@ compile-storage: ##@Contract compile contract storage
 	--michelson-format 'text' \
 	-o ./infra/testdata/airdrop_storage.tz
 
-dudu:
-	about=$(shell ./contract/src/generate_packed_metadata.sh) \
-	&& echo $$about
-
-
 compile-view: ##@Contract compile the offchain view
 	@cd ./contract \
 		&& ligo compile expression cameligo "claimed" \
@@ -114,6 +117,8 @@ config: ##@App swap app config (ENV=dev make config)
 	echo "[OK] environment : $(ENV)"
 
 data-reset: ##@App reset data
+	@docker exec -it $(MYSQL_NAME) mysql -psecret -e "DROP SCHEMA IF EXISTS airdrop;"
+	@docker exec -it $(MYSQL_NAME) mysql -psecret -e "CREATE SCHEMA airdrop;"
 	@cd ./app && ./bin/cake migrations migrate \
 		&& ./bin/cake seeds run --force \
 		&& cd ..
