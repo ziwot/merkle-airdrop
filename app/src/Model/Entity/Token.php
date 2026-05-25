@@ -41,4 +41,20 @@ class Token extends Entity
         'modified' => true,
         'airdrops' => true,
     ];
+
+    protected function _getMetadata($value)
+    {
+        if (is_string($value)) {
+            return json_decode($value, true);
+        }
+        return $value;
+    }
+
+    protected function _setMetadata($value)
+    {
+        if (is_string($value)) {
+            return json_decode($value, true);
+        }
+        return $value;
+    }
 }

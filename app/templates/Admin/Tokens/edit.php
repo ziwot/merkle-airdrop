@@ -52,7 +52,7 @@ $this->append('script', $this->Html->script('app/tokens/edit'));
     </div>
     <div class="w-50">
         <pre class="metadata">
-<?= json_encode($token->metadata, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES) ?>
+<?= json_encode($token->metadata, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) ?>
         </pre>
     </div>
 </div>

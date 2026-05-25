@@ -73,14 +73,30 @@ class TokensController extends AppController
      */
     public function edit($id = null)
     {
+        $async = $this->getRequest()->is('ajax');
+        if ($async) {
+            $this->disableAutoRender();
+        }
+
         $token = $this->Tokens->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $token = $this->Tokens->patchEntity($token, $this->request->getData());
             if ($this->Tokens->save($token)) {
-                $this->Flash->success(__('The token has been saved.'));
+                if (!$async) {
+                    $this->Flash->success(__('The token has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                    return $this->redirect(['action' => 'index']);
+                } else {
+                    return $this->getResponse()->withStringBody(json_encode($token));
+                }
             }
+
+            if (!$async) {
+                return $this->getResponse()->withStringBody(json_encode([
+                    'error' => $token->getErrors()
+                ]));
+            }
+
             $this->Flash->error(__('The token could not be saved. Please, try again.'));
         }
         $this->set(compact('token'));
