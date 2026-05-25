@@ -6,16 +6,7 @@
  * @var \Cake\Collection\CollectionInterface|array<string> $recipients
  */
 
-$this->prepend('script', $this->Html->scriptBlock(<<<SCRIPT
-function markMetadataError(error) {
-    const el = document.querySelector('.metadata');
-    el.style.borderColor = '#dc3545';
-    el.style.boxShadow = '0 0 0 0.2rem rgba(220,53,69,0.25)';
-    el.nextElementSibling?.remove?.();
-    el.insertAdjacentHTML("afterend", `<div class="text-danger mt-2"><i class="bi bi-exclamation-triangle-fill"></i> \${error.message}</div>`);
-}
-SCRIPT));
-
+$this->append('script', $this->Html->script('app/airdrops/edit'));
 ?>
 
 <div class="mb-3 d-flex justify-content-between">
@@ -38,7 +29,8 @@ SCRIPT));
                 $airdrop->id,
             ]),
             'csrfToken' => $this->request->getAttribute('csrfToken'),
-            'metadataErrorHandler' => 'markMetadataError',
+            'successHandler' => 'handleSuccess',
+            'errorHandler' => 'handleError',
     ]) ?>
 </div>
 
