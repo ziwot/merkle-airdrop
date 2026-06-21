@@ -10,7 +10,7 @@ use App\Controller\AppController;
  * Recipients Controller
  *
  * @property \App\Model\Table\RecipientsTable $Recipients
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Recipient> paginate($object = null, array $settings = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Recipient> paginate($object = null, array<string, mixed> $settings = [])
  */
 class RecipientsController extends AppController
 {
@@ -22,7 +22,7 @@ class RecipientsController extends AppController
         $query = $this->Recipients->find();
         $q = $this->request->getQuery('q');
 
-        if ($q) {
+        if (is_string($q)) {
             $q = trim($q);
             $query = $query->where(['address LIKE' => "%{$q}%"]);
         }
@@ -55,7 +55,7 @@ class RecipientsController extends AppController
     {
         $recipient = $this->Recipients->newEmptyEntity();
         if ($this->request->is('post')) {
-            $recipient = $this->Recipients->patchEntity($recipient, $this->request->getData());
+            $recipient = $this->Recipients->patchEntity($recipient, (array)$this->request->getData());
             if ($this->Recipients->save($recipient)) {
                 $this->Flash->success(__('The recipient has been saved.'));
 
@@ -76,7 +76,7 @@ class RecipientsController extends AppController
     {
         $recipient = $this->Recipients->get($id, contain: ['Airdrops']);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $recipient = $this->Recipients->patchEntity($recipient, $this->request->getData());
+            $recipient = $this->Recipients->patchEntity($recipient, (array)$this->request->getData());
             if ($this->Recipients->save($recipient)) {
                 $this->Flash->success(__('The recipient has been saved.'));
 

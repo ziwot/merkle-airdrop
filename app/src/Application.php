@@ -25,6 +25,8 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * This defines the bootstrapping logic and middleware layers you
  * want to use in your application.
+ *
+ * @extends \Cake\Http\BaseApplication<\App\Application>
  */
 class Application extends BaseApplication implements AuthenticationServiceProviderInterface
 {
@@ -57,7 +59,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $middlewareQueue
             // Catch any exceptions in the lower layers,
             // and make an error page/response
-            ->add(new ErrorHandlerMiddleware(Configure::read('Error')))
+            ->add(new ErrorHandlerMiddleware((array)Configure::read('Error')))
 
             // Handle plugin/theme assets like CakePHP normally does.
             ->add(

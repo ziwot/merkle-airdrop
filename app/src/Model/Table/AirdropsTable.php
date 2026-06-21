@@ -16,22 +16,19 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\TokensTable&\Cake\ORM\Association\BelongsTo $Tokens
  * @property \App\Model\Table\RecipientsTable&\Cake\ORM\Association\BelongsToMany $Recipients
  *
- * @method \App\Model\Entity\Airdrop newEmptyEntity()
- * @method \App\Model\Entity\Airdrop newEntity(array $data, array $options = [])
- * @method array<\App\Model\Entity\Airdrop> newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Airdrop get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \App\Model\Entity\Airdrop findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array $options = [])
- * @method \App\Model\Entity\Airdrop patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method array<\App\Model\Entity\Airdrop> patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Airdrop|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\Airdrop saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Airdrop>|false saveMany(iterable $entities, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Airdrop> saveManyOrFail(iterable $entities, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Airdrop>|false deleteMany(iterable $entities, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Airdrop> deleteManyOrFail(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Airdrop>|false saveMany(iterable<\App\Model\Entity\Airdrop> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Airdrop> saveManyOrFail(iterable<\App\Model\Entity\Airdrop> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Airdrop>|false deleteMany(iterable<\App\Model\Entity\Airdrop> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Airdrop> deleteManyOrFail(iterable<\App\Model\Entity\Airdrop> $entities, array<string, mixed> $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}>
+ * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}, \App\Model\Entity\Airdrop>
+ * @method \App\Model\Entity\Airdrop patchEntity(\App\Model\Entity\Airdrop $entity, array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Airdrop> patchEntities(iterable<\App\Model\Entity\Airdrop> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Airdrop|false save(\App\Model\Entity\Airdrop $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Airdrop saveOrFail(\App\Model\Entity\Airdrop $entity, array<string, mixed> $options = [])
+ * @method bool delete(\App\Model\Entity\Airdrop $entity, array<string, mixed> $options = [])
+ * @method bool deleteOrFail(\App\Model\Entity\Airdrop $entity, array<string, mixed> $options = [])
  */
 class AirdropsTable extends Table
 {
@@ -124,7 +121,7 @@ class AirdropsTable extends Table
     /**
      * @param string $network
      *
-     * @return \Cake\ORM\Query\SelectQuery
+     * @return \Cake\ORM\Query\SelectQuery<\App\Model\Entity\Airdrop>
      */
     public function recentAirdrops(string $network): SelectQuery
     {
@@ -160,7 +157,7 @@ class AirdropsTable extends Table
         )
         ->leftJoinWith(
             'Tokens',
-            fn ($q) => $q->where(['Tokens.network' => $network]),
+            fn (SelectQuery $q) => $q->where(['Tokens.network' => $network]),
         )->join(
             [
             'recipients_per_airdrop' => [

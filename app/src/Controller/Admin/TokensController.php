@@ -10,7 +10,7 @@ use App\Controller\AppController;
  * Tokens Controller
  *
  * @property \App\Model\Table\TokensTable $Tokens
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Token> paginate($object = null, array $settings = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Token> paginate($object = null, array<string, mixed> $settings = [])
  */
 class TokensController extends AppController
 {
@@ -22,7 +22,7 @@ class TokensController extends AppController
         $query = $this->Tokens->find();
         $q = $this->request->getQuery('q');
 
-        if ($q) {
+        if (is_string($q)) {
             $q = trim($q);
             $query = $query->where(['address LIKE' => "%{$q}%"]);
         }
@@ -55,7 +55,7 @@ class TokensController extends AppController
     {
         $token = $this->Tokens->newEmptyEntity();
         if ($this->request->is('post')) {
-            $token = $this->Tokens->patchEntity($token, $this->request->getData());
+            $token = $this->Tokens->patchEntity($token, (array)$this->request->getData());
             if ($this->Tokens->save($token)) {
                 $this->Flash->success(__('The token has been saved.'));
 
@@ -80,19 +80,19 @@ class TokensController extends AppController
 
         $token = $this->Tokens->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $token = $this->Tokens->patchEntity($token, $this->request->getData());
+            $token = $this->Tokens->patchEntity($token, (array)$this->request->getData());
             if ($this->Tokens->save($token)) {
                 if (!$async) {
                     $this->Flash->success(__('The token has been saved.'));
 
                     return $this->redirect(['action' => 'index']);
                 } else {
-                    return $this->getResponse()->withStringBody(json_encode($token));
+                    return $this->getResponse()->withStringBody((string)json_encode($token));
                 }
             }
 
             if (!$async) {
-                return $this->getResponse()->withStringBody(json_encode([
+                return $this->getResponse()->withStringBody((string)json_encode([
                     'error' => $token->getErrors()
                 ]));
             }

@@ -9,7 +9,7 @@ use Cake\Event\EventInterface;
 class HomepageController extends AppController
 {
     /**
-     * @param \Cake\Event\EventInterface $event
+     * @param \Cake\Event\EventInterface<\App\Controller\HomepageController> $event
      *
      * @return void
      */

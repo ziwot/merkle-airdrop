@@ -2,7 +2,6 @@
 /**
  * @var \App\View\AppView $this
  * @var array<\App\Model\Entity\Airdrop> $recentAirdrops
- * @var array $totalAmounts
  */
 ?>
 <div class="recent-airdrops">

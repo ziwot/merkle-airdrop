@@ -4,6 +4,3 @@ parameters:
         - config/bootstrap.php
     paths:
         - src/
-    ignoreErrors:
-        - identifier: missingType.generics
-        - identifier: missingType.iterableValue

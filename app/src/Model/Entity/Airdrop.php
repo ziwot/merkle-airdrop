@@ -15,7 +15,7 @@ use Cake\ORM\Entity;
  * @property string|null $address
  * @property string $name
  * @property string|null $description
- * @property array|null $metadata
+ * @property array<string, mixed>|null $metadata
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime|null $modified
  *
@@ -47,7 +47,7 @@ class Airdrop extends Entity
         'recipients' => true,
     ];
 
-    protected function _getMetadata($value)
+    protected function _getMetadata(mixed $value): mixed
     {
         if (is_string($value)) {
             return json_decode($value, true);
@@ -55,7 +55,7 @@ class Airdrop extends Entity
         return $value;
     }
 
-    protected function _setMetadata($value)
+    protected function _setMetadata(mixed $value): mixed
     {
         if (is_string($value)) {
             return json_decode($value, true);

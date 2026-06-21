@@ -1,7 +1,6 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var iterable<\App\Model\Entity\Recipient> $recipients
  * @var mixed $q
  */
 ?>

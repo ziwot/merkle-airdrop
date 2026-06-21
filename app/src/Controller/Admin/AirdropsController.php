@@ -10,7 +10,7 @@ use App\Controller\AppController;
  * Airdrops Controller
  *
  * @property \App\Model\Table\AirdropsTable $Airdrops
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Airdrop> paginate($object = null, array $settings = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Airdrop> paginate($object = null, array<string, mixed> $settings = [])
  */
 class AirdropsController extends AppController
 {
@@ -22,7 +22,7 @@ class AirdropsController extends AppController
         $query = $this->Airdrops->find();
         $q = $this->request->getQuery('q');
 
-        if ($q) {
+        if (is_string($q)) {
             $q = trim($q);
             $query = $query->where(['name LIKE' => "%{$q}%"]);
         }
@@ -55,7 +55,7 @@ class AirdropsController extends AppController
     {
         $airdrop = $this->Airdrops->newEmptyEntity();
         if ($this->request->is('post')) {
-            $airdrop = $this->Airdrops->patchEntity($airdrop, $this->request->getData());
+            $airdrop = $this->Airdrops->patchEntity($airdrop, (array)$this->request->getData());
             if ($this->Airdrops->save($airdrop)) {
                 $this->Flash->success(__('The airdrop has been saved.'));
 
@@ -82,19 +82,19 @@ class AirdropsController extends AppController
 
         $airdrop = $this->Airdrops->get($id, contain: ['Recipients']);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $airdrop = $this->Airdrops->patchEntity($airdrop, $this->request->getData());
+            $airdrop = $this->Airdrops->patchEntity($airdrop, (array)$this->request->getData());
             if ($this->Airdrops->save($airdrop)) {
                 if (!$async) {
                     $this->Flash->success(__('The airdrop has been saved.'));
 
                     return $this->redirect(['action' => 'index']);
                 } else {
-                    return $this->getResponse()->withStringBody(json_encode($airdrop));
+                    return $this->getResponse()->withStringBody((string)json_encode($airdrop));
                 }
             }
 
             if (!$async) {
-                return $this->getResponse()->withStringBody(json_encode([
+                return $this->getResponse()->withStringBody((string)json_encode([
                     'error' => $airdrop->getErrors()
                 ]));
             }

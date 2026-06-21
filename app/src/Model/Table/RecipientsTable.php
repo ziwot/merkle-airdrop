@@ -12,22 +12,19 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\AirdropsTable&\Cake\ORM\Association\BelongsToMany $Airdrops
  *
- * @method \App\Model\Entity\Recipient newEmptyEntity()
- * @method \App\Model\Entity\Recipient newEntity(array $data, array $options = [])
- * @method array<\App\Model\Entity\Recipient> newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Recipient get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \App\Model\Entity\Recipient findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array $options = [])
- * @method \App\Model\Entity\Recipient patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method array<\App\Model\Entity\Recipient> patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Recipient|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\Recipient saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Recipient>|false saveMany(iterable $entities, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Recipient> saveManyOrFail(iterable $entities, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Recipient>|false deleteMany(iterable $entities, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Recipient> deleteManyOrFail(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Recipient>|false saveMany(iterable<\App\Model\Entity\Recipient> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Recipient> saveManyOrFail(iterable<\App\Model\Entity\Recipient> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Recipient>|false deleteMany(iterable<\App\Model\Entity\Recipient> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Recipient> deleteManyOrFail(iterable<\App\Model\Entity\Recipient> $entities, array<string, mixed> $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}>
+ * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}, \App\Model\Entity\Recipient>
+ * @method \App\Model\Entity\Recipient patchEntity(\App\Model\Entity\Recipient $entity, array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Recipient> patchEntities(iterable<\App\Model\Entity\Recipient> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Recipient|false save(\App\Model\Entity\Recipient $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Recipient saveOrFail(\App\Model\Entity\Recipient $entity, array<string, mixed> $options = [])
+ * @method bool delete(\App\Model\Entity\Recipient $entity, array<string, mixed> $options = [])
+ * @method bool deleteOrFail(\App\Model\Entity\Recipient $entity, array<string, mixed> $options = [])
  */
 class RecipientsTable extends Table
 {

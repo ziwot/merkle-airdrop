@@ -15,19 +15,17 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\AirdropsTable&\Cake\ORM\Association\BelongsTo $Airdrops
  * @property \App\Model\Table\RecipientsTable&\Cake\ORM\Association\BelongsTo $Recipients
  *
- * @method \App\Model\Entity\AirdropsRecipient newEmptyEntity()
- * @method \App\Model\Entity\AirdropsRecipient newEntity(array $data, array $options = [])
- * @method array<\App\Model\Entity\AirdropsRecipient> newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\AirdropsRecipient get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \App\Model\Entity\AirdropsRecipient findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array $options = [])
- * @method \App\Model\Entity\AirdropsRecipient patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method array<\App\Model\Entity\AirdropsRecipient> patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\AirdropsRecipient|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\AirdropsRecipient saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\AirdropsRecipient>|false saveMany(iterable $entities, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\AirdropsRecipient> saveManyOrFail(iterable $entities, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\AirdropsRecipient>|false deleteMany(iterable $entities, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\AirdropsRecipient> deleteManyOrFail(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\AirdropsRecipient>|false saveMany(iterable<\App\Model\Entity\AirdropsRecipient> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\AirdropsRecipient> saveManyOrFail(iterable<\App\Model\Entity\AirdropsRecipient> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\AirdropsRecipient>|false deleteMany(iterable<\App\Model\Entity\AirdropsRecipient> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\AirdropsRecipient> deleteManyOrFail(iterable<\App\Model\Entity\AirdropsRecipient> $entities, array<string, mixed> $options = [])
+ * @extends \Cake\ORM\Table<array{}, \App\Model\Entity\AirdropsRecipient>
+ * @method \App\Model\Entity\AirdropsRecipient patchEntity(\App\Model\Entity\AirdropsRecipient $entity, array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\AirdropsRecipient> patchEntities(iterable<\App\Model\Entity\AirdropsRecipient> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\AirdropsRecipient|false save(\App\Model\Entity\AirdropsRecipient $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\AirdropsRecipient saveOrFail(\App\Model\Entity\AirdropsRecipient $entity, array<string, mixed> $options = [])
+ * @method bool delete(\App\Model\Entity\AirdropsRecipient $entity, array<string, mixed> $options = [])
+ * @method bool deleteOrFail(\App\Model\Entity\AirdropsRecipient $entity, array<string, mixed> $options = [])
  */
 class AirdropsRecipientsTable extends Table
 {
@@ -112,7 +110,7 @@ class AirdropsRecipientsTable extends Table
      *
      * @param int $airdropId
      *
-     * @return \Cake\ORM\Query\SelectQuery
+     * @return \Cake\ORM\Query\SelectQuery<\App\Model\Entity\AirdropsRecipient>
      */
     public function byAirdrop(int $airdropId): SelectQuery
     {

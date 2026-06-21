@@ -13,7 +13,6 @@ use Cake\View\View;
  *
  * @link https://book.cakephp.org/4/en/views.html#the-app-view
  * @property \Authentication\View\Helper\IdentityHelper $Identity
- * @property \AssetMix\View\Helper\AssetMixHelper $AssetMix
  * @property \BootstrapUI\View\Helper\HtmlHelper $Html
  * @property \BootstrapUI\View\Helper\FormHelper $Form
  * @property \BootstrapUI\View\Helper\FlashHelper $Flash

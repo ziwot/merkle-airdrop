@@ -77,7 +77,7 @@ if (Configure::check('App.author')) {
 }
 $this->prepend(
     'meta',
-    $this->Html->meta('favicon.png', '/favicon.png', ['type' => 'icon']),
+    $this->Html->meta('icon', 'favicon.ico'),
 );
 
 /**

@@ -10,12 +10,12 @@ use Cake\Event\EventInterface;
  * Users Controller
  *
  * @property \App\Model\Table\UsersTable $Users
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\User> paginate(\Cake\Datasource\RepositoryInterface|\Cake\Datasource\QueryInterface|string|null $object = null, array $settings = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\User> paginate(\Cake\Datasource\RepositoryInterface|\Cake\Datasource\QueryInterface|string|null $object = null, array<string, mixed> $settings = [])
  */
 class UsersController extends AppController
 {
     /**
-     * @param \Cake\Event\EventInterface $event
+     * @param \Cake\Event\EventInterface<\App\Controller\UsersController> $event
      *
      * @return void
      */
@@ -61,7 +61,7 @@ class UsersController extends AppController
     {
         $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
+            $user = $this->Users->patchEntity($user, (array)$this->request->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
@@ -83,7 +83,7 @@ class UsersController extends AppController
     {
         $user = $this->Users->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
+            $user = $this->Users->patchEntity($user, (array)$this->request->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 

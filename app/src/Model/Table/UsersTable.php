@@ -11,22 +11,19 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
- * @method \App\Model\Entity\User newEmptyEntity()
- * @method \App\Model\Entity\User newEntity(array $data, array $options = [])
- * @method array<\App\Model\Entity\User> newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\User get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \App\Model\Entity\User findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array $options = [])
- * @method \App\Model\Entity\User patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method array<\App\Model\Entity\User> patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\User|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\User saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\User>|false saveMany(iterable $entities, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\User> saveManyOrFail(iterable $entities, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\User>|false deleteMany(iterable $entities, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\User> deleteManyOrFail(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\User>|false saveMany(iterable<\App\Model\Entity\User> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\User> saveManyOrFail(iterable<\App\Model\Entity\User> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\User>|false deleteMany(iterable<\App\Model\Entity\User> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\User> deleteManyOrFail(iterable<\App\Model\Entity\User> $entities, array<string, mixed> $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}>
+ * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}, \App\Model\Entity\User>
+ * @method \App\Model\Entity\User patchEntity(\App\Model\Entity\User $entity, array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\User> patchEntities(iterable<\App\Model\Entity\User> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\User|false save(\App\Model\Entity\User $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\User saveOrFail(\App\Model\Entity\User $entity, array<string, mixed> $options = [])
+ * @method bool delete(\App\Model\Entity\User $entity, array<string, mixed> $options = [])
+ * @method bool deleteOrFail(\App\Model\Entity\User $entity, array<string, mixed> $options = [])
  */
 class UsersTable extends Table
 {

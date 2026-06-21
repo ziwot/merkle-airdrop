@@ -12,22 +12,19 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\AirdropsTable&\Cake\ORM\Association\HasMany $Airdrops
  *
- * @method \App\Model\Entity\Token newEmptyEntity()
- * @method \App\Model\Entity\Token newEntity(array $data, array $options = [])
- * @method array<\App\Model\Entity\Token> newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Token get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \App\Model\Entity\Token findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array $options = [])
- * @method \App\Model\Entity\Token patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method array<\App\Model\Entity\Token> patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Token|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\Token saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Token>|false saveMany(iterable $entities, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Token> saveManyOrFail(iterable $entities, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Token>|false deleteMany(iterable $entities, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Token> deleteManyOrFail(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Token>|false saveMany(iterable<\App\Model\Entity\Token> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Token> saveManyOrFail(iterable<\App\Model\Entity\Token> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Token>|false deleteMany(iterable<\App\Model\Entity\Token> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Token> deleteManyOrFail(iterable<\App\Model\Entity\Token> $entities, array<string, mixed> $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}>
+ * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}, \App\Model\Entity\Token>
+ * @method \App\Model\Entity\Token patchEntity(\App\Model\Entity\Token $entity, array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Token> patchEntities(iterable<\App\Model\Entity\Token> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Token|false save(\App\Model\Entity\Token $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Token saveOrFail(\App\Model\Entity\Token $entity, array<string, mixed> $options = [])
+ * @method bool delete(\App\Model\Entity\Token $entity, array<string, mixed> $options = [])
+ * @method bool deleteOrFail(\App\Model\Entity\Token $entity, array<string, mixed> $options = [])
  */
 class TokensTable extends Table
 {
