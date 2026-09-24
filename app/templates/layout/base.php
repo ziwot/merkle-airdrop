@@ -97,35 +97,33 @@ $this->prepend('css', $this->Html->css([
  * Change popper.min and bootstrap.min to use the compressed version
  */
 $this->prepend( 'script', $this->Html->script(
-    'https://unpkg.com/alpinejs@3.15.12/dist/cdn.min.js', ['defer' => true]
+    'https://unpkg.com/alpinejs@3.17.4/dist/cdn.min.js', ['defer' => true]
 ));
 $this->prepend('script', $this->Html->script([
     'https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js',
-    'https://unpkg.com/htmx.org@2.0.10/dist/htmx.min.js',
+    'https://unpkg.com/htmx.org@4.0.0/dist/htmx.min.js',
 ]));
 ?>
 <!doctype html>
-<?php echo $this->fetch('html'); ?>
+<?= $this->fetch('html') ?>
     <head>
         <?php echo $this->Html->charset(); ?>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title><?php echo h($this->fetch('title')); ?></title>
-        <?php echo $this->fetch('meta'); ?>
-        <?php echo $this->fetch('css'); ?>
-        <?php echo $this->fetch('script'); ?>
+        <title><?= h($this->fetch('title')) ?></title>
+        <?= $this->fetch('meta') ?>
+        <?= $this->fetch('css') ?>
+        <?= $this->fetch('script') ?>
     </head>
 
     <?php
-    echo $this->fetch('tb_body_start');
-    echo $this->fetch('tb_flash');
-    echo $this->fetch('content');
+        echo $this->fetch('tb_body_start');
+        echo $this->fetch('tb_flash');
+        echo $this->fetch('content');
     ?>
-<footer class="mt-auto border-top py-3">
-  <div class="container">
-    <?= $this->fetch('tb_footer') ?>
-  </div>
-</footer>
-    <?php
-    echo $this->fetch('tb_body_end');
-    ?>
+    <footer class="mt-auto border-top py-3">
+      <div class="container">
+        <?= $this->fetch('tb_footer') ?>
+      </div>
+    </footer>
+    <?= $this->fetch('tb_body_end') ?>
 </html>
