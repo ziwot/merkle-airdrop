@@ -28,10 +28,10 @@ SHELL=/bin/bash
 
 PROJECT=$(notdir $(CURDIR))
 LIGO_PROJECT_ROOT=./contract
-SANDBOX_IMAGE=ghcr.io/tez-capital/tezbox:tezos-v24.4
+SANDBOX_IMAGE=ghcr.io/tez-capital/tezbox:tezos-v25.2
 SANDBOX_NAME=sandbox-$(PROJECT)
 SANDBOX_RPC_PORT=8732
-SANDBOX_SCRIPT=T
+SANDBOX_SCRIPT=U
 TOKEN_ADDR=$(shell cat ./infra/testdata/token.json | jq -r)
 MERKLE_ROOT=$(shell cat ./infra/testdata/merkleRoot.json | jq -r)
 AIRDROP_STORAGE=$(shell cat ./infra/testdata/airdrop_storage.tz)
@@ -94,10 +94,10 @@ compile-storage: ##@Contract compile contract storage
 	--michelson-format 'text' \
 	-o ./infra/testdata/airdrop_storage.tz
 
-compile-view: ##@Contract compile the offchain view
+compile-view: ##@Contract compile the offchain view code
 	@cd ./contract \
-		&& ligo compile expression cameligo "claimed" \
-		--init-file src/airdrop.mligo --function-body
+		&& ligo compile expression cameligo "get_claim_status" \
+		--init-file src/airdrop.mligo --function-body --michelson-format json
 
 test: ##@Contract test contract
 	@ligo run test --no-warn contract/tests/all.mligo --project-root $(LIGO_PROJECT_ROOT)

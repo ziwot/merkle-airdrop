@@ -3,5 +3,27 @@
     "description": "Aidrop Smart Contract",
     "authors": ["Steven J."],
     "homepage": "https://github.com/ziwot/merkle-airdrop",
-    "interfaces": ["TZIP-16-21fb73fe"]
+    "interfaces": ["TZIP-16-21fb73fe"],
+    "views": [
+        {
+            "name": "get_claim_status",
+            "description": "Return the claim status of given address",
+            "pure": "true",
+            "implementations": [
+                {
+                    "michelsonStorageView": {
+                        "parameter": { "prim": "address" },
+                        "returnType": { "prim": "bool" },
+                        "code": [
+                            { "prim": "UNPAIR" },
+                            { "prim": "SWAP" },
+                            { "prim": "GET", "args": [{ "int": "4" }] },
+                            { "prim": "SWAP" },
+                            { "prim": "MEM" }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
 }

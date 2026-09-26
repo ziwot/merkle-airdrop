@@ -14,16 +14,6 @@ const tree = buildTree();
 const merkleRoot = tree.getHexRoot();
 writeFileSync(`${TESTDATA_PATH}/merkleRoot.json`, JSON.stringify(merkleRoot));
 
-const tokenAddr = readFileSync(`${TESTDATA_PATH}/token.json`).toString();
-
-writeFileSync(
-    `${TESTDATA_PATH}/airdrop_storage.mligo`,
-    `
-let token = (${tokenAddr}: address), 0n
-let merkle_root = ${merkleRoot}
-`
-);
-
 function getLeaf(pkh: string, amount: number) {
     const p = new Parser();
 
