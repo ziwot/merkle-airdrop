@@ -86,14 +86,14 @@ class TokensController extends AppController
                     $this->Flash->success(__('The token has been saved.'));
 
                     return $this->redirect(['action' => 'index']);
-                } else {
-                    return $this->getResponse()->withStringBody((string)json_encode($token));
                 }
+
+                return $this->getResponse()->withStringBody((string)json_encode($token));
             }
 
             if (!$async) {
                 return $this->getResponse()->withStringBody((string)json_encode([
-                    'error' => $token->getErrors()
+                    'error' => $token->getErrors(),
                 ]));
             }
 

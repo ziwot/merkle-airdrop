@@ -48,9 +48,9 @@ class RecipientsTable extends Table
         $this->belongsToMany(
             'Airdrops',
             [
-            'foreignKey' => 'recipient_id',
-            'targetForeignKey' => 'airdrop_id',
-            'joinTable' => 'airdrops_recipients',
+                'foreignKey' => 'recipient_id',
+                'targetForeignKey' => 'airdrop_id',
+                'joinTable' => 'airdrops_recipients',
             ],
         );
     }

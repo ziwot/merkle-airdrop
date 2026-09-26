@@ -47,15 +47,15 @@ class AirdropsRecipientsTable extends Table
         $this->belongsTo(
             'Airdrops',
             [
-            'foreignKey' => 'airdrop_id',
-            'joinType' => 'INNER',
+                'foreignKey' => 'airdrop_id',
+                'joinType' => 'INNER',
             ],
         );
         $this->belongsTo(
             'Recipients',
             [
-            'foreignKey' => 'recipient_id',
-            'joinType' => 'INNER',
+                'foreignKey' => 'recipient_id',
+                'joinType' => 'INNER',
             ],
         );
     }

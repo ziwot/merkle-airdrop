@@ -47,6 +47,7 @@ class Token extends Entity
         if (is_string($value)) {
             return json_decode($value, true);
         }
+
         return $value;
     }
 
@@ -55,6 +56,7 @@ class Token extends Entity
         if (is_string($value)) {
             return json_decode($value, true);
         }
+
         return $value;
     }
 }

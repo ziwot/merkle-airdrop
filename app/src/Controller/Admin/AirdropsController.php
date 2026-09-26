@@ -88,14 +88,14 @@ class AirdropsController extends AppController
                     $this->Flash->success(__('The airdrop has been saved.'));
 
                     return $this->redirect(['action' => 'index']);
-                } else {
-                    return $this->getResponse()->withStringBody((string)json_encode($airdrop));
                 }
+
+                return $this->getResponse()->withStringBody((string)json_encode($airdrop));
             }
 
             if (!$async) {
                 return $this->getResponse()->withStringBody((string)json_encode([
-                    'error' => $airdrop->getErrors()
+                    'error' => $airdrop->getErrors(),
                 ]));
             }
 

@@ -63,7 +63,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             ->add(
                 new AssetMiddleware(
                     [
-                    'cacheTime' => Configure::read('Asset.cacheTime'),
+                        'cacheTime' => Configure::read('Asset.cacheTime'),
                     ],
                 ),
             )
@@ -88,7 +88,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             ->add(
                 new CsrfProtectionMiddleware(
                     [
-                    'httponly' => true,
+                        'httponly' => true,
                     ],
                 ),
             );

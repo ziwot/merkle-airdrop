@@ -40,12 +40,12 @@ if (empty($_SERVER['HTTP_HOST']) && !Configure::read('App.fullBaseUrl')) {
 ConnectionManager::setConfig(
     'test_debug_kit',
     [
-    'className' => 'Cake\Database\Connection',
-    'driver' => 'Cake\Database\Driver\Sqlite',
-    'database' => TMP . 'debug_kit.sqlite',
-    'encoding' => 'utf8',
-    'cacheMetadata' => true,
-    'quoteIdentifiers' => false,
+        'className' => 'Cake\Database\Connection',
+        'driver' => 'Cake\Database\Driver\Sqlite',
+        'database' => TMP . 'debug_kit.sqlite',
+        'encoding' => 'utf8',
+        'cacheMetadata' => true,
+        'quoteIdentifiers' => false,
     ],
 );
 
@@ -74,14 +74,14 @@ ConnectionManager::drop('test');
 ConnectionManager::setConfig(
     'test',
     [
-    'className' => 'Cake\Database\Connection',
-    'driver' => getenv('DB_CLASS') ?: 'Cake\Database\Driver\Sqlite',
-    'database' => getenv('DB_DATABASE') ?: TMP . 'debug_kit.sqlite',
-    'url' => getenv('DB_URL') ?: null,
-    'timezone' => 'UTC',
-    'encoding' => 'utf8',
-    'quoteIdentifiers' => true,
-    'cacheMetadata' => true,
+        'className' => 'Cake\Database\Connection',
+        'driver' => getenv('DB_CLASS') ?: 'Cake\Database\Driver\Sqlite',
+        'database' => getenv('DB_DATABASE') ?: TMP . 'debug_kit.sqlite',
+        'url' => getenv('DB_URL') ?: null,
+        'timezone' => 'UTC',
+        'encoding' => 'utf8',
+        'quoteIdentifiers' => true,
+        'cacheMetadata' => true,
     ],
 );
 

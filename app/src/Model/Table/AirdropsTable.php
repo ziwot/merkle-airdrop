@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -38,6 +39,7 @@ class AirdropsTable extends Table
      * Initialize method
      *
      * @param array<string, mixed> $config The configuration for the Table.
+     *
      * @return void
      */
     public function initialize(array $config): void
@@ -67,6 +69,7 @@ class AirdropsTable extends Table
      * Default validation rules.
      *
      * @param \Cake\Validation\Validator $validator Validator instance.
+     *
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
@@ -109,6 +112,7 @@ class AirdropsTable extends Table
      * application integrity.
      *
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     *
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker
@@ -144,9 +148,9 @@ class AirdropsTable extends Table
                 $q = $AirdropsRecipients->subquery();
                 $q->select(
                     [
-                    'recipient_count' => $q->func()->count('*'),
-                    'sum_amount' => $q->func()->sum('amount'),
-                    'airdrop_id',
+                        'recipient_count' => $q->func()->count('*'),
+                        'sum_amount' => $q->func()->sum('amount'),
+                        'airdrop_id',
                     ],
                 )->groupBy('airdrop_id');
 
@@ -160,12 +164,12 @@ class AirdropsTable extends Table
             fn (SelectQuery $q) => $q->where(['Tokens.network' => $network]),
         )->join(
             [
-            'recipients_per_airdrop' => [
-                'table' => 'recipients_per_airdrop',
-                'type' => 'LEFT',
-                'conditions' => ['recipients_per_airdrop.airdrop_id = Airdrops.id'],
+                'recipients_per_airdrop' => [
+                    'table' => 'recipients_per_airdrop',
+                    'type' => 'LEFT',
+                    'conditions' => ['recipients_per_airdrop.airdrop_id = Airdrops.id'],
+                ],
             ],
-             ],
         );
     }
 }
