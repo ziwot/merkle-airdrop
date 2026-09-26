@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { test } from "node:test";
-import { getLeaf } from "./merkle";
+import { buildTree, type Drop, getLeaf, getProof } from "./merkle";
 
 /*
  * The expected leaves are the output of the contract implementation, e.g.
@@ -37,4 +38,53 @@ test("getLeaf, amount above 2 ** 32", () => {
         ),
         "311fd0731d11ac37812385a7f0a66d5729cb3c9eff725910336bf06455762a64"
     );
+});
+
+// the fixture tree of contract/tests/merkle_proof.mligo
+const fixture: Drop[] = [
+    { pkh: "tz1bD7TRTApzXqvCmY7w6xhM1uRGMGrTxQod", amount: 32 },
+    { pkh: "tz1WbpqNj8Pg9dbz1v8nJo9ofAHGGPQAcXTM", amount: 39 },
+    { pkh: "tz1Wd9gcgMi6jHpLuTnfY21q5gtNQkCY4AMH", amount: 20 },
+    { pkh: "tz1bKNizuoecFy2o7fMKdochymfce3oNZD5V", amount: 10 },
+];
+
+// the verification done by MerkleProof.verify in contract/src/airdrop.mligo
+function fold(drops: Drop[], index: number) {
+    return getProof(drops, index)
+        .reduce(
+            (acc, { sibling, accOnLeft }) => {
+                const sib = Buffer.from(sibling, "hex");
+                const pair = accOnLeft
+                    ? Buffer.concat([acc, sib])
+                    : Buffer.concat([sib, acc]);
+
+                return createHash("sha256").update(pair).digest();
+            },
+            getLeaf(drops[index].pkh, drops[index].amount)
+        )
+        .toString("hex");
+}
+
+test("every drop has a proof the contract accepts", () => {
+    const root = buildTree(fixture).getHexRoot().slice(2);
+
+    for (const index of fixture.keys()) {
+        assert.equal(fold(fixture, index), root, `drop ${index}`);
+    }
+});
+
+// the proof the contract test claims with, side by side with merkle_proof.mligo
+test("getProof, the fixture of the contract tests", () => {
+    assert.deepEqual(getProof(fixture, 1), [
+        {
+            sibling:
+                "11d493116efc9abebcdb30c7df8d41f0f2d80bb73348eb7dd4a2ae99c7a62b2c",
+            accOnLeft: false,
+        },
+        {
+            sibling:
+                "23b9ad2635bab6a413a847cee949c20abd17bff89576a9020d553dde2401d3f3",
+            accOnLeft: true,
+        },
+    ]);
 });

@@ -63,11 +63,18 @@ module Config = struct
 (* Merkle proof verification for claim validation *)
 module MerkleProof = struct
   (* Verifies a merkle proof against a root hash.
-     Folds through each proof element, concatenating with current hash
-     and computing sha256 at each step. Final hash must equal root. *)
-  let verify (proof, root, leaf : bytes list * bytes * bytes) =
+     Folds through the proof, from the leaf up to the root. Each step carries
+     the sibling hash and the side the accumulated hash sits on: with true the
+     parent is sha256(acc ++ sibling), with false sha256(sibling ++ acc).
+     A merkle tree hashes left ++ right, so this ordering cannot be guessed
+     here, it has to be part of the proof: without it a fold that always
+     concatenates the sibling first rejects three leaves out of four. *)
+  let verify (proof, root, leaf : (bytes * bool) list * bytes * bytes) =
     (List.fold
-       (fun (acc, h : bytes * bytes) -> Crypto.sha256 (Bytes.concat h acc))
+       (fun (acc, (sibling, acc_on_left) : bytes * (bytes * bool)) ->
+          if acc_on_left
+          then Crypto.sha256 (Bytes.concat acc sibling)
+          else Crypto.sha256 (Bytes.concat sibling acc))
        proof
        leaf)
     = root
@@ -86,9 +93,10 @@ type parameter =
    (* Amount being claimed *)
    amnt
    : nat;
-   (* Merkle proof path from leaf to root *)
+   (* Merkle proof path from leaf to root: for each step, the sibling hash
+      and true when the accumulated hash is the left operand of the parent *)
    merkle_proof
-   : bytes list
+   : (bytes * bool) list
   }
 
 (* Contract storage: tracks metadata, config, and claimed addresses *)
@@ -143,7 +151,7 @@ let claim
   (* Verify merkle proof is valid *)
   let () =
     Assert.Error.assert
-      (not (MerkleProof.verify (merkle_proof, s.config.merkle_root, leaf)))
+      (MerkleProof.verify (merkle_proof, s.config.merkle_root, leaf))
       Errors.invalid_proof in
   (* Transfer tokens to claimer and mark address as claimed *)
     [

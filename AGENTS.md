@@ -36,9 +36,9 @@ Re-running `make testaccounts` invalidates the running sandbox (aliases/balances
 `sha256( pack((address, nat), addr, amount) )`, computed in two places that must stay byte-for-byte identical:
 
 - TS: `getLeaf()` in `infra/scripts/merkle.ts` (`@taquito/michel-codec` `packDataBytes` + `node:crypto` `createHash`). **`packDataBytes()` returns `bytes` as an hex string, not a `Buffer`**: decode it (`Buffer.from(packed.bytes, "hex")`) before hashing, or the leaf becomes the hash of the hex text. `scripts/merkle.test.ts` pins the leaves against LIGO and runs in `npm run ci`.
-- CameLIGO: `Crypto.sha256 (Bytes.pack (addr, amnt))` in the `claim` entrypoint, `contract/src/airdrop.mligo:142`.
+- CameLIGO: `Crypto.sha256 (Bytes.pack (addr, amnt))` in the `claim` entrypoint, `contract/src/airdrop.mligo:141`.
 
-The proof verifier is **unsorted** (`Bytes.concat h acc`, no left/right ordering — `MerkleProof.verify`, airdrop.mligo:68), matching merkletreejs defaults. Changing leaf encoding, hash, or sort order on one side only invalidates every claim.
+The **pairing is standard** (`merkletreejs` hashes `left ++ right`), so the ordering has to travel with the proof: `merkle_proof` is a `(bytes * bool) list`, each step being the sibling hash and `true` when the accumulated hash is the left operand of the parent (`MerkleProof.verify`, airdrop.mligo:63). `getProof()` in `infra/scripts/merkle.ts` derives the flags by keeping the combination that folds back to the root; `scripts/merkle.test.ts` folds them with an independent implementation, `contract/tests/merkle_proof.mligo` checks the same fixture on the LIGO side. A verifier that concatenates the sibling first without being told the side rejects 3 leaves out of 4. Changing the leaf encoding, the hash, the pairing, or the flag order on one side only invalidates every claim.
 
 ## Gotchas
 

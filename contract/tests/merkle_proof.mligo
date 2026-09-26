@@ -1,19 +1,49 @@
 #import "ligo-breathalyzer/lib/lib.mligo" "B"
 #import "../src/airdrop.mligo" "A"
 
+(* Fixture tree, over the four drops of docs/10-Sandbox-Sample-Data.md, see
+   test_airdrop.mligo for the details. *)
+let root = 0xce2ca1226de039dd82f7dee62d8d17896bc9dc352b6ca705b0c7ac2431407d0d
+
+let leaf = 0xad868caa9524dc6547538235f73eaede6abd8a12b5bfaf836d34629b49f80a68
+
+let proof =
+  [
+    (0x11d493116efc9abebcdb30c7df8d41f0f2d80bb73348eb7dd4a2ae99c7a62b2c, false);
+    (0x23b9ad2635bab6a413a847cee949c20abd17bff89576a9020d553dde2401d3f3, true)
+  ]
+
 let case_happy_path =
   B.Model.case
     "verify"
     "verify with valid args should return true"
     (fun (_ : B.Logger.level) -> let expected = True in
-       let computed =
-         A.MerkleProof.verify
-           ([
-              0x0ffa00dc1b8a89b698e140416c8d162bd9c599e6f5a7e3ef9ffb30a4c6f1d4b1;
-              0x61c41e2300aedaec6ef4e4b50462e2da1fa2177f22530df79068d29b44a79b89
-            ],
-            0x4ea4cd9389fa1c4cfd8051d32bd3ee7c898690139a94c32d566f6d55b0ad4447,
-            0x73e6a3e9e5a2b3d909f55b698cea5a668307a34b4fd5029d9a010f7183429806) in
+       let computed = A.MerkleProof.verify (proof, root, leaf) in
+       B.Assert.is_true "should be equal" (expected = computed))
+
+(* same proof, but the first step claims the wrong side for the leaf *)
+let proof_wrong_side =
+  [
+    (0x11d493116efc9abebcdb30c7df8d41f0f2d80bb73348eb7dd4a2ae99c7a62b2c, true);
+    (0x23b9ad2635bab6a413a847cee949c20abd17bff89576a9020d553dde2401d3f3, true)
+  ]
+
+let case_wrong_side =
+  B.Model.case
+    "verify"
+    "verify with a sibling on the wrong side should return false"
+    (fun (_ : B.Logger.level) -> let expected = False in
+       let computed = A.MerkleProof.verify (proof_wrong_side, root, leaf) in
+       B.Assert.is_true "should be equal" (expected = computed))
+
+let case_wrong_root =
+  B.Model.case
+    "verify"
+    "verify against another root should return false"
+    (fun (_ : B.Logger.level) -> let expected = False in
+       let other_root =
+         0x4ea4cd9389fa1c4cfd8051d32bd3ee7c898690139a94c32d566f6d55b0ad4447 in
+       let computed = A.MerkleProof.verify (proof, other_root, leaf) in
        B.Assert.is_true "should be equal" (expected = computed))
 
 let case_nohappy_path =
@@ -23,15 +53,10 @@ let case_nohappy_path =
     (fun (_ : B.Logger.level) -> let expected = False in
        let computed =
          A.MerkleProof.verify
-           ([
-              0x4ea4cd9389fa1c4cfd8051d32bd3ee7c898690139a94c32d566f6d55b0ad4447;
-              0x61c41e2300aedaec6ef4e4b50462e2da1fa2177f22530df79068d29b44a79b89
-            ],
-            0x0ffa00dc1b8a89b698e140416c8d162bd9c599e6f5a7e3ef9ffb30a4c6f1d4b1,
-            0x73e6a3e9e5a2b3d909f55b698cea5a668307a34b4fd5029d9a010f7183429806) in
+           (proof, root, 0x11d493116efc9abebcdb30c7df8d41f0f2d80bb73348eb7dd4a2ae99c7a62b2c) in
        B.Assert.is_true "should be equal" (expected = computed))
 
 let suite =
   B.Model.suite
     "Test suite for the MerkleProof Module"
-    [case_happy_path; case_nohappy_path]
+    [case_happy_path; case_wrong_side; case_wrong_root; case_nohappy_path]

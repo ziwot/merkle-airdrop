@@ -58,3 +58,8 @@ text instead of the 32 packed bytes, and silently yields a leaf — and hence a
 merkle root — the contract will never verify.
 [`infra/scripts/merkle.test.ts`](../infra/scripts/merkle.test.ts) pins the
 leaves against the LIGO implementation quoted above.
+
+A claim also carries the proof, the sibling hash of each level from the leaf up
+to the root, together with the side the accumulated hash sits on: a standard
+merkle tree hashes `left ++ right`, so the contract cannot guess it and would
+reject three leaves out of four if it always concatenated the sibling first.
