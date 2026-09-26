@@ -14,9 +14,6 @@ The advantages are of 2 kinds:
 Status is experimental / side-project: the contract and the test-data pipeline
 are functional, but the dApp does not yet generate proofs or submit claims.
 
-If you are looking for real airdrops, take a look at [organicgrowth.wtf](https://www.organicgrowth.wtf)
-(on etherlink)
-
 ## How it works?
 
 An airdrop project consists in off-chain and on-chain data:
@@ -78,5 +75,3 @@ Otherwise, you can add your address in same script.
 - [Merkle tree](https://en.wikipedia.org/wiki/Merkle_tree)
 - [Merkle proofs Explained](https://medium.com/crypto-0-nite/merkle-proofs-explained-6dd429623dc5)
 - [The Ultimate Merkle Tree Guide in Solidity](https://soliditydeveloper.com/merkle-tree)
-- <https://github.com/ziwot/merkle-airdrop>
-- <https://tezostaquito.io/docs/signing#signing-michelson-data>
