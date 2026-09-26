@@ -1,0 +1,87 @@
+name: QA
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  merge_group:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qa-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Job-level path filtering (instead of `on.paths`) so every job always reports a
+  # status: skipped jobs never block branch protection required checks.
+  changes:
+    name: Detect changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      app: ${{ steps.filter.outputs.app }}
+      infra: ${{ steps.filter.outputs.infra }}
+    steps:
+      # Checkout is only needed for git based detection (push, merge_group):
+      # for pull_request events the changed files are fetched from the API.
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: dorny/paths-filter@v4
+        id: filter
+        with:
+          filters: |
+            app:
+              - 'app/**'
+              - 'Makefile'
+            infra:
+              - 'infra/**'
+              - '.editorconfig'
+
+  app:
+    name: App (phpcs, phpstan)
+    needs: changes
+    if: needs.changes.outputs.app == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.5"
+          tools: composer:v2
+          coverage: none
+      - name: Install dependencies
+        working-directory: app
+        run: composer install --no-interaction --no-progress
+      - name: Create config
+        # phpstan loads config/bootstrap.php as a bootstrap file, which requires
+        # a Security.salt, i.e. a config/app_local.php file.
+        run: ENV=dev make config
+      - name: Coding standard (phpcs)
+        run: make cs-check
+      - name: Static analysis (phpstan)
+        run: make static-check
+
+  infra:
+    name: Infra (biome)
+    needs: changes
+    if: needs.changes.outputs.infra == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: infra/package-lock.json
+      - run: npm ci
+      - run: npm run ci

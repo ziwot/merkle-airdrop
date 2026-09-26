@@ -1,0 +1,70 @@
+name: QA contract
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  merge_group:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qa-contract-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Keep in sync with the ligo version used locally, the latest release is
+  # `ligolang/ligo:stable`. The image ships a static ligo binary in /root/ligo.
+  LIGO_VERSION: 1.15.6
+  LIGO_SKIP_ANALYTICS: true
+
+jobs:
+  # Job-level path filtering (instead of `on.paths`) so every job always reports a
+  # status: skipped jobs never block branch protection required checks.
+  changes:
+    name: Detect changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      contract: ${{ steps.filter.outputs.contract }}
+    steps:
+      # Checkout is only needed for git based detection (push, merge_group):
+      # for pull_request events the changed files are fetched from the API.
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: dorny/paths-filter@v4
+        id: filter
+        with:
+          filters: |
+            contract:
+              - 'contract/**'
+              - 'Makefile'
+
+  contract:
+    name: Contract (ligo test)
+    needs: changes
+    if: needs.changes.outputs.contract == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install ligo
+        run: |
+          mkdir -p "${HOME}/.local/bin"
+          docker create --name ligo-extract "ligolang/ligo:${LIGO_VERSION}"
+          docker cp ligo-extract:/root/ligo "${HOME}/.local/bin/ligo"
+          docker rm ligo-extract
+          chmod +x "${HOME}/.local/bin/ligo"
+          echo "${HOME}/.local/bin" >> "${GITHUB_PATH}"
+
+      - name: Install ligo dependencies
+        run: ligo install --project-root ./contract
+
+      - name: Test contract
+        run: make test

@@ -1,5 +1,8 @@
 # Merkle Airdrop
 
+[![QA](https://github.com/ziwot/merkle-airdrop/actions/workflows/qa.yml/badge.svg)](https://github.com/ziwot/merkle-airdrop/actions/workflows/qa.yml)
+[![QA contract](https://github.com/ziwot/merkle-airdrop/actions/workflows/qa-contract.yml/badge.svg)](https://github.com/ziwot/merkle-airdrop/actions/workflows/qa-contract.yml)
+
 ## What is this?
 
 Airdrop solution for [Tezos](https://tezos.com/) tokens, using merkle trees.
@@ -51,6 +54,15 @@ Run `make` to list every target. The order matters, each step consumes the outpu
 - Contract: `make test`
 - App: `make cs-check` / `make cs-fix` (phpcs), `make static-check` (phpstan)
 - Infra: `npm --prefix infra run ci` (biome). It only reports; there is no autofix script.
+
+These checks also run in CI on every push and pull request, split per directory:
+
+- [qa.yml](./.github/workflows/qa.yml): `app/` runs phpcs + phpstan, `infra/` runs biome.
+- [qa-contract.yml](./.github/workflows/qa-contract.yml): `contract/` runs `ligo test` (from `make test`).
+
+Each job is skipped when its directory is untouched. `make static-check` needs a local config, so CI
+creates one with `ENV=dev make config` first, and the contract job installs the ligo binary from the
+`ligolang/ligo` docker image (version pinned in the workflow).
 
 ## Testdata
 
