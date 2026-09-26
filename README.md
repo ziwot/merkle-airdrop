@@ -2,15 +2,14 @@
 
 ## What is this?
 
-Complete airdrop solution for [Tezos](https://tezos.com/) tokens.
-
-The chosen solution uses merkle trees.
+Airdrop solution for [Tezos](https://tezos.com/) tokens, using merkle trees.
 The advantages are of 2 kinds:
 
 - It is cheap because fees will be paid by the claimers.
 - It brings engagement, requiring some action from the claimers.
 
-Status is experimental / side-project.
+Status is experimental / side-project: the contract and the test-data pipeline
+are functional, but the dApp does not yet generate proofs or submit claims.
 
 If you are looking for real airdrops, take a look at [organicgrowth.wtf](https://www.organicgrowth.wtf)
 (on etherlink)
@@ -25,35 +24,38 @@ An off-chain app also is helping on the merkle tree generation and validation be
 
 ## Prerequisites
 
-- ligo, install from [here](https://ligolang.org/docs/intro/installation?lang=jsligo)
+- ligo, install from [here](https://ligolang.org/docs/intro/installation)
 - octez-client, see [howtoget](https://octez.tezos.com/docs/introduction/howtoget.html)
 - PHP8 is used for the dApp (no front build at this time)
 - nodejs for the test data generation scripts.
 - docker for local infra (tezos sandbox)
 
-## Why PHP?
-
-- it is still the king of cheap hosting.
-- it has great retro-compatibilty
-- it is [evolving](https://php.watch), there is a [PHP fundation](https://thephp.foundation/) now, and everything is [discussed openly](https://php.watch/rfcs).
-- it still runs an important part of the web, and we want to make decentralized apps, so why not using a popular language for this.
-
 ## Dev
+
+Run `make` to list every target. The order matters, each step consumes the output of the previous one:
 
 1. Install dependencies: `make install`
 2. Create config: `ENV=dev make config`
-3. Launch infra: `make up` (Stop it: `make down`)
-4. Create test accounts: `make testaccounts`
+3. Create test accounts: `make testaccounts`
+4. Launch infra: `make up` (Stop it: `make down`)
 5. Compile contracts: `make compile`
 6. Generate test data: `make testdata`
 7. Compile storage: `make compile-storage`
 8. Deploy contracts: `make deploy`
 9. Reset App data: `make data-reset`
 
+`make testaccounts` must run before `make up`: the sandbox bind-mounts the generated `infra/testdata/accounts.hjson`, which is not committed.
+
+## QA
+
+- Contract: `make test`
+- App: `make cs-check` / `make cs-fix` (phpcs), `make static-check` (phpstan)
+- Infra: `npm --prefix infra run ci` (biome). It only reports; there is no autofix script.
+
 ## Testdata
 
 Use [tezbox](https://github.com/tez-capital/tezbox#accounts)'s bob or alice for dev purpose, you can also add
-choosen deterministic keys in the [`makeAccount` script](./infra/scripts/makeAccounts.ts).
+choosen deterministic keys in the [`makeAccounts` script](./infra/scripts/makeAccounts.ts).
 
 Otherwise, you can add your address in same script.
 
@@ -64,5 +66,5 @@ Otherwise, you can add your address in same script.
 - [Merkle tree](https://en.wikipedia.org/wiki/Merkle_tree)
 - [Merkle proofs Explained](https://medium.com/crypto-0-nite/merkle-proofs-explained-6dd429623dc5)
 - [The Ultimate Merkle Tree Guide in Solidity](https://soliditydeveloper.com/merkle-tree)
-- <https://github.com/steve-ng/merkle-airdrop>
+- <https://github.com/ziwot/merkle-airdrop>
 - <https://tezostaquito.io/docs/signing#signing-michelson-data>

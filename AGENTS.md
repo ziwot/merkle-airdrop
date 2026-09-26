@@ -1,54 +1,54 @@
 # AGENTS.md
 
-Merkle-tree airdrop for Tezos. Monorepo, three parts wired together by the root `Makefile`:
+Merkle-tree airdrop for Tezos. Three parts, wired by the root `Makefile` (`make help` lists every target):
 
-- `contract/` — the Tezos smart contract, written in **CameLIGO** (`.mligo`, not jsligo). Entrypoint: `src/airdrop.mligo`. Tests in `tests/` use the `ligo-breathalyzer` framework.
-- `app/` — server-rendered **CakePHP 5.3** PHP dApp (no frontend build). MySQL-backed. QA via phpcs / phpstan (level 8) / phpunit.
-- `infra/` — TypeScript scripts (`tsx`, not compiled) that generate test data and run against the sandbox.
+- `contract/` — the smart contract, **CameLIGO** (`.mligo`, *not* jsligo). Entrypoint `src/airdrop.mligo`; suites are registered in `tests/all.mligo`; tests use `ligo-breathalyzer`. LIGO deps are pinned in `contract/ligo.json` (`@ligo/fa` 1.4.2, `ligo-breathalyzer` 1.7.0) and fetched into `contract/_ligo` by `ligo install`.
+- `app/` — server-rendered **CakePHP 5.4** dApp (no frontend build), MySQL, SIWT login via `ziwot/cake-tezos`.
+- `infra/` — TypeScript scripts run directly with `tsx` (never compiled) that generate test data against the sandbox.
 
-`make help` lists every target. The README `make ...` sequence is the source of truth.
+Docs: `README.md` (dev flow), `infra/README.md` (per-script reference — read it before touching `infra/scripts/`), `docs/README.md` (why the leaf hash looks like that).
 
-## Dev flow — order matters
+## Dev flow — the order matters, and the README gets one step wrong
 
-Later steps consume outputs of earlier ones (testdata feeds storage, storage feeds deploy), so run in order:
+Each step consumes the previous step's output:
 
-1. `make install` — `ligo install` + `npm ci` (infra) + `composer install` (app) + cake plugin asset symlink.
-2. `ENV=dev make config` — copies `app/config/app_local.<ENV>.php` → `app_local.php` and injects a random salt. **`ENV` is required** (`make config` alone breaks).
-3. `make up` — starts tezbox sandbox (tezos-v25.2) on port 8732 and MySQL 8.0 on **port 3307** (not 3306), volume `mysql-data`. Stop with `make down`.
-4. `make testaccounts` — imports the seeded keys (`infra/testdata/accounts.hjson.dist`) into host `octez-client`, then appends ~random accounts and rewrites `infra/testdata/accounts.hjson` (feeds the sandbox at `make up` and drops generation). Not fully deterministic across runs.
-5. `make compile` — LIGO → `contract/build/airdrop.tz`.
-6. `make testdata` — refuses to run until the sandbox is bootstrapped (`make bootstrapped`); writes `infra/testdata/{drops,token,merkleRoot}.json`.
-7. `make compile-storage` — needs testdata; emits `infra/testdata/airdrop_storage.tz`. Runs `generate_metadata_bytes.sh`, which shells out to `ligo compile expression` for TZIP-16 metadata bytes.
-8. `make deploy` — `octez-client originate contract airdrop_dev ... from alice --burn-cap 2`. Requires `octez-client` CLI on the host.
-9. `make data-reset` — drops + recreates the MySQL schema, then `bin/cake migrations migrate` + `seeds run`.
+1. `make install` — `ligo install` + `npm ci` (infra) + `composer install` (app) + `bin/cake plugin assets symlink` (creates the `app/webroot/*` plugin symlinks). Required before `make test`/`make testdata` too: `makeToken` compiles `contract/tests/token.mligo`, which imports `@ligo/fa`.
+2. `ENV=dev make config` — copies `app/config/app_local.<ENV>.php` → `app_local.php` and injects a random salt. **`ENV` is mandatory** (`make config` alone copies `app_local..php` and fails).
+3. `make testaccounts` — **before `make up`** on a fresh clone: `make up` bind-mounts `infra/testdata/accounts.hjson`, which is gitignored, so the file must exist or docker mounts a directory. Also imports the seeded keys (`accounts.hjson.dist` → `alice`, `bob`) into the *host* `octez-client` key store, then appends 25 freshly generated accounts (feeds both the sandbox and `makeDrops`).
+4. `make up` — tezbox sandbox (tezos-v25.2) on `http://localhost:8732` + MySQL 8.0 on port **3307**, volume `mysql-data`. `make down` to stop.
+5. `make compile` → `contract/build/airdrop.tz`.
+6. `make testdata` (blocks on `make bootstrapped`) → `infra/testdata/{drops,token,merkleRoot}.json` + `token_storage.tz`. Re-originates the FA2 token, so the address changes on every run.
+7. `make compile-storage` → `infra/testdata/airdrop_storage.tz`.
+8. `make deploy` — `octez-client originate contract airdrop_dev ... from alice --burn-cap 2 --force`.
+9. `make data-reset` — drop/create schema `airdrop`, `migrations migrate` + `seeds run --force`.
 
-## Critical invariant: merkle leaf hash
+Re-running `make testaccounts` invalidates the running sandbox (aliases/balances) and every drop → `make down && make up`, then re-run testdata → compile-storage → deploy → data-reset.
 
-The leaf hash is `sha256( pack((address, nat), addr, amount) )`, computed in two places that must stay byte-for-byte identical:
+## QA
 
-- TS: `getLeaf()` in `infra/scripts/makeProof.ts` (uses `@taquito/michel-codec` `packDataBytes` + `crypto-js/sha256`).
-- CameLIGO: `Crypto.sha256 (Bytes.pack (addr, amnt))`, computed in the `claim` entrypoint (`MerkleProof.get_leaf` is `Crypto.sha256 message`) in `contract/src/airdrop.mligo`.
+- Contract: `make test` (LIGO binary on `PATH`).
+- App, from `app/`: `composer run cs-check` (phpcs, PhpCollective + Slevomat rules), `composer run cs-fix`, `composer run stan` (phpstan level 8, `src/` only). Wrappers: `make cs-check` / `make cs-fix` / `make static-check`.
+- **There are no app tests.** `app/tests/TestCase/` does not exist, so `phpunit` (and therefore `composer run check`) fails with `Test directory ... not found` — use `cs-check`/`stan` instead, not `composer check`.
+- Infra: `npm --prefix infra run ci` (biome, read-only) or `run check`. Biome only covers `scripts/**/*.ts`; there is no eslint/prettier.
 
-The contract proof verifier is **unsorted** (`Bytes.concat h acc`, no left/right ordering), matching merkletreejs defaults. Changing leaf encoding, hash algo, or ordering in one place breaks every claim.
+## Critical invariant: the merkle leaf hash
 
-## Testing & QA
+`sha256( pack((address, nat), addr, amount) )`, computed in two places that must stay byte-for-byte identical:
 
-- Contract: `make test` → `ligo run test --no-warn contract/tests/all.mligo` (LIGO binary required).
-- App (from `app/`): `composer run-script check` (= phpunit + phpcs), `cs-fix`, `stan`. Makefile wrappers: `make cs-check`, `make cs-fix`, `make static-check`.
-- Infra: `npm --prefix infra run ci` (biome).
-- Run the app locally with `bin/cake server` from `app/`.
+- TS: `getLeaf()` in `infra/scripts/makeProof.ts` (`@taquito/michel-codec` `packDataBytes` + `crypto-js/sha256`).
+- CameLIGO: `Crypto.sha256 (Bytes.pack (addr, amnt))` in the `claim` entrypoint, `contract/src/airdrop.mligo:142`.
+
+The proof verifier is **unsorted** (`Bytes.concat h acc`, no left/right ordering — `MerkleProof.verify`, airdrop.mligo:68), matching merkletreejs defaults. Changing leaf encoding, hash, or sort order on one side only invalidates every claim.
 
 ## Gotchas
 
-- The contract's `claim` entrypoint transfers FA2 tokens with `from_ = self`, so the airdrop contract must own (or be operator of) the token balance. The token is the FA2 multi-asset example from the LIGO contract-catalogue (see `infra/README.md`).
-- `infra/testdata/` is regenerated, not hand-edited: only `accounts.hjson.dist` and `token.tz` are committed. `drops.json`, `token.json`, `merkleRoot.json`, `airdrop_storage.tz`, `token_storage.tz` are outputs of `make testdata` + `make compile-storage`. Re-running `make testdata` re-randomizes accounts/amounts → new merkle root → `airdrop_storage.*` and the deployed contract must follow.
-- `octez-client` and `ligo` are host CLIs (not dockerized), and the whole dev flow depends on them — not just deploy: `make testaccounts` imports keys, and `make testdata`/`make bootstrapped` shell out to `octez-client` + `ligo` too (`makeToken` compiles LIGO and originates the FA2 token against the sandbox). Only `make compile` / `make test` run without a sandbox or network.
-- App networks are configured in `app/config/app_custom.php` (`local` = `http://localhost:8732`);
-- CI: only `.github/workflows/deploy-ftp.yml`, manual `workflow_dispatch`, PHP 8.5 `--no-dev`, deploys just `app/` over FTP — never runs tests.
-- `infra/scripts/makeAccounts.ts` loops `i <= nb`, so it appends **25** accounts, not the 24 its `NB_ACCOUNTS` name suggests, and logs `NB_ACCOUNTS + 2` (26) while the file actually holds 27 (alice + bob + 25). Cosmetic, but don't trust the log line.
-- `infra/testdata/airdrop_storage.mligo` (written by `makeProof.ts`) has no consumer — nothing reads it. `make compile-storage` gets the token and root from `token.json` + `merkleRoot.json` directly.
-- `Makefile:35-37` capture `token.json`, `merkleRoot.json` and `airdrop_storage.tz` via `$(shell cat …)`, evaluated when the Makefile is *parsed*. Stale testdata is silently baked into `make deploy`; always re-run `make compile-storage` after regenerating testdata.
-- `infra/` scripts must run with cwd = `infra/`: `TESTDATA_PATH` is the relative `./testdata` and `makeToken.ts` shells out with `cd ../contract`. `npm --prefix infra run …` gets this right; running `tsx infra/scripts/…` from the root does not.
-- `infra/scripts/bootstrapped.ts` polls forever with no timeout — Ctrl-C if the sandbox never comes up, rather than waiting on a hung `make testdata`.
-- `infra/.eslintrc.js` and `infra/.prettierrc.js` are dead config: biome replaced them and there are no eslint/prettier dependencies left. Don't try to run either linter.
-- `infra/README.md` is the per-script reference (what each script reads, writes, and shells out to); the invariant summary above is deliberately duplicated there for human readers.
+- **Nothing funds the airdrop contract.** `claim` transfers FA2 tokens with `from_ = self`, and `makeToken` only originates the token with the genesis 300 units on `alice`; no step transfers them to the airdrop address. Fund it manually (as `contract/tests/test_airdrop.mligo` does) before any real claim.
+- `Makefile:35-37` read `token.json`, `merkleRoot.json` and `airdrop_storage.tz` through `$(shell …)` at **parse** time. Stale testdata is baked in silently, and if the files are missing `make deploy` still runs with `--init ''`. Always re-run `make compile-storage` after regenerating testdata, and never chain `make testdata compile-storage deploy` in one invocation.
+- `infra/testdata/` is generated, not hand-edited: only `accounts.hjson.dist` and `token.tz` are committed (`infra/.gitignore`).
+- **cwd rules:** `infra/scripts/*` must run with cwd = `infra/` (`TESTDATA_PATH = "./testdata"`, and `makeToken` shells out with `cd ../contract`) → use `npm --prefix infra run …` or the make targets. `contract/src/generate_metadata_bytes.sh` is the opposite: it hardcodes `contract/src/metadata.json`, so it only works from the repo root.
+- `infra/scripts/makeAccounts.ts` loops `i <= nb`, so `NB_ACCOUNTS = 24` appends **25** accounts and logs 26, while the file holds 27 (alice + bob + 25). Cosmetic; don't trust the log line.
+- `infra/scripts/bootstrapped.ts` polls `octez-client bootstrapped` forever with no timeout — Ctrl-C rather than waiting on a hung `make testdata`.
+- `ligo` and `octez-client` are **host** CLIs, not dockerized, and the host `octez-client` must already point at `http://localhost:8732`. `makeToken`/`AirdropSeed` depend on aliases `token` and `airdrop_dev` existing. Only `make compile` and `make test` run without a sandbox.
+- The app is configured in `app/config/app_custom.php` (`CakeTezos` networks: `local` = `http://localhost:8732`); `app/config/bootstrap.php` has dotenv loading commented out, so env vars must come from the real environment.
+- The app seeds read `ROOT . '/../infra/testdata/…'`, i.e. they escape the `app/` deploy root: `make data-reset` only works from a repo checkout (the FTP deploy ships `app/` alone). `AirdropSeed` also shells out to `octez-client list known contracts` and needs the `airdrop_dev` alias → **`make deploy` must run before `make data-reset`**, otherwise the airdrop row is seeded without an address.
+- The app does **not** implement the claim flow yet: no merkle-proof generation, no claim submission. `App\Tezos\Airdrop\ClaimStatus` is unused, and the `get_claim_status` offchain view (`make compile-view`) has no consumer. Current app surface = SIWT login, homepage list (`AirdropsTable::recentAirdrops`), Admin CRUD, htmx partials (`isHTMXRequest()` + `layout/ajax` + `templates/**/list.php`).
