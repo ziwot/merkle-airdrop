@@ -89,6 +89,15 @@ writeFileSync("./scripts/drops.json", JSON.stringify(drops));
 
 ## Merkle tree
 
+> **The leaves and the root quoted below are wrong.** They were produced with
+> `SHA256(packDataBytes(...).bytes)`, which hashes the *hex string* returned by
+> `packDataBytes` instead of the packed bytes, so they do not match
+> `Crypto.sha256 (Bytes.pack (addr, amnt))`. See
+> [`docs/README.md`](./README.md) and
+> [`infra/scripts/merkle.test.ts`](../infra/scripts/merkle.test.ts) for the
+> corrected version, and keep in mind that the fixture of
+> `contract/tests/test_airdrop.mligo` was copied from this log.
+
 <h5><strong><code>merkle_tree.ts</code></strong></h5>
 
 ```typescript

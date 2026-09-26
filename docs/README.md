@@ -20,44 +20,41 @@ We can get sha256 hashs of `(address, amount)` tuples as follows:
      [ { "string": "tz1bxhumMQDUi9hGd7FHGHBCjbY3qgfCr7Vn" }, { "int": "42" } ] }
 ```
 
-We can generate the hash in javascript like this:
+We can generate the hash in javascript like this (this is what
+[`infra/scripts/merkle.ts`](../infra/scripts/merkle.ts) does):
 
-```
-import {
-  Parser,
-  packDataBytes,
-  MichelsonData,
-  MichelsonType,
-} from "@taquito/michel-codec";
-import SHA256 from "crypto-js/sha256";
+```ts
+import { createHash } from "node:crypto";
+import { type MichelsonType, packDataBytes } from "@taquito/michel-codec";
 
-const data = '(Pair "tz1bxhumMQDUi9hGd7FHGHBCjbY3qgfCr7Vn" 42)';
-const type = "(pair address nat)";
+const pkh = "tz1bxhumMQDUi9hGd7FHGHBCjbY3qgfCr7Vn";
+const amount = 42;
 
-const p = new Parser();
-const dataJSON = p.parseMichelineExpression(data);
-const typeJSON = p.parseMichelineExpression(type);
+// "(pair address nat)", written out so it is not parsed on every call
+const type = {
+  prim: "pair",
+  args: [{ prim: "address" }, { prim: "nat" }],
+} as MichelsonType;
 
 const packed = packDataBytes(
-  dataJSON as MichelsonData,
-  typeJSON as MichelsonType
+  {
+    prim: "Pair",
+    args: [{ string: pkh }, { int: `${amount}` }],
+  },
+  type
 );
 
-// or
-// const data = (addr: string, amt: number): MichelsonData => ({
-//   prim: "Pair",
-//   args: [{ string: addr }, { int: `${amt}` }],
-// });
-
-// const type = {
-//   prim: "pair",
-//   args: [{ prim: "address" }, { prim: "nat" }],
-// } as MichelsonType;
-
-// const packed = packDataBytes(
-//   data("tz1bxhumMQDUi9hGd7FHGHBCjbY3qgfCr7Vn", 42),
-//   type
-// );
-
-console.log(SHA256(packed.bytes));
+console.log(
+  createHash("sha256")
+    .update(Buffer.from(packed.bytes, "hex"))
+    .digest("hex")
+);
+// f526684b6478ea1fbf21107785d4036d5d650ab79bbd7ec6cebdcccdf5ad4c7d
 ```
+
+`packed.bytes` is an hex **string**, not a `Buffer`, so it has to be decoded
+before being hashed: `sha256(packed.bytes)` hashes the 66 characters of the hex
+text instead of the 32 packed bytes, and silently yields a leaf — and hence a
+merkle root — the contract will never verify.
+[`infra/scripts/merkle.test.ts`](../infra/scripts/merkle.test.ts) pins the
+leaves against the LIGO implementation quoted above.

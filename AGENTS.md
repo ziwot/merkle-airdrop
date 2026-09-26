@@ -29,13 +29,13 @@ Re-running `make testaccounts` invalidates the running sandbox (aliases/balances
 - Contract: `make test` (LIGO binary on `PATH`).
 - App, from `app/`: `composer run cs-check` (phpcs, PhpCollective + Slevomat rules), `composer run cs-fix`, `composer run stan` (phpstan level 8, `src/` only). Wrappers: `make cs-check` / `make cs-fix` / `make static-check`.
 - **There are no app tests.** `app/tests/TestCase/` does not exist, so `phpunit` (and therefore `composer run check`) fails with `Test directory ... not found` — use `cs-check`/`stan` instead, not `composer check`.
-- Infra: `npm --prefix infra run ci` (biome, read-only) or `run check`. Biome only covers `scripts/**/*.ts`; there is no eslint/prettier.
+- Infra: `npm --prefix infra run ci` (biome, read-only, then `node --test` on `scripts/merkle.test.ts`) or `run check`. Biome only covers `scripts/**/*.ts`; there is no eslint/prettier.
 
 ## Critical invariant: the merkle leaf hash
 
 `sha256( pack((address, nat), addr, amount) )`, computed in two places that must stay byte-for-byte identical:
 
-- TS: `getLeaf()` in `infra/scripts/makeProof.ts` (`@taquito/michel-codec` `packDataBytes` + `crypto-js/sha256`).
+- TS: `getLeaf()` in `infra/scripts/merkle.ts` (`@taquito/michel-codec` `packDataBytes` + `node:crypto` `createHash`). **`packDataBytes()` returns `bytes` as an hex string, not a `Buffer`**: decode it (`Buffer.from(packed.bytes, "hex")`) before hashing, or the leaf becomes the hash of the hex text. `scripts/merkle.test.ts` pins the leaves against LIGO and runs in `npm run ci`.
 - CameLIGO: `Crypto.sha256 (Bytes.pack (addr, amnt))` in the `claim` entrypoint, `contract/src/airdrop.mligo:142`.
 
 The proof verifier is **unsorted** (`Bytes.concat h acc`, no left/right ordering — `MerkleProof.verify`, airdrop.mligo:68), matching merkletreejs defaults. Changing leaf encoding, hash, or sort order on one side only invalidates every claim.

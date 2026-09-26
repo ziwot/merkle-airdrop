@@ -4,7 +4,8 @@
 	"description": "Testdata Scripts",
 	"scripts": {
 		"check": "biome check",
-		"ci": "biome ci",
+		"ci": "biome ci && npm run test",
+		"test": "tsx --test ./scripts/merkle.test.ts",
 		"bootstrapped": "tsx ./scripts/bootstrapped.ts",
 		"make:accounts": "tsx ./scripts/makeAccounts.ts",
 		"make:drops": "tsx ./scripts/makeDrops.ts",
@@ -14,10 +15,8 @@
 	"devDependencies": {
 		"@biomejs/biome": "2.5.14",
 		"@taquito/michel-codec": "^25.0.0",
-		"@types/crypto-js": "^4.2.2",
 		"@types/hjson": "^2.4.6",
 		"@types/node": "^26.6.3",
-		"crypto-js": "^4.2.0",
 		"globals": "^17.12.0",
 		"hjson": "^3.2.2",
 		"merkletreejs": "^0.6.0",
