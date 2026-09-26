@@ -33,9 +33,9 @@ npm run make:proof
 
 Direct invocation only works **from this directory**. `TESTDATA_PATH` in
 [`scripts/config.ts`](./scripts/config.ts) is the relative path `./testdata`, and
-[`makeToken.ts`](./scripts/makeToken.ts) shells out with `cd ../contract`. From
-the repository root, use `npm --prefix infra run make:token` (which is what the
-`Makefile` does) or the `make` targets above.
+[`makeToken.ts`](./scripts/makeToken.ts) runs `ligo` with `cwd: "../contract"`.
+From the repository root, use `npm --prefix infra run make:token` (which is what
+the `Makefile` does) or the `make` targets above.
 
 ## Scripts
 
@@ -88,11 +88,12 @@ The app seeds read it: `RecipientSeed` maps `pkh` to `recipients.address`, and
 
 `npm run make:token`.
 
-1. Compiles the TZIP-16 metadata object into `[%bytes "..."]` via
-   `ligo compile expression cameligo`.
+1. Encodes the TZIP-16 metadata object as a micheline bytes literal: the
+   UTF-8 bytes of its JSON form, `0x…`.
 2. Compiles the FA2 storage with `get_token_initial_storage()` from
-   [`contract/tests/token.mligo`](../contract/tests/token.mligo): the genesis
-   allocation is alice holding 300 of token id `0`. Written to
+   [`contract/tests/token.mligo`](../contract/tests/token.mligo), with
+   `ligo compile expression cameligo` run from the `contract` directory: the
+   genesis allocation is alice holding 300 of token id `0`. Written to
    [`testdata/token_storage.tz`](./testdata/token_storage.tz).
 3. Originates [`testdata/token.tz`](./testdata/token.tz) from alice under the
    alias `token` (`--burn-cap 0.84025`), then resolves the alias and writes the
@@ -102,25 +103,24 @@ The token is the FA2 `MultiAsset` implementation from `@ligo/fa` (pinned
 `1.4.2` in `contract/ligo.json`); `token.tz` is its compiled code, and the
 storage shape is built by `contract/tests/token.mligo`. It superseded the
 earlier, hand-compiled
-[contract-catalogue](https://github.com/ligolang/contract-catalogue/blob/main/lib/fa2/asset/multi_asset.mligo)
+[contract-catalogue](https://github.com/tez-capital/contract-catalogue/blob/main/lib/fa2/asset/multi_asset.mligo)
 version.
 
 Re-running re-originates the contract and overwrites the `token` alias, so the
 new address has to be picked up downstream: `make compile-storage`,
 `make deploy`, then `make data-reset` to re-seed the app.
 
-The two `ligo` commands can be run by hand, from the
-[`contract`](../contract) directory:
+The `ligo` command can be run by hand, from the
+[`contract`](../contract) directory, with the metadata bytes inlined:
+
 
 ```sh
-ligo compile expression cameligo '[%bytes "{\"name\":\"FA2\", ...}"]'
-
 ligo compile expression cameligo --init-file ./tests/token.mligo \
   'get_token_initial_storage(<metadata-bytes>, ("tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb": address), 0n, 300n)'
 ```
 
-The first argument to `get_token_initial_storage` is the TZIP-16 `contents`
-bytes produced by the first command.
+The first argument is the TZIP-16 `contents` bytes, the hex literal of the
+UTF-8 bytes of `JSON.stringify(metadata)`.
 
 ### makeProof.ts
 
