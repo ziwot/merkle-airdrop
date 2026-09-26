@@ -12,19 +12,19 @@
 		"make:proof": "tsx ./scripts/makeProof.ts"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.4.12",
-		"@taquito/michel-codec": "^24.2.0",
+		"@biomejs/biome": "2.5.14",
+		"@taquito/michel-codec": "^25.0.0",
 		"@types/crypto-js": "^4.2.2",
 		"@types/hjson": "^2.4.6",
-		"@types/node": "^25.6.0",
+		"@types/node": "^26.6.3",
 		"crypto-js": "^4.2.0",
-		"globals": "^17.5.0",
+		"globals": "^17.12.0",
 		"hjson": "^3.2.2",
 		"merkletreejs": "^0.6.0",
-		"npm-check-updates": "^21.0.2",
+		"npm-check-updates": "^23.1.0",
 		"sotez": "^13.0.1",
-		"tsx": "^4.21.0",
-		"typescript": "^6.0.3",
+		"tsx": "^4.23.15",
+		"typescript": "^7.0.2",
 		"unique-names-generator": "^4.7.1"
 	}
 }

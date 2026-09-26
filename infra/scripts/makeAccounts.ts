@@ -26,7 +26,7 @@ async function makeAccounts(nb: number) {
     );
 
     for (const [alias, data] of Object.entries(accounts)) {
-        const account = data as { sk?: string; };
+        const account = data as { sk?: string };
         const cmd = `octez-client import secret key ${alias} ${account.sk} --force`;
         execSync(cmd);
     }
