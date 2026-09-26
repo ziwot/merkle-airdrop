@@ -79,8 +79,11 @@ module MerkleProof = struct
        leaf)
     = root
 
-  (* Computes the leaf hash for a claim: sha256(pack(address, amount)) *)
-  let get_leaf (message : bytes) : bytes = Crypto.sha256 message
+  (* The leaf hash of a drop: sha256(pack((address, nat), addr, amnt)), the
+     counterpart of getLeaf() in infra/scripts/merkle.ts. Both sides have to
+     stay byte-for-byte identical, the whole tree depends on it. *)
+  let get_leaf (addr, amnt : address * nat) : bytes =
+    Crypto.sha256 (Bytes.pack (addr, amnt))
   end
 
 (* Entrypoint parameter for claiming airdrop tokens *)
@@ -147,7 +150,7 @@ let claim
   (* Check address has not already claimed *)
   let () = Storage.assert_not_claimed s addr in
   (* Compute leaf hash from packed (address, amount) *)
-  let leaf = MerkleProof.get_leaf (Bytes.pack (addr, amnt)) in
+  let leaf = MerkleProof.get_leaf (addr, amnt) in
   (* Verify merkle proof is valid *)
   let () =
     Assert.Error.assert
