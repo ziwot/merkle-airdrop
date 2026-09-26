@@ -43,10 +43,11 @@ the repository root, use `npm --prefix infra run make:token` (which is what the
 
 `npm run bootstrapped` (a `make testdata` prerequisite).
 
-Polls `octez-client bootstrapped` every 5s and exits 0 as soon as stdout is
-exactly `Node is bootstrapped.`. It never gives up, so Ctrl-C if the sandbox
-never comes up. The host `octez-client` must already be pointed at the sandbox
-RPC.
+Polls `octez-client bootstrapped` every 5s and exits 0 as soon as the command
+succeeds with `Node is bootstrapped.` on stdout. It gives up after 10 minutes
+and exits 1, so `make testdata` fails instead of hanging; override with
+`BOOTSTRAPPED_TIMEOUT` in ms, `0` to wait forever. The host `octez-client` must
+already be pointed at the sandbox RPC.
 
 ### makeAccounts.ts
 
