@@ -88,3 +88,26 @@ test("getProof, the fixture of the contract tests", () => {
         },
     ]);
 });
+
+// merkletreejs returns the leaf itself as the root of a single leaf tree, so
+// there is no sibling to carry and the contract folds an empty proof
+test("getProof, a single drop needs no sibling", () => {
+    const single = [fixture[0]];
+
+    assert.deepEqual(getProof(single, 0), []);
+    assert.equal(
+        buildTree(single).getHexRoot().slice(2),
+        getLeaf(single[0].pkh, single[0].amount).toString("hex")
+    );
+});
+
+// two identical drops hash to the same leaf, so merkletreejs returns the path
+// of the first for both, and it folds back to the root either way
+test("getProof, two identical drops", () => {
+    const twice = [fixture[0], fixture[0]];
+    const root = buildTree(twice).getHexRoot().slice(2);
+
+    for (const index of twice.keys()) {
+        assert.equal(fold(twice, index), root, `drop ${index}`);
+    }
+});

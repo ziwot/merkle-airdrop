@@ -89,66 +89,107 @@ writeFileSync("./scripts/drops.json", JSON.stringify(drops));
 
 ## Merkle tree
 
-> **The leaves and the root quoted below are wrong.** They were produced with
-> `SHA256(packDataBytes(...).bytes)`, which hashes the *hex string* returned by
-> `packDataBytes` instead of the packed bytes, so they do not match
-> `Crypto.sha256 (Bytes.pack (addr, amnt))`. See
-> [`docs/README.md`](./README.md) and
-> [`infra/scripts/merkle.test.ts`](../infra/scripts/merkle.test.ts) for the
-> corrected version, and keep in mind that the fixture of
-> `contract/tests/test_airdrop.mligo` was copied from this log.
+The tree is built by [`makeProof.ts`](../infra/scripts/makeProof.ts) on top of
+[`merkle.ts`](../infra/scripts/merkle.ts), the module the tests import. Two
+things in it are what the contract depends on: the leaf hash, and the side of
+every sibling.
 
-<h5><strong><code>merkle_tree.ts</code></strong></h5>
+<h5><strong><code>merkle.ts</code></strong></h5>
 
 ```typescript
-import { MerkleTree } from "merkletreejs";
-import SHA256 from "crypto-js/sha256";
+// merkletreejs hashes buffers, it expects a Buffer -> Buffer function
+const sha256 = (data: Buffer) => createHash("sha256").update(data).digest();
 
-const leaves = dropsJson.map((drop: any) =>
-  SHA256(packDataBytes(data(drop.pkh, drop.amount), type).bytes)
-);
-console.log(leaves.map((leaf) => leaf.toString()));
-// [
-//   '73e6a3e9e5a2b3d909f55b698cea5a668307a34b4fd5029d9a010f7183429806',
-//   'c86dcb2a50e7f15d779be9c5b2b69b8899c9b1e67618467917d4a043884ce6c2',
-//   '0ffa00dc1b8a89b698e140416c8d162bd9c599e6f5a7e3ef9ffb30a4c6f1d4b1',
-//   'a9dbc6ac0e3461ea9690cdacffa63c78eeeb718b2f975f8ce65d24adebd5c236'
-// ]
+// packDataBytes() returns its bytes as an hex *string* (BytesLiteral), not as
+// a Buffer. Hashing that string hashes its 66 characters instead of the 32
+// packed bytes, and every leaf, hence the root, silently drifts away from the
+// one the contract verifies.
+const getLeaf = (drop: Drop) =>
+  sha256(
+    Buffer.from(
+      packDataBytes(
+        { prim: "Pair", args: [{ string: drop.pkh }, { int: `${drop.amount}` }] },
+        DROP_TYPE
+      ).bytes,
+      "hex"
+    )
+  );
 
-const tree = new MerkleTree(leaves, SHA256);
-const root = tree.getHexRoot()
-console.log(root);
-// 0x4ea4cd9389fa1c4cfd8051d32bd3ee7c898690139a94c32d566f6d55b0ad4447
-console.log(tree.getLeaves().map((leaf) => leaf.toString('hex')));
-[
-  '0ffa00dc1b8a89b698e140416c8d162bd9c599e6f5a7e3ef9ffb30a4c6f1d4b1',
-  '73e6a3e9e5a2b3d909f55b698cea5a668307a34b4fd5029d9a010f7183429806',
-  'a9dbc6ac0e3461ea9690cdacffa63c78eeeb718b2f975f8ce65d24adebd5c236',
-  'c86dcb2a50e7f15d779be9c5b2b69b8899c9b1e67618467917d4a043884ce6c2'
-]
+// A merkle tree hashes left ++ right, so the contract cannot tell from a
+// sibling alone whether it comes before or after the accumulated hash. Every
+// step carries the side instead: accOnLeft means the parent is
+// sha256(acc ++ sibling), false means sha256(sibling ++ acc).
+const getProof = (drops: Drop[], index: number) => {
+  const tree = buildTree(drops);
+  const leaf = getLeaf(drops[index]);
+  const siblings = tree
+    .getHexProof(leaf)
+    .map((sibling) => Buffer.from(sibling.slice(2), "hex"));
 
-const proof = tree.getHexProof(
-  "73e6a3e9e5a2b3d909f55b698cea5a668307a34b4fd5029d9a010f7183429806"
-);
-console.log(proof);
-// [
-//   '0x0ffa00dc1b8a89b698e140416c8d162bd9c599e6f5a7e3ef9ffb30a4c6f1d4b1',
-//   '0x61c41e2300aedaec6ef4e4b50462e2da1fa2177f22530df79068d29b44a79b89'
-// ]
+  // the flags are the combination that folds back to the root
+  for (let flags = 0; flags < 2 ** siblings.length; flags++) {
+    const steps = siblings.map((sibling, level) => ({
+      sibling: sibling.toString("hex"),
+      accOnLeft: ((flags >> level) % 2) === 1,
+    }));
 
-console.log(
-  tree.verify(
-    proof,
-    "73e6a3e9e5a2b3d909f55b698cea5a668307a34b4fd5029d9a010f7183429806",
-    root
-  )
-);
-// true
+    if (fold(steps, leaf) === tree.getRoot().toString("hex")) return steps;
+  }
+
+  throw new Error(`no proof found for drop ${index}`);
+};
 ```
 
-Verify in ligo
+The leaves of the four drops above, and the root in `merkleRoot.json`:
 
-```LigoLANG
-Crypto.sha256 (Bytes.concat 0x61c41e2300aedaec6ef4e4b50462e2da1fa2177f22530df79068d29b44a79b89 (Crypto.sha256 (Bytes.concat 0x0ffa00dc1b8a89b698e140416c8d162bd9c599e6f5a7e3ef9ffb30a4c6f1d4b1 0x73e6a3e9e5a2b3d909f55b698cea5a668307a34b4fd5029d9a010f7183429806)))'
-// 0x4ea4cd9389fa1c4cfd8051d32bd3ee7c898690139a94c32d566f6d55b0ad4447
+```text
+0x11d493116efc9abebcdb30c7df8d41f0f2d80bb73348eb7dd4a2ae99c7a62b2c  tz1bD7DR... 32
+0xad868caa9524dc6547538235f73eaede6abd8a12b5bfaf836d34629b49f80a68  tz1Wbpq... 39
+0x1ab2da3391add69760dfa3c76e1e7d36a53e97b8b63d7dc44bd64a7cffd80f94  tz1Wd9g... 20
+0x3b00cbac5a0e79bd31639e75068f7fd7ea08317869042f953ded279cc2371ccc  tz1bKNi... 10
+
+root 0xce2ca1226de039dd82f7dee62d8d17896bc9dc352b6ca705b0c7ac2431407d0d
+```
+
+`getProof(drops, 1)`, the proof of `tz1Wbpq...`, the drop claimed in
+[`test_airdrop.mligo`](../contract/tests/test_airdrop.mligo):
+
+```json
+[
+  {
+    "sibling": "11d493116efc9abebcdb30c7df8d41f0f2d80bb73348eb7dd4a2ae99c7a62b2c",
+    "accOnLeft": false
+  },
+  {
+    "sibling": "23b9ad2635bab6a413a847cee949c20abd17bff89576a9020d553dde2401d3f3",
+    "accOnLeft": true
+  }
+]
+```
+
+Note: the first version of this section hashed the hex string with `crypto-js`,
+and folded the proof with `Bytes.concat sibling acc`, without the side of each
+sibling. Both are fixed, the values it printed only live in the history of this
+file now.
+
+## Verify in ligo
+
+The same fold as `MerkleProof.verify` in
+[`airdrop.mligo`](../contract/src/airdrop.mligo), on the leaf of the second drop:
+
+```sh
+ligo compile expression cameligo '
+let leaf = Crypto.sha256 (Bytes.pack (("tz1WbpqNj8Pg9dbz1v8nJo9ofAHGGPQAcXTM": address), 39n)) in
+List.fold
+  (fun (acc, (sibling, acc_on_left) : bytes * (bytes * bool)) ->
+     if acc_on_left
+     then Crypto.sha256 (Bytes.concat acc sibling)
+     else Crypto.sha256 (Bytes.concat sibling acc))
+  [(0x11d493116efc9abebcdb30c7df8d41f0f2d80bb73348eb7dd4a2ae99c7a62b2c, false);
+   (0x23b9ad2635bab6a413a847cee949c20abd17bff89576a9020d553dde2401d3f3, true)]
+  leaf'
+```
+
+```text
+0xce2ca1226de039dd82f7dee62d8d17896bc9dc352b6ca705b0c7ac2431407d0d
 ```

@@ -18,7 +18,7 @@ Run these through the root `Makefile`, in this order:
 | `make up` | — | starts the tezbox sandbox (RPC `http://localhost:8732`) and MySQL on `3307` |
 | `make testaccounts` | [`make:accounts`](./scripts/makeAccounts.ts) | `testdata/accounts.hjson` |
 | `make bootstrapped` | [`bootstrapped`](./scripts/bootstrapped.ts) | — (blocks until the sandbox is up) |
-| `make testdata` | [`make:drops`](./scripts/makeDrops.ts), [`make:token`](./scripts/makeToken.ts), [`make:proof`](./scripts/makeProof.ts) | `testdata/drops.json`, `testdata/token.json`, `testdata/token_storage.tz`, `testdata/merkleRoot.json`, `testdata/airdrop_storage.mligo` |
+| `make testdata` | [`make:drops`](./scripts/makeDrops.ts), [`make:token`](./scripts/makeToken.ts), [`make:proof`](./scripts/makeProof.ts) | `testdata/drops.json`, `testdata/token.json`, `testdata/token_storage.tz`, `testdata/merkleRoot.json` |
 | `make compile-storage` | — (root target, runs `ligo compile storage`) | `testdata/airdrop_storage.tz` |
 
 They can also be run directly:
@@ -124,8 +124,8 @@ UTF-8 bytes of `JSON.stringify(metadata)`.
 
 ### makeProof.ts
 
-`npm run make:proof` (last step of `make testdata`, so `token.json` already
-exists).
+`npm run make:proof` (last step of `make testdata`, reading only
+`drops.json`).
 
 Builds the merkle tree with `merkletreejs` over the leaves derived from
 `drops.json`, then writes:
@@ -192,10 +192,9 @@ committed; see [`.gitignore`](./.gitignore).
 | `accounts.hjson` | no | `make:accounts` | `make up` (container mount), `makeDrops.ts` |
 | `token.tz` | yes | — (hand-committed) | `makeToken.ts` |
 | `drops.json` | no | `make:drops` | `makeProof.ts`, app `RecipientSeed`, app `AirdropRecipientSeed` |
-| `token.json` | no | `make:token` | `makeProof.ts`, `Makefile:35`, app `TokenSeed` |
-| `token_storage.tz` | no | `make:token` | `makeToken.ts` (originate) |
+| `token.json` | no | `make:token` | `Makefile:35`, app `TokenSeed` |
+| `token_storage.tz` | no | `make:token` | — (written, then passed to the origination) |
 | `merkleRoot.json` | no | `make:proof` | `Makefile:36`, app `AirdropSeed` |
-| `airdrop_storage.mligo` | no | `make:proof` | — (readable snapshot) |
 | `airdrop_storage.tz` | no | `make compile-storage` | `Makefile:37`, `make deploy` |
 
 The app seeds load these through `ROOT . '/../infra/testdata/...'`, which

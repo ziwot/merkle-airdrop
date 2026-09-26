@@ -67,9 +67,7 @@ function makeToken() {
 }
 
 function contractAddress() {
-    return execFileSync(
-        "octez-client",
-        ["show", "known", "contract", ALIAS],
-        { encoding: "utf8" }
-    ).trim();
+    return execFileSync("octez-client", ["show", "known", "contract", ALIAS], {
+        encoding: "utf8",
+    }).trim();
 }
