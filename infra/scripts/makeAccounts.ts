@@ -1,4 +1,4 @@
-import { execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import Hjson from "hjson";
 import { generateKeys, generateMnemonic } from "sotez";
@@ -17,28 +17,51 @@ import { between } from "./utils";
 // (see https://github.com/tez-capital/tezbox#accounts)
 
 const NB_ACCOUNTS = 24;
+const MAX_NAME_ATTEMPTS = 100;
 
-makeAccounts(NB_ACCOUNTS);
+const NAME_CONFIG: Config = {
+    dictionaries: [adjectives, colors, animals],
+    length: 1,
+    style: "lowerCase",
+};
+
+type Account = {
+    pkh: string;
+    pk: string;
+    sk: string;
+    balance: number;
+};
+
+makeAccounts(NB_ACCOUNTS).catch((error: Error) => {
+    console.error(`[KO] ${error.message}`);
+    process.exit(1);
+});
 
 async function makeAccounts(nb: number) {
     const accounts = Hjson.parse(
-        readFileSync(`${TESTDATA_PATH}/accounts.hjson.dist`).toString()
-    );
+        readFileSync(`${TESTDATA_PATH}/accounts.hjson.dist`, "utf8")
+    ) as Record<string, Account>;
 
-    for (const [alias, data] of Object.entries(accounts)) {
-        const account = data as { sk?: string };
-        const cmd = `octez-client import secret key ${alias} ${account.sk} --force`;
-        execSync(cmd);
+    // the seed accounts (alice, bob, eve) are imported in the host key store,
+    // then kept as is in the generated file
+    for (const [alias, { sk }] of Object.entries(accounts)) {
+        execFileSync("octez-client", [
+            "import",
+            "secret",
+            "key",
+            alias,
+            sk,
+            "--force",
+        ]);
     }
 
-    for (let i = 0; i <= nb; i++) {
+    const names = new Set(Object.keys(accounts));
+
+    for (let i = 0; i < nb; i++) {
+        const name = newName(names);
+        names.add(name);
+
         const key = await generateKeys(generateMnemonic());
-        const config: Config = {
-            dictionaries: [adjectives, colors, animals],
-            length: 1,
-            style: "lowerCase",
-        };
-        const name = uniqueNamesGenerator(config);
         accounts[name] = {
             pkh: key.pkh,
             pk: key.pk,
@@ -49,6 +72,20 @@ async function makeAccounts(nb: number) {
 
     const fpath = `${TESTDATA_PATH}/accounts.hjson`;
     writeFileSync(fpath, Hjson.stringify(accounts));
-    // + alice and bob
-    console.info(`[OK] ${fpath} created with ${NB_ACCOUNTS + 2} accounts`);
+    console.info(
+        `[OK] ${fpath} created with ${Object.keys(accounts).length} accounts`
+    );
+}
+
+// the colors dictionary is small (52 words), so collisions happen in ~3% of the
+// runs: a duplicated name would silently overwrite an existing account
+function newName(taken: Set<string>): string {
+    for (let attempt = 0; attempt < MAX_NAME_ATTEMPTS; attempt++) {
+        const name = uniqueNamesGenerator(NAME_CONFIG);
+        if (!taken.has(name)) {
+            return name;
+        }
+    }
+
+    throw new Error("no unique account name left, add dictionaries");
 }

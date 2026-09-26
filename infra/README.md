@@ -57,8 +57,10 @@ already be pointed at the sandbox RPC.
   and imports each secret key into the **host** `octez-client` key store with
   `octez-client import secret key <alias> <sk> --force`. This is what makes
   `from alice` resolvable by every later step.
-- Appends freshly generated keypairs (`sotez` for the keys, one word from
-  `unique-names-generator` for the alias, 1–100 tez for the balance).
+- Appends `NB_ACCOUNTS` freshly generated keypairs (`sotez` for the keys, one
+  word from `unique-names-generator` for the alias, 1–99 tez for the balance).
+  Aliases are retried until unique, so a collision never overwrites a seed
+  account.
 - Writes [`testdata/accounts.hjson`](./testdata/accounts.hjson) in the HJSON
   shape tezbox expects. `make up` bind-mounts it to
   `/tezbox/overrides/accounts.hjson`, so **the file has to exist before the
